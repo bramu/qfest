@@ -31,41 +31,32 @@
 	<div class="container">
 		<div class="navbar">
 			<div class="navbar-inner">
-				<div style="width: 100%;" class="container">
+				<div style="width: auto;" class="container">
 					<a data-target=".nav-collapse" data-toggle="collapse"
 						class="btn btn-navbar"> <span class="icon-bar"></span> <span
 						class="icon-bar"></span> <span class="icon-bar"></span>
-					</a> <a href="#" class="brand"> W5DB </a>
+					</a> <a href="#" class="brand">Quest fest</a>
 					<div class="nav-collapse">
-						<ul class="nav">
-							<li class="active"><a href="#">Questions</a></li>
-							<li><a href="#">Interviews</a></li>
-							<li><a href="#">Companies</a></li>
-							<li><a href="#">Skills</a></li>
-							<li><a href="#">Users</a></li>
-							<li class="dropdown"><a data-toggle="dropdown"
-								class="dropdown-toggle" href="#">Tags <b class="caret"></b></a>
-								<ul class="dropdown-menu">
-									<li><a href="#">Java</a></li>
-									<li class="divider"></li>
-									<li><a href="#">servlet</a></li>
-									<li class="divider"></li>
-									<li><a href="#">JDBC</a></li>
-									<li class="divider"></li>
-									<li class="nav-header">JSP</li>
-									<li><a href="#">SQL</a></li>
-								</ul></li>
+						<div class="nav-menu span-26 corners black-bg4 menu-shadow">
+							<ul class="nav">
+								<li><a href="#"></a></li>
+								<li><a href="#">Questions</a></li>
+								<li><a href="#">Interviews</a></li>
+								<li><a href="#">Companies</a></li>
+								<li><a href="#">Skills</a></li>
+								<li><a href="#">Tags</a></li>
+								<li><a href="#">Users</a></li>
 
-						</ul>
+							</ul>
+						</div>
+
+
 						<form action="" class="navbar-search pull-right">
-							<input type="text" placeholder="Search"
-								class="search-query span2">
+							<input type="text" class="<div class="span3">
+							<button type="submit" class="searchbutton" style="margin: 0;">Search</button>
+
 						</form>
-						<ul class="nav">
-							<li><a href="#">Register</a></li>
-							<li><a href="#">login</a></li>
-							<li><a href="#">Hi, Guest</a></li>
-						</ul>
+
 					</div>
 					<!-- /.nav-collapse -->
 				</div>
@@ -80,24 +71,28 @@
 						<h1>Recent Questions</h1>
 
 					</div>
-					<div class="span4">
-						<form>
-							<a href="#" class="btn">recent</a> <a href="#" class="btn">rated</a>
-							<a href="#" class="btn">viewed</a> <a href="#" class="btn">unanswered</a>
-						</form>
-					</div>
+					<ul class="nav nav-pills">
+						<li><a href="#">recent</a></li>
+						<li><a href="#">rated</a></li>
+						<li><a href="#">viewed</a></li>
+						<li><a href="#">unanswered</a></li>
+					</ul>
+
+					<div class="page-header"></div>
 				</div>
-				<div class="page-header"></div>
+
+
 				<div class="row">
 					<div class="span6">
 						<p>
 							<b>Display Question? </b><a href="#">view</a>
 						</p>
-						<div>
-							<a class="btn" href="#">java</a> <a class="btn" href="#">arrays</a>
-							<a class="btn" href="#">servlets</a>
-						</div>
 
+						<div>
+							<a class="label label-info" href="#">java</a> <a
+								class="label label-info" href="#">arrays</a> <a
+								class="label label-info" href="#">servlets</a>
+						</div>
 					</div>
 					<div class="span3">
 						<a href="#">up</a> <a href="#">down</a>
@@ -119,8 +114,9 @@
 							<b>Display Question? </b><a href="#">view</a>
 						</p>
 						<div>
-							<a class="btn" href="#">java</a> <a class="btn" href="#">arrays</a>
-							<a class="btn" href="#">servlets</a>
+							<a class="label label-info" href="#">java</a> <a
+								class="label label-info" href="#">arrays</a> <a
+								class="label label-info" href="#">servlets</a>
 						</div>
 
 					</div>
@@ -142,8 +138,9 @@
 							<b>Display Question? </b><a href="#">view</a>
 						</p>
 						<div>
-							<a class="btn" href="#">java</a> <a class="btn" href="#">arrays</a>
-							<a class="btn" href="#">servlets</a>
+							<a class="label label-info" href="#">java</a> <a
+								class="label label-info" href="#">arrays</a> <a
+								class="label label-info" href="#">servlets</a>
 						</div>
 
 					</div>
@@ -165,8 +162,32 @@
 							<b>Display Question? </b><a href="#">view</a>
 						</p>
 						<div>
-							<a class="btn" href="#">java</a> <a class="btn" href="#">arrays</a>
-							<a class="btn" href="#">servlets</a>
+							<a class="label label-info" href="#">java</a> <a
+								class="label label-info" href="#">arrays</a> <a
+								class="label label-info" href="#">servlets</a>
+						</div>
+					</div>
+					<div class="span3">
+						<a href="#">up</a> <a href="#">down</a>
+						<div>
+							<a href="#">flag as inappropriate</a>
+						</div>
+					</div>
+				</div>
+				<div style="margin: 9px 0;" class="btn-group">
+					<a href="#" class="btn">WriteAnswer</a> <a href="#" class="btn">WriteComment</a>
+					<a href="#" class="btn">Bookmark</a>
+				</div>
+				<div class="page-header"></div>
+				<div class="row">
+					<div class="span6">
+						<p>
+							<b>Display Question? </b><a href="#">view</a>
+						</p>
+						<div>
+							<a class="label label-info" href="#">java</a> <a
+								class="label label-info" href="#">arrays</a> <a
+								class="label label-info" href="#">servlets</a>
 						</div>
 
 					</div>
@@ -188,8 +209,9 @@
 							<b>Display Question? </b><a href="#">view</a>
 						</p>
 						<div>
-							<a class="btn" href="#">java</a> <a class="btn" href="#">arrays</a>
-							<a class="btn" href="#">servlets</a>
+							<a class="label label-info" href="#">java</a> <a
+								class="label label-info" href="#">arrays</a> <a
+								class="label label-info" href="#">servlets</a>
 						</div>
 
 					</div>
@@ -211,31 +233,9 @@
 							<b>Display Question? </b><a href="#">view</a>
 						</p>
 						<div>
-							<a class="btn" href="#">java</a> <a class="btn" href="#">arrays</a>
-							<a class="btn" href="#">servlets</a>
-						</div>
-
-					</div>
-					<div class="span3">
-						<a href="#">up</a> <a href="#">down</a>
-						<div>
-							<a href="#">flag as inappropriate</a>
-						</div>
-					</div>
-				</div>
-				<div style="margin: 9px 0;" class="btn-group">
-					<a href="#" class="btn">WriteAnswer</a> <a href="#" class="btn">WriteComment</a>
-					<a href="#" class="btn">Bookmark</a>
-				</div>
-				<div class="page-header"></div>
-				<div class="row">
-					<div class="span6">
-						<p>
-							<b>Display Question? </b><a href="#">view</a>
-						</p>
-						<div>
-							<a class="btn" href="#">java</a> <a class="btn" href="#">arrays</a>
-							<a class="btn" href="#">servlets</a>
+							<a class="label label-info" href="#">java</a> <a
+								class="label label-info" href="#">arrays</a> <a
+								class="label label-info" href="#">servlets</a>
 						</div>
 
 					</div>
@@ -264,15 +264,60 @@
 			</div>
 
 			<div class="span3">
+				<div class="form-actions">
+					<h3>Share or ask the questions you already faced in interviews
+						and get answers and comments from thousands of people around
+						you...</h3>
 
-				<h2>Welcome New User!</h2>
-				<p>w5db.com is a portal of interview questions and answers added
-					and edited by thousands of people. Our intution is to help you in
-					clearing your interviews.</p>
-				<div align="right">
-					<a href="#">about »</a><a href="#">faq »</a>
+					<div align="middle">
+						<a href="#" class="label label-info">Add Question</a>
+					</div>
 				</div>
-
+				<div class="page-header"></div>
+				<div>
+					<h3>popular tags</h3>
+				</div>
+				
+				<div >
+					<a class="btn js-btn" href="#">arrays</a> 
+				</div>
+				<div >
+					<a class="btn js-btn" href="#">c</a> 
+				</div>
+				<div >
+					<a class="btn js-btn" href="#">c++</a> 
+				</div>
+				<div >
+					<a class="btn js-btn" href="#">java</a> 
+				</div>
+				<div >
+					<a class="btn js-btn" href="#">linked list</a> 
+				</div>
+				<div >
+					<a class="btn js-btn" href="#">pointers</a> 
+				</div>
+				<div >
+					<a class="btn js-btn" href="#">servlets</a> 
+				</div>
+				<div >
+					<a class="btn js-btn" href="#">jdbc</a> 
+				</div>
+				<div >
+					<a class="btn js-btn" href="#">jsp</a> 
+				</div>
+				<div >
+					<a class="btn js-btn" href="#">generics</a> 
+				</div>
+				<div >
+					<a class="btn js-btn" href="#">collections</a> 
+				</div>
+				<div >
+					<a class="btn js-btn" href="#">inner classes</a> 
+				</div>
+				<div >
+					<a class="btn js-btn" href="#">hashmap</a> 
+				</div>
+				
 			</div>
 
 		</div>
