@@ -9,8 +9,6 @@
 <link href="html/css/bootstrap.css" rel="stylesheet">
 <link href="html/css/docs.css" rel="stylesheet">
 <link href="html/css/bootstrap-responsive.css" rel="stylesheet">
-<script type="text/javascript"
-	src="http://platform.twitter.com/widgets.js"></script>
 <script src="js/jquery.js"></script>
 <script src="js/google-code-prettify/prettify.js"></script>
 <script src="js/bootstrap-transition.js"></script>
@@ -116,14 +114,14 @@
 				<% } %>
 				<div class="pagination">
 					<ul>
-						<% if (Integer.parseInt(request.getParameter("page")) > 1) { %>
+						<% if ((Integer)request.getAttribute("pageNo") > 1) { %>
 							<li ><a href="/qfest/questions?action=index&page=1">first</a></li>
 						<% } else { %>
 							<li class="active"><a href="#">first</a></li>
 						<% } %>
 						
 						<% for (int i = 1; i <= Math.abs(((Integer) request.getAttribute("totalCount") / 3)) + 1; i++) {
-							if (Integer.parseInt(request.getParameter("page")) == i) {
+							if ((Integer)request.getAttribute("pageNo") == i) {
 							%>
 								<li class="active"><a href="#"><%= i %></a></li>
 							<%
@@ -133,7 +131,7 @@
 						} %>
 						<% 
 						int totalPages = Math.abs(((Integer) request.getAttribute("totalCount") / 3)) + 1;
-						if (totalPages > Integer.parseInt(request.getParameter("page"))) { 
+						if (totalPages > (Integer)request.getAttribute("pageNo")) { 
 							
 						%>
 							<li ><a href="/qfest/questions?action=index&page=<%= totalPages %>">last</a></li>
@@ -145,6 +143,17 @@
 			</div>
 
 			<div class="span3">
+				<ul class="nav nav-pills">
+					<% if(session.getAttribute("name") != null) { %>
+						<li><a href="#">Hi,<%= session.getAttribute("name") %></a></li>
+					<% }
+					 else { %>
+						<li><a href="#">Hi,guest</a></li>
+					<% }%>
+					<li><a href="/qfest/users?action=register">Register</a></li>
+					<li><a href="/qfest/users?action=login">Login</a></li>
+					
+				</ul>
 				<div class="form-actions">
 					<h3>Share or ask the questions you already faced in interviews
 						and get answers and comments from thousands of people around
@@ -156,7 +165,7 @@
 				</div>
 				<div class="page-header"></div>
 				<div align="middle">
-					<h1>4334</h1>
+					<h1><% out.print(request.getAttribute("totalCount")); %></h1>
 				</div>
 				<div align="middle">
 					<h1>Questions</h1>

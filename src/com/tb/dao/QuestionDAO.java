@@ -88,27 +88,17 @@ public class QuestionDAO {
 		return u;
 	}
 	public User loginCheck(String email, String password) throws SQLException{
-		ResultSet rs = stm.executeQuery("select email, password from " + usertable + " WHERE email = '"
+		ResultSet rs = stm.executeQuery("select name, email, password from " + usertable + " WHERE email = '"
 	                                  + email + "' and password = '" + password + "'");
 		User u = null;
 	    
 	    while (rs.next()) {
 	    	u = new User();
-	    	u.setEmail(rs.getString(1));
-	    	u.setPassword(rs.getString(2));
+	    	u.setName(rs.getString(1));
+	    	u.setEmail(rs.getString(2));
+	    	u.setPassword(rs.getString(3));
 	    }
 	    return u;
 	}
-	public List<Question> paging() throws SQLException {
-	    ResultSet rs = stm.executeQuery("select id, title from " + tableName +"limit 11,10");
-	    List<Question> questions = new ArrayList<Question>();
-	    
-	    while (rs.next()) {
-	    	Question q = new Question();
-	    	q.setId(rs.getInt(1));
-	    	q.setTitle(rs.getString(2));
-	    	questions.add(q);
-	    }
-	    return questions;
-	}
+	
 }

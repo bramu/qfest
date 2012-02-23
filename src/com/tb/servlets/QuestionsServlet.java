@@ -80,6 +80,7 @@ public class QuestionsServlet extends HttpServlet {
 			List<Question> questions = dao.fetchAll(pageNo);
 			req.setAttribute("questions", questions);
 			req.setAttribute("totalCount", dao.getTotalCount());
+			req.setAttribute("pageNo", pageNo);
 			RequestDispatcher rd = getServletContext().getRequestDispatcher("/questions/index.jsp");
 			rd.forward(req, resp);
 

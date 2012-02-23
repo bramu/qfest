@@ -51,13 +51,14 @@ public class UsersServlet extends HttpServlet {
 			pw.write("<a href='/qfest/users?action=register'>RegisterNow</a></br>");
 			pw.write(" if u r already registerd click the below link to login ");
 			pw.write("<a href='/qfest/users?action=login'>LoginNow</a>");
+			
 		} else if (req.getParameter("action").equals("register")) {
 			performRegisterAction(req, resp);
 		} else if (req.getParameter("action").equals("login")) {
 			performLoginAction(req, resp);
-		} else if (req.getParameter("action").equals("createAccount")) {
+		} else if (req.getParameter("action").equals("create")) {
 			performCreateAccountAction(req, resp);
-		} else if (req.getParameter("action").equals("LoginCheck")) {
+		} else if (req.getParameter("action").equals("logincheck")) {
 			performLoginCheckAction(req, resp);
 		}
 
@@ -77,7 +78,6 @@ public class UsersServlet extends HttpServlet {
 
 	private void performCreateAccountAction(HttpServletRequest req,
 			HttpServletResponse resp) throws IOException, SQLException {
-		PrintWriter pw = resp.getWriter();
 		resp.setContentType("text/html");
 		User u = new User();
 		boolean b = req.getParameter("pw").equals(req.getParameter("c_pw"));
@@ -87,11 +87,12 @@ public class UsersServlet extends HttpServlet {
 				u = dao.createAccount(req.getParameter("name"),
 						req.getParameter("email"), req.getParameter("pw"),
 						req.getParameter("c_pw"));
-				
-				req.getSession().setAttribute("is_logged_in", true);
+				req.getSession().setAttribute("name", u.getName());
 				resp.sendRedirect("/qfest/questions");
+				//req.getSession().setAttribute("is_logged_in", true);
+				//resp.sendRedirect("/qfest/questions?action=index");
 			} else {
-				resp.sendRedirect("/qfest/users?action=register");
+				//resp.sendRedirect("/qfest/users?action=register");
 			}
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
@@ -115,18 +116,25 @@ public class UsersServlet extends HttpServlet {
 	private void performLoginCheckAction(HttpServletRequest req,
 			HttpServletResponse resp) throws IOException {
 		try {
-			PrintWriter pw = resp.getWriter();
+			
 			resp.setContentType("text/html");
 			User user = dao.loginCheck(req.getParameter("emailc"), req.getParameter("pwc"));
+			req.setAttribute("name", user.getName());
 			
-			if (user != null) {
+			resp.sendRedirect("/qfest/questions");
+			
+			//RequestDispatcher rd = req.getServletContext().getRequestDispatcher("/questions/index.jsp");
+			//rd.forward(req, resp);
+			
+			
+			/*if (user != null) {
 				req.getSession().setAttribute("is_logged_in", true);
 				
-				resp.sendRedirect("/qfest/questions");
+				//resp.sendRedirect("/qfest/questions?action=index");
 			} else {
 				
-				resp.sendRedirect("/qfest/users?action=login");
-			}
+				//resp.sendRedirect("/qfest/users?action=login");
+			}*/
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
