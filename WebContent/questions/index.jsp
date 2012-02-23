@@ -28,7 +28,7 @@
 <script src="js/bootstrap-carousel.js"></script>
 <script src="js/bootstrap-typeahead.js"></script>
 <script src="js/application.js"></script>
-<title>w5db web application</title>
+<title>Qfest index page</title>
 </head>
 <body>
 	<div class="container">
