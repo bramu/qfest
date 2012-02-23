@@ -151,7 +151,7 @@
 						you...</h3>
 
 					<div align="middle">
-						<a href="#" class="label label-info">Add Question</a>
+						<a href="" class="label label-info">Add Question</a>
 					</div>
 				</div>
 				<div class="page-header"></div>
