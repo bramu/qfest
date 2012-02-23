@@ -116,12 +116,30 @@
 				<% } %>
 				<div class="pagination">
 					<ul>
-						<li class="disabled"><a href="#">previous</a></li>
-						<li class="active"><a href="#">1</a></li>
-						<li><a href="#">2</a></li>
-						<li><a href="#">3</a></li>
-						<li><a href="#">4</a></li>
-						<li><a href="#">next</a></li>
+						<% if (Integer.parseInt(request.getParameter("page")) > 1) { %>
+							<li ><a href="/qfest/questions?action=index&page=1">first</a></li>
+						<% } else { %>
+							<li class="active"><a href="#">first</a></li>
+						<% } %>
+						
+						<% for (int i = 1; i <= Math.abs(((Integer) request.getAttribute("totalCount") / 3)) + 1; i++) {
+							if (Integer.parseInt(request.getParameter("page")) == i) {
+							%>
+								<li class="active"><a href="#"><%= i %></a></li>
+							<%
+							} else { %>
+								<li ><a href="/qfest/questions?action=index&page=<%= i %>"><%= i %></a></li>
+							<% }
+						} %>
+						<% 
+						int totalPages = Math.abs(((Integer) request.getAttribute("totalCount") / 3)) + 1;
+						if (totalPages > Integer.parseInt(request.getParameter("page"))) { 
+							
+						%>
+							<li ><a href="/qfest/questions?action=index&page=<%= totalPages %>">last</a></li>
+						<% } else { %>
+							<li class="active"><a href="#">last</a></li>
+						<% } %>
 					</ul>
 				</div>
 			</div>
@@ -189,7 +207,7 @@
 				</div>
 
 			</div>
-
+				
 		</div>
 		<div class="container">
 			<div class="navbar">
