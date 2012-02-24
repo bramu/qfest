@@ -11,7 +11,7 @@ import com.tb.utils.*;
 
 public class QuestionDAO {
 	private String tableName = "questions";
-	private String usertable = "userdata";
+	private String answerstable = "answers";
 	private Statement stm;
 	public QuestionDAO() {
 		try {
@@ -76,29 +76,29 @@ public class QuestionDAO {
 	public void delete( int id) throws SQLException {
 		int id1 = stm.executeUpdate("delete from "+ tableName +" where id=" + id);	
 	}
-	public User createAccount(String name,String email,String pw,String c_pw) throws SQLException{
-		User u = new User();
-		int id = stm.executeUpdate("insert into " + usertable +"(name,email,password,confirm_pw) values" +
-				"('"+ name +"','"+ email +"','"+ pw +"','"+ c_pw +"') ");		
-		u.setId(id);
-		u.setName(name);
-		u.setEmail(email);
-		u.setPassword(pw);
-		u.setConfirm_pw(c_pw);
-		return u;
+	public List<Question> unanswered(int pageNo) throws SQLException{
+		String sql = "select id,title from "+ tableName +" where title not in" +
+				"(select title from "+ tableName +" q, "+ answerstable +" a where a.question_id = q.id ) " +
+						" limit " + (pageNo - 1) * 3 + ",3";
+		List<Question> questions = new ArrayList<Question>();
+		ResultSet rs = stm.executeQuery(sql);
+		while(rs.next()){
+			Question q = new Question();
+			q.setId(rs.getInt(1));
+			q.setTitle(rs.getString(2));
+			questions.add(q);
+		}
+		return questions;
 	}
-	public User loginCheck(String email, String password) throws SQLException{
-		ResultSet rs = stm.executeQuery("select name, email, password from " + usertable + " WHERE email = '"
-	                                  + email + "' and password = '" + password + "'");
-		User u = null;
+	public int getTotalUnansweredCount() throws SQLException {
+		String sql = "select count(*) as totalUnansweredCount from "+ tableName +" where title not in" +
+				"(select title from "+ tableName +" q, "+ answerstable +" a where a.question_id = q.id )";
+	    ResultSet rs = stm.executeQuery(sql);
 	    
 	    while (rs.next()) {
-	    	u = new User();
-	    	u.setName(rs.getString(1));
-	    	u.setEmail(rs.getString(2));
-	    	u.setPassword(rs.getString(3));
+	    	return rs.getInt(1);
 	    }
-	    return u;
+	    return 0;
 	}
 	
 }

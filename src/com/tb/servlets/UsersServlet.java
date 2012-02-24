@@ -18,7 +18,7 @@ import com.tb.beans.*;
 public class UsersServlet extends HttpServlet {
 	
 	private static final long serialVersionUID = 1L;
-	private QuestionDAO dao = new QuestionDAO();
+	private UserDAO udao = new UserDAO();
 
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
@@ -44,15 +44,7 @@ public class UsersServlet extends HttpServlet {
 
 	private void performAction(HttpServletRequest req, HttpServletResponse resp)
 			throws IOException, SQLException {
-		if (req.getParameter("action") == null) {
-			PrintWriter pw = resp.getWriter();
-			resp.setContentType("text/html");
-			pw.write("if u r not register please click the below link to regiater");
-			pw.write("<a href='/qfest/users?action=register'>RegisterNow</a></br>");
-			pw.write(" if u r already registerd click the below link to login ");
-			pw.write("<a href='/qfest/users?action=login'>LoginNow</a>");
-			
-		} else if (req.getParameter("action").equals("register")) {
+		 if (req.getParameter("action").equals("register")) {
 			performRegisterAction(req, resp);
 		} else if (req.getParameter("action").equals("login")) {
 			performLoginAction(req, resp);
@@ -60,6 +52,8 @@ public class UsersServlet extends HttpServlet {
 			performCreateAccountAction(req, resp);
 		} else if (req.getParameter("action").equals("logincheck")) {
 			performLoginCheckAction(req, resp);
+		}else if (req.getParameter("action").equals("logout")) {
+			performLogoutAction(req, resp);
 		}
 
 	}
@@ -67,7 +61,7 @@ public class UsersServlet extends HttpServlet {
 	private void performRegisterAction(HttpServletRequest req,
 			HttpServletResponse resp) {
 		try {
-			RequestDispatcher rd = getServletContext().getRequestDispatcher("/users/register.jsp");
+			RequestDispatcher rd = getServletContext().getRequestDispatcher("/users/user.jsp");
 			rd.forward(req, resp);
 			
 		} catch (Exception e) {
@@ -84,15 +78,16 @@ public class UsersServlet extends HttpServlet {
 		
 		try {
 			if (b) {
-				u = dao.createAccount(req.getParameter("name"),
+				u = udao.createAccount(req.getParameter("name"),
 						req.getParameter("email"), req.getParameter("pw"),
 						req.getParameter("c_pw"));
 				req.getSession().setAttribute("name", u.getName());
+				
 				resp.sendRedirect("/qfest/questions");
-				//req.getSession().setAttribute("is_logged_in", true);
-				//resp.sendRedirect("/qfest/questions?action=index");
-			} else {
-				//resp.sendRedirect("/qfest/users?action=register");
+				
+				
+			} else { 
+				resp.sendRedirect("/qfest/users?action=register&msg=Password Missmatch Occurs Try Again");
 			}
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
@@ -103,7 +98,7 @@ public class UsersServlet extends HttpServlet {
 	private void performLoginAction(HttpServletRequest req,
 			HttpServletResponse resp) {
 		try {
-			RequestDispatcher rd = getServletContext().getRequestDispatcher("/users/login.jsp");
+			RequestDispatcher rd = getServletContext().getRequestDispatcher("/users/user.jsp");
 			rd.forward(req, resp);
 			
 
@@ -118,27 +113,28 @@ public class UsersServlet extends HttpServlet {
 		try {
 			
 			resp.setContentType("text/html");
-			User user = dao.loginCheck(req.getParameter("emailc"), req.getParameter("pwc"));
-			req.setAttribute("name", user.getName());
-			
-			resp.sendRedirect("/qfest/questions");
-			
-			//RequestDispatcher rd = req.getServletContext().getRequestDispatcher("/questions/index.jsp");
-			//rd.forward(req, resp);
-			
-			
-			/*if (user != null) {
-				req.getSession().setAttribute("is_logged_in", true);
-				
-				//resp.sendRedirect("/qfest/questions?action=index");
+			User user = udao.loginCheck(req.getParameter("emailc"), req.getParameter("pwc"));
+			if (user == null) {
+				resp.sendRedirect("/qfest/users?action=login&msg1=Login Failed Try Again");
 			} else {
-				
-				//resp.sendRedirect("/qfest/users?action=login");
-			}*/
+				req.getSession().setAttribute("name", user.getName());
+				resp.sendRedirect("/qfest/questions");
+			}
+			
+			
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 
 	}
+	private void performLogoutAction(HttpServletRequest req,
+			HttpServletResponse resp) throws IOException {
+		
+		req.getSession().removeAttribute("name");
+		
+		resp.sendRedirect("/qfest/questions?action=index");
+	}
+	
+	
 }
