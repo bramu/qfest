@@ -41,7 +41,7 @@
 						<div class="nav-menu span-26 corners black-bg4 menu-shadow">
 							<ul class="nav">
 								<li><a href="#"></a></li>
-								<li><a href="#">Questions</a></li>
+								<li><a href="/qfest/questions?action=index">Questions</a></li>
 								<li><a href="#">Interviews</a></li>
 								<li><a href="#">Companies</a></li>
 								<li><a href="#">Skills</a></li>
@@ -68,37 +68,56 @@
 			<div class="span9">
 				<div class="row">
 					<div class="span5">
-
-						<h1>Recent Questions</h1>
+						<%
+						if((String)request.getAttribute("type") != null){%>
+							<h1><%=(String)request.getAttribute("type") %></h1>
+						
+						<%}else{%>
+							<h1>Recent Questions</h1>
+						<% }%>
+						
+						
 
 					</div>
 					<ul class="nav nav-pills">
 						<li><a href="#">recent</a></li>
 						<li><a href="#">rated</a></li>
 						<li><a href="#">viewed</a></li>
-						<li><a href="#">unanswered</a></li>
+						<li><a
+							href="/qfest/questions?action=index&type=unanswered
+						">unanswered</a></li>
 					</ul>
 
-					
+
 				</div>
-					<div class="page-header"></div>
-				<% List<Question> questions = ((List<Question>) request.getAttribute("questions")); 
-				 for(int i = 0;i < questions.size(); i ++){ %>
+				<div class="page-header"></div>
+				<%
+					List<Question> questions = (List<Question>)( request
+							.getAttribute("questions"));
+				
+					for (int i = 0; i < questions.size(); i++) {
+				%>
 				<div class="row">
 					<div class="span6">
-						
-						<h3> <% out.println(questions.get(i).getTitle()); %></h3>					
-						
-							<div>
-								<a class="label label-info" href="#">java</a> <a
-									class="label label-info" href="#">arrays</a> <a
-									class="label label-info" href="#">servlets</a>
-							</div>
+
+						<h3>
+							<%
+								out.println(questions.get(i).getTitle());
+							%>
+						</h3>
+
+						<div>
+							<a class="label label-info" href="#">java</a> <a
+								class="label label-info" href="#">arrays</a> <a
+								class="label label-info" href="#">servlets</a>
+						</div>
 					</div>
 					<div class="span3">
-						<a href='/qfest/questions?action=view&id=<% out.println(questions.get(i).getId()); %>'>view</a>
-						<div><a href="#">up</a> <a href="#">down</a>
-						 </div>
+						<a
+							href='/qfest/questions?action=view&id=<%=questions.get(i).getId()%>'>view</a>
+						<div>
+							<a href="#">up</a> <a href="#">down</a>
+						</div>
 						<div>
 							<a href="#">flag as inappropriate</a>
 						</div>
@@ -111,48 +130,128 @@
 				</div>
 
 				<div class="page-header"></div>
-				<% } %>
+				<%
+					}	
+					%>
+				<% if((String)request.getAttribute("type") != null){%>
 				<div class="pagination">
+
 					<ul>
-						<% if ((Integer)request.getAttribute("pageNo") > 1) { %>
-							<li ><a href="/qfest/questions?action=index&page=1">first</a></li>
-						<% } else { %>
-							<li class="active"><a href="#">first</a></li>
-						<% } %>
-						
-						<% for (int i = 1; i <= Math.abs(((Integer) request.getAttribute("totalCount") / 3)) + 1; i++) {
-							if ((Integer)request.getAttribute("pageNo") == i) {
-							%>
-								<li class="active"><a href="#"><%= i %></a></li>
-							<%
-							} else { %>
-								<li ><a href="/qfest/questions?action=index&page=<%= i %>"><%= i %></a></li>
-							<% }
-						} %>
 						<% 
-						int totalPages = Math.abs(((Integer) request.getAttribute("totalCount") / 3)) + 1;
-						if (totalPages > (Integer)request.getAttribute("pageNo")) { 
+							if ((Integer) request.getAttribute("pageNo") > 1) {
+						%>
+						<li><a href="/qfest/questions?action=index&type=<%=(String)request.getAttribute("type") %>&page=1">first</a></li>
+						<%
+							} else {
+						%>
+						<li class="active"><a href="#">first</a></li>
+						<%
+							}
+						%>
+
+						<%  
+							for (int i = 1; i <= Math.abs(((Integer) request
+									.getAttribute("totalCount") / 4)) + 1; i++) {
+								if ((Integer) request.getAttribute("pageNo") == i) {
+						%>
+						<li class="active"><a href="#"><%=i%></a></li>
+						<%
+							} else {
+						%>
+						<li><a href="/qfest/questions?action=index&type=<%=(String)request.getAttribute("type") %>&page=<%=i%>"><%=i%></a></li>
+						<%
+							}
+							}
+						%>
+						<%
+							int totalPages = Math.abs(((Integer) request
+									.getAttribute("totalCount") / 4)) + 1;
+							if (totalPages > (Integer) request.getAttribute("pageNo")) {
+						%>
+						<li><a
+							href="/qfest/questions?action=index&type=<%=(String)request.getAttribute("type") %>&page=<%=totalPages%>">last</a></li>
+						<%
+							} else {
+						%>
+						<li class="active"><a href="#">last</a></li>
+						<%
+							}
 							
 						%>
-							<li ><a href="/qfest/questions?action=index&page=<%= totalPages %>">last</a></li>
-						<% } else { %>
-							<li class="active"><a href="#">last</a></li>
-						<% } %>
+
 					</ul>
 				</div>
+
+				<%} 
+				else{%>
+				<div class="pagination">
+
+					<ul>
+						<% 
+							if ((Integer) request.getAttribute("pageNo") > 1) {
+						%>
+						<li><a href="/qfest/questions?action=index&page=1">first</a></li>
+						<%
+							} else {
+						%>
+						<li class="active"><a href="#">first</a></li>
+						<%
+							}
+						%>
+
+						<%  
+							for (int i = 1; i <= Math.abs(((Integer) request
+									.getAttribute("totalCount") / 4)) + 1; i++) {
+								if ((Integer) request.getAttribute("pageNo") == i) {
+						%>
+						<li class="active"><a href="#"><%=i%></a></li>
+						<%
+							} else {
+						%>
+						<li><a href="/qfest/questions?action=index&page=<%=i%>"><%=i%></a></li>
+						<%
+							}
+							}
+						%>
+						<%
+							int totalPages = Math.abs(((Integer) request
+									.getAttribute("totalCount") / 4)) + 1;
+							if (totalPages > (Integer) request.getAttribute("pageNo")) {
+						%>
+						<li><a
+							href="/qfest/questions?action=index&page=<%=totalPages%>">last</a></li>
+						<%
+							} else {
+						%>
+						<li class="active"><a href="#">last</a></li>
+						<%
+							}
+							
+						%>
+
+					</ul>
+				</div>
+				<%} %>
 			</div>
 
 			<div class="span3">
 				<ul class="nav nav-pills">
-					<% if(session.getAttribute("name") != null) { %>
-						<li><a href="#">Hi,<%= session.getAttribute("name") %></a></li>
-					<% }
-					 else { %>
-						<li><a href="#">Hi,guest</a></li>
-					<% }%>
-					<li><a href="/qfest/users?action=register">Register</a></li>
-					<li><a href="/qfest/users?action=login">Login</a></li>
-					
+					<%
+						if (session.getAttribute("name") != null) {
+					%>
+					<li><a href="#">Hi,<%=session.getAttribute("name")%></a></li>
+					<li><a href="/qfest/users?action=logout">logout</a></li>
+					<%
+						} else {
+					%>
+					<li><a href="#">Hi,guest</a></li>
+					<li><a href="/qfest/users?action=register">Register </a></li>
+					<li><a href="/qfest/users?action=login">Login </a></li>
+					<%
+						}
+					%>
+
+
 				</ul>
 				<div class="form-actions">
 					<h3>Share or ask the questions you already faced in interviews
@@ -165,7 +264,11 @@
 				</div>
 				<div class="page-header"></div>
 				<div align="middle">
-					<h1><% out.print(request.getAttribute("totalCount")); %></h1>
+					<h1>
+						<%
+							out.print(request.getAttribute("totalCount"));
+						%>
+					</h1>
 				</div>
 				<div align="middle">
 					<h1>Questions</h1>
@@ -216,22 +319,22 @@
 				</div>
 
 			</div>
-				
-		</div>
-		<div class="container">
-			<div class="navbar">
-				<div class="navbar-inner">
-					<div class="container" style="width: 100%;">
-						<a class="btn btn-navbar" data-toggle="collapse"
-							data-target=".nav-collapse"> <span class="icon-bar"></span> <span
-							class="icon-bar"></span> <span class="icon-bar"></span>
-						</a> <a class="brand" href="#"> w5db.com.All rights reserved </a>
 
-					</div>
-				</div>
-				<!-- /navbar-inner -->
-			</div>
 		</div>
+
+		<div class="navbar">
+			<div class="navbar-inner">
+				<div class="container" style="width: 100%;">
+					<a class="btn btn-navbar" data-toggle="collapse"
+						data-target=".nav-collapse"> <span class="icon-bar"></span> <span
+						class="icon-bar"></span> <span class="icon-bar"></span>
+					</a> <a class="brand" href="#"> w5db.com.All rights reserved </a>
+
+				</div>
+			</div>
+			<!-- /navbar-inner -->
+		</div>
+
 	</div>
 
 </body>

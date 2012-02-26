@@ -1,5 +1,6 @@
 <%@page import="java.util.List"%>
 <%@page import="com.tb.beans.Question"%>
+<%@page import="com.tb.beans.Answer"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
@@ -77,11 +78,15 @@
 				<div class="row">
 					<div class="span6">
 						<div>
-							<p>
-								<%
-									out.print(((Question) request.getAttribute("question")).getTitle());
+							<b> Answers:
+								<% List<Answer> answers = (List<Answer>)(request.getAttribute("answers"));
+									for(int i = 0 ;i<answers.size();i++){
+										
+										out.println(answers.get(i).getAnswer());
+										
+									}
 								%>
-							</p>
+							</b>
 						</div>
 						<div>
 							<a class="label label-info" href="#">java</a> <a

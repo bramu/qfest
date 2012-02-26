@@ -1,25 +1,69 @@
 package com.tb.beans;
 
-public class Answer {
-	private int id;
-	private String answer;
-	private int question_id;
-	public int getId() {
-		return id;
+public class Answer extends Base {
+	private int questionId;
+	private int yesCount;
+	private int noCount;
+	private int userId;
+	private String answerText;
+	
+	private Question question;
+	
+	private User user;
+
+	public int getQuestionId() {
+		return questionId;
 	}
-	public void setId(int id) {
-		this.id = id;
+
+	public void setQuestionId(int questionId) {
+		this.questionId = questionId;
 	}
-	public String getAnswer() {
-		return answer;
+
+	public int getYesCount() {
+		return yesCount;
 	}
-	public void setAnswer(String answer) {
-		this.answer = answer;
+
+	public void setYesCount(int yesCount) {
+		this.yesCount = yesCount;
 	}
-	public int getQuestion_id() {
-		return question_id;
+
+	public int getNoCount() {
+		return noCount;
 	}
-	public void setQuestion_id(int question_id) {
-		this.question_id = question_id;
+
+	public void setNoCount(int noCount) {
+		this.noCount = noCount;
+	}
+
+	public int getUserId() {
+		return userId;
+	}
+
+	public void setUserId(int userId) {
+		this.userId = userId;
+	}
+
+	public String getAnswerText() {
+		return answerText;
+	}
+
+	public void setAnswerText(String answerText) {
+		this.answerText = answerText;
+	}
+
+	public Question getQuestion() {
+		return question;
+	}
+
+	public void setQuestion(Question question) {
+		this.question = question;
+	}
+
+	public User getUser() {
+		return user;
+	}
+
+	public void setUser(User user) {
+		this.user = user;
 	}
 }

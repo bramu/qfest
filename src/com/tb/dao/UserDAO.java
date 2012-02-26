@@ -4,18 +4,17 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-
+import java.util.ArrayList;
+import java.util.List;
 import com.tb.beans.User;
 import com.tb.utils.DBConnector;
 
 public class UserDAO {
-	private String usertable = "userdata";
+	private String usertable = "users";
 	private Statement stm;
 	public UserDAO() {
 		try {
-			
 			Connection con = DBConnector.getInstance().getConnection();
-					
 			stm = con.createStatement();
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -29,7 +28,6 @@ public class UserDAO {
 		u.setName(name);
 		u.setEmail(email);
 		u.setPassword(pw);
-		u.setConfirm_pw(c_pw);
 		return u;
 	}
 	public User loginCheck(String email, String password) throws SQLException{
@@ -42,6 +40,65 @@ public class UserDAO {
 	    	u.setName(rs.getString(1));
 	    	u.setEmail(rs.getString(2));
 	    	u.setPassword(rs.getString(3));
+	    }
+	    return u;
+	}
+	public int countUpdate( int count_column,int user_id) throws SQLException{
+		ResultSet rs   = stm.executeQuery("select "+ count_column +" from " + usertable + " where id = "+ user_id );
+		int count = 0;
+		
+		while(rs.next()){
+			
+			count = rs.getInt(1);
+		}
+		
+		int finalcount = stm.executeUpdate("update "+ usertable  + " set " + count_column + " = " + (count+1) + " where id = " + user_id );
+		
+		return finalcount;
+	}
+	public List<User> fetchAll(int pageNo) throws SQLException {
+	    ResultSet rs = stm.executeQuery("select * from " + usertable + " limit " + (pageNo - 1) * 4 + ", 4" );
+	    List<User> users = new ArrayList<User>();
+	   
+	    User u = new User();
+	    while (rs.next()) {
+	    	
+	    	u.setAdmin(rs.getString(16));
+	    	u.setCurrentSignInAt(rs.getString(9));
+	    	u.setCurrentSignInIp(rs.getString(11));
+	    	u.setEmail(rs.getString(2));
+	    	u.setEncryptedPassword(rs.getString(3));
+	    	u.setLastSignInAt(rs.getString(10));
+	    	u.setLastSignInIp(rs.getString(12));
+	    	u.setName(rs.getString(15));
+	    	u.setPasswordSalt(rs.getString(4));
+	    	u.setRememberCreatedAt(rs.getString(7));
+	    	u.setRememberToken(rs.getString(6));
+	    	u.setResetPasswordToken(rs.getString(5));
+	    	u.setSignInCount(rs.getInt(8));
+	    	users.add(u);
+	    }
+	    return users;
+	}
+	
+	public User findById(int userId) throws SQLException {
+		ResultSet rs = stm.executeQuery("select * from " + usertable + " WHERE id = " + userId);
+		
+		User u = new User();
+	    while (rs.next()) {
+	    	u.setAdmin(rs.getString(16));
+	    	u.setCurrentSignInAt(rs.getString(9));
+	    	u.setCurrentSignInIp(rs.getString(11));
+	    	u.setEmail(rs.getString(2));
+	    	u.setEncryptedPassword(rs.getString(3));
+	    	u.setLastSignInAt(rs.getString(10));
+	    	u.setLastSignInIp(rs.getString(12));
+	    	u.setName(rs.getString(15));
+	    	u.setPasswordSalt(rs.getString(4));
+	    	u.setRememberCreatedAt(rs.getString(7));
+	    	u.setRememberToken(rs.getString(6));
+	    	u.setResetPasswordToken(rs.getString(5));
+	    	u.setSignInCount(rs.getInt(8));
 	    }
 	    return u;
 	}

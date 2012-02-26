@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+	pageEncoding="UTF-8"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -41,7 +41,7 @@
 						<div class="nav-menu span-26 corners black-bg4 menu-shadow">
 							<ul class="nav">
 								<li><a href="#"></a></li>
-								<li><a href="#">Questions</a></li>
+								<li><a href="/qfest/questions?action=index">Questions</a></li>
 								<li><a href="#">Interviews</a></li>
 								<li><a href="#">Companies</a></li>
 								<li><a href="#">Skills</a></li>
@@ -66,12 +66,19 @@
 		</div>
 		<div class="row">
 			<div class="span6">
-				
-				<form class="form-horizontal" method ="post" action="/qfest/users">
+
+				<form class="form-horizontal" method="post" action="/qfest/users">
 					<input type="hidden" name="action" value="create">
 					<fieldset>
 						<legend>Register</legend>
 						<div class="control-group">
+							<%
+								if (request.getParameter("msg") != null) {
+							%>
+							<h3 align="middle"><%=request.getParameter("msg")%></h3>
+							<%
+								}
+							%>
 							<label for="name" class="control-label">Name</label>
 							<div class="controls">
 								<input type="text" name="name" class="input-xlarge">
@@ -93,8 +100,7 @@
 							</div>
 						</div>
 						<div class="control-group">
-							<label for="c_pw" class="control-label">Confirm
-								Password</label>
+							<label for="c_pw" class="control-label">Confirm Password</label>
 							<div class="controls">
 								<input type="password" name="c_pw" class="input-xlarge">
 
@@ -102,55 +108,66 @@
 						</div>
 						<div align="middle">
 							<button class="btn btn-primary" type="submit">Register</button>
-							<button class="btn">Reset</button>
+							<form action="/qfest/users?action=reset">
+								<button class="btn" type="submit">Reset</button>
+							</form>
 						</div>
-					
+
 					</fieldset>
 				</form>
+
 			</div>
 			<div class="span6">
-				<form class="form-horizontal">
+				<form class="form-horizontal" method="post" action="/qfest/users">
+					<input type="hidden" name="action" value="logincheck">
 					<fieldset>
 						<legend>Sign In</legend>
-						
+
 						<div class="control-group">
-							<label for="input01" class="control-label">Email</label>
+							<%
+								if (request.getParameter("msg1") != null) {
+							%>
+							<h3 align="middle"><%=request.getParameter("msg1")%></h3>
+							<%
+								}
+							%>
+							<label for="emailc" class="control-label">Email</label>
 							<div class="controls">
-								<input type="text" id="input01" class="input-xlarge">
+								<input type="text" name="emailc" class="input-xlarge">
 
 							</div>
 						</div>
 						<div class="control-group">
-							<label for="input01" class="control-label">Password</label>
+							<label for="pwc" class="control-label">Password</label>
 							<div class="controls">
-								<input type="text" id="input01" class="input-xlarge">
+								<input type="password" name="pwc" class="input-xlarge">
 
 							</div>
 						</div>
-						
+
 						<div align="middle">
 							<button class="btn btn-primary" type="submit">Login</button>
 							<button class="btn">Forget Password</button>
 						</div>
-					
+							
 					</fieldset>
 				</form>
 			</div>
 		</div>
 	</div>
-	<div class="container">
-			<div class="navbar">
-				<div class="navbar-inner">
-					<div class="container" style="width: 100%;">
-						<a class="btn btn-navbar" data-toggle="collapse"
-							data-target=".nav-collapse"> <span class="icon-bar"></span> <span
-							class="icon-bar"></span> <span class="icon-bar"></span>
-						</a> <a class="brand" href="#"> w5db.com.All rights reserved </a>
 
-					</div>
-				</div>
-				<!-- /navbar-inner -->
+	<div class="navbar">
+		<div class="navbar-inner">
+			<div class="container" style="width: 100%;">
+				<a class="btn btn-navbar" data-toggle="collapse"
+					data-target=".nav-collapse"> <span class="icon-bar"></span> <span
+					class="icon-bar"></span> <span class="icon-bar"></span>
+				</a> <a class="brand" href="#"> w5db.com.All rights reserved </a>
+
 			</div>
 		</div>
+		<!-- /navbar-inner -->
+	</div>
+
 </body>
 </html>

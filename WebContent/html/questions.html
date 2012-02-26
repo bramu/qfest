@@ -2,11 +2,12 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
 <link href="css/bootstrap.css" rel="stylesheet">
 <link href="css/docs.css" rel="stylesheet">
 <link href="css/bootstrap-responsive.css" rel="stylesheet">
-<script type="text/javascript"
-	src="http://platform.twitter.com/widgets.js"></script>
+<link href="css/ownstyle.css" rel="stylesheet">
+
 <script src="js/jquery.js"></script>
 <script src="js/google-code-prettify/prettify.js"></script>
 <script src="js/bootstrap-transition.js"></script>
@@ -64,22 +65,23 @@
 		</div>
 		<div class="row">
 			<div class="span9">
-				<div class="row">
-					<div class="span5">
-
-						<h1>Recent Questions</h1>
-
+				<h1 class="heading-title">
+					<div class="links">
+						<ul>
+							<li><a href="/questions/type/unanswered/page/1">unanswered</a>
+							</li>
+							<li>|</li>
+							<li><a href="/questions/type/viewed/page/1">viewed</a></li>
+							<li>|</li>
+							<li><a href="/questions/type/rated/page/1">rated</a></li>
+							<li>|</li>
+							<li><a class="link_on" href="/questions/type/recent/page/1">recent</a></li>
+						</ul>
 					</div>
-					<ul class="nav nav-pills">
-						<li><a href="#">recent</a></li>
-						<li><a href="#">rated</a></li>
-						<li><a href="#">viewed</a></li>
-						<li><a href="#">unanswered</a></li>
-					</ul>
+					<span>Recent Questions</span> <span class="header_tags"> </span>
+				</h1>
 
-					
-				</div>
-					<div class="page-header"></div>
+				<div class="page-header"></div>
 
 				<div class="row">
 					<div class="span6">
@@ -263,6 +265,19 @@
 			</div>
 
 			<div class="span3">
+				<ul class="nav nav-pills">
+					<li><a href="#">Hi,guest</a></li>
+					<li><a href="#">Register</a></li>
+					<li><a href="#">Login</a></li>
+
+				</ul>
+				<div class="welcome">
+					<h2>Share or ask the questions you already faced in interviews
+						and get answers and comments from thousands of people around you..</h2>
+					<div class="addnew">
+						<a href="/questions/new">Add Question</a>
+					</div>
+				</div>
 				<div class="form-actions">
 					<h3>Share or ask the questions you already faced in interviews
 						and get answers and comments from thousands of people around
