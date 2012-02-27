@@ -190,7 +190,7 @@ CREATE TABLE `questions` (
 CREATE TABLE `ratings` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `user_id` int(11) DEFAULT '-1',
-  `rtype` int(11) NOT NULL,
+  `rtype` varchar(255) NOT NULL,
   `type_id` int(11) NOT NULL,
   `rating` int(11) DEFAULT '0',
   `created_at` datetime DEFAULT NULL,

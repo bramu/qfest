@@ -3,17 +3,17 @@ package com.tb.beans;
 public class Rating extends Base {
 
 	private int userId;
-	private int rtype;
+	private String rtype;
 	private int typeId;
 	private int rating;
 	
 	private User user;
 
-	public int getRtype() {
+	public String getRtype() {
 		return rtype;
 	}
 
-	public void setRtype(int rtype) {
+	public void setRtype(String rtype) {
 		this.rtype = rtype;
 	}
 

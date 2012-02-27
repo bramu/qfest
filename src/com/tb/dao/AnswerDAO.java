@@ -11,7 +11,7 @@ import com.tb.beans.Answer;
 import com.tb.utils.DBConnector;
 
 public class AnswerDAO {
-	private String answerstable = "answers";
+	private String answersTable = "answers";
 	private Statement stm;
 	
 	private QuestionDAO qdao = new QuestionDAO();
@@ -29,7 +29,7 @@ public class AnswerDAO {
 	}
 
 	public List<Answer> listOfAnswers(int id) throws SQLException {
-		ResultSet rs = stm.executeQuery("select answer from " + answerstable
+		ResultSet rs = stm.executeQuery("select answer_text from " + answersTable
 				+ " where question_id=" + id);
 		List<Answer> answers = new ArrayList<Answer>();
 		while (rs.next()) {
@@ -41,7 +41,7 @@ public class AnswerDAO {
 	}
 
 	public List<Answer> fetchAll(int pageNo) throws SQLException {
-		ResultSet rs = stm.executeQuery("select * from " + answerstable
+		ResultSet rs = stm.executeQuery("select * from " + answersTable
 				+ " limit " + (pageNo - 1) * 4 + ", 4");
 		List<Answer> answers = new ArrayList<Answer>();
 		while (rs.next()) {
@@ -59,7 +59,7 @@ public class AnswerDAO {
 	}
 
 	public Answer findById(int answerId) throws SQLException {
-		ResultSet rs = stm.executeQuery("select * from " + answerstable
+		ResultSet rs = stm.executeQuery("select * from " + answersTable
 				+ " WHERE id = " + answerId);
 		Answer a = new Answer();
 		while (rs.next()) {
@@ -74,21 +74,21 @@ public class AnswerDAO {
 		return a;
 	}
 
-	public int updateCounts(int count_column, int answer_id)
+	public int updateCounts(String countcolumn, int answerId)
 			throws SQLException {
-		ResultSet rs = stm.executeQuery("select " + count_column + " from "
-				+ answerstable + " where id = " + answer_id);
+		ResultSet rs = stm.executeQuery("select " + countcolumn + " from "
+				+ answersTable + " where id = " + answerId);
 		int count = 0;
 
 		while (rs.next()) {
 			count = rs.getInt(1);
 		}
 
-		int finalcount = stm.executeUpdate("update " + answerstable + " set "
-				+ count_column + " = " + (count + 1) + " where id = "
-				+ answer_id);
+		 stm.executeUpdate("update " + answersTable + " set "
+				+ countcolumn + " = " + (count + 1) + " where id = "
+				+ answerId);
 
-		return finalcount;
+		return count+1;
 	}
 
 }

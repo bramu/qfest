@@ -1,7 +1,6 @@
 package com.tb.servlets;
 
 import java.io.IOException;
-
 import java.sql.SQLException;
 import java.util.List;
 
@@ -11,8 +10,11 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.tb.beans.*;
-import com.tb.dao.*;
+import com.tb.beans.Answer;
+import com.tb.beans.Question;
+import com.tb.dao.AnswerDAO;
+import com.tb.dao.QuestionDAO;
+import com.tb.dao.ViewDAO;
 
 public class QuestionsServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
@@ -72,9 +74,9 @@ public class QuestionsServlet extends HttpServlet {
 				List<Question> questions = qdao.fetchAll(pageNo);
 				req.setAttribute("questions", questions);
 				req.setAttribute("totalCount", qdao.getTotalCount());
-				RequestDispatcher rd = getServletContext()
+				RequestDispatcher rd2 = getServletContext()
 						.getRequestDispatcher("/questions/index.jsp");
-				rd.forward(req, resp);
+				rd2.forward(req, resp);
 			}
 
 			else if (req.getParameter("type").equals("unanswered")) {
@@ -88,6 +90,41 @@ public class QuestionsServlet extends HttpServlet {
 						.getRequestDispatcher("/questions/index.jsp");
 				rd1.forward(req, resp);
 			}
+			else if (req.getParameter("type").equals("recent")) {
+				String type = req.getParameter("type");
+				List<Question> recent = qdao.recent(pageNo);
+				req.setAttribute("questions", recent);
+				req.setAttribute("totalCount", qdao.getTotalCount());
+				req.setAttribute("pageNo", pageNo);
+				req.setAttribute("type", type);
+				RequestDispatcher rd1 = getServletContext()
+						.getRequestDispatcher("/questions/index.jsp");
+				rd1.forward(req, resp);
+			}
+			else if (req.getParameter("type").equals("viewed")) {
+				String type = req.getParameter("type");
+				List<Question> viewed = qdao.mostViewed(pageNo);
+				
+				req.setAttribute("type", type);
+				req.setAttribute("questions", viewed);
+				req.setAttribute("pageNo", pageNo);
+				req.setAttribute("totalCount", qdao.getTotalCount());
+				RequestDispatcher rd1 = getServletContext()
+						.getRequestDispatcher("/questions/index.jsp");
+				rd1.forward(req, resp);
+			}
+			else if (req.getParameter("type").equals("rated")) {
+				String type = req.getParameter("type");
+				List<Question> rated = qdao.mostRated(pageNo);
+				req.setAttribute("type", type);
+				req.setAttribute("questions", rated);
+				req.setAttribute("pageNo", pageNo);
+				req.setAttribute("totalCount", qdao.getTotalCount());
+				RequestDispatcher rd1 = getServletContext()
+						.getRequestDispatcher("/questions/index.jsp");
+				rd1.forward(req, resp);
+			}
+			
 
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
@@ -124,16 +161,21 @@ public class QuestionsServlet extends HttpServlet {
 	private void performViewAction(HttpServletRequest req,
 			HttpServletResponse resp) {
 		try {
+			
+			
 			Question q = qdao
 					.findById(Integer.parseInt(req.getParameter("id")));
 			AnswerDAO adao = new AnswerDAO();
 			List<Answer> answers = adao.listOfAnswers(Integer.parseInt(req
 					.getParameter("id")));
+			ViewDAO vdao = new ViewDAO();
 			req.setAttribute("answers", answers);
 			req.setAttribute("question", q);
+			req.setAttribute("totalCount", vdao.viewedCount());
 			RequestDispatcher rd = getServletContext().getRequestDispatcher(
 					"/questions/view.jsp");
 			rd.forward(req, resp);
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

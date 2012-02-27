@@ -10,7 +10,7 @@ import com.tb.beans.User;
 import com.tb.utils.DBConnector;
 
 public class UserDAO {
-	private String usertable = "users";
+	private String usersTable = "users";
 	private Statement stm;
 	public UserDAO() {
 		try {
@@ -22,7 +22,7 @@ public class UserDAO {
 	}
 	public User createAccount(String name,String email,String pw,String c_pw) throws SQLException{
 		User u = new User();
-		int id = stm.executeUpdate("insert into " + usertable +"(name,email,password,confirm_pw) values" +
+		int id = stm.executeUpdate("insert into " + usersTable +"(name,email,password,confirm_pw) values" +
 				"('"+ name +"','"+ email +"','"+ pw +"','"+ c_pw +"') ");		
 		u.setId(id);
 		u.setName(name);
@@ -31,7 +31,7 @@ public class UserDAO {
 		return u;
 	}
 	public User loginCheck(String email, String password) throws SQLException{
-		ResultSet rs = stm.executeQuery("select name, email, password from " + usertable + " WHERE email = '"
+		ResultSet rs = stm.executeQuery("select name, email, password from " + usersTable + " WHERE email = '"
 	                                  + email + "' and password = '" + password + "'");
 		User u = null;
 	    
@@ -43,8 +43,8 @@ public class UserDAO {
 	    }
 	    return u;
 	}
-	public int countUpdate( int count_column,int user_id) throws SQLException{
-		ResultSet rs   = stm.executeQuery("select "+ count_column +" from " + usertable + " where id = "+ user_id );
+	public int countUpdate( String countColumn,int userId) throws SQLException{
+		ResultSet rs   = stm.executeQuery("select "+ countColumn +" from " + usersTable + " where id = "+ userId );
 		int count = 0;
 		
 		while(rs.next()){
@@ -52,17 +52,17 @@ public class UserDAO {
 			count = rs.getInt(1);
 		}
 		
-		int finalcount = stm.executeUpdate("update "+ usertable  + " set " + count_column + " = " + (count+1) + " where id = " + user_id );
+		int finalcount = stm.executeUpdate("update "+ usersTable  + " set " + countColumn + " = " + (count+1) + " where id = " + userId );
 		
 		return finalcount;
 	}
 	public List<User> fetchAll(int pageNo) throws SQLException {
-	    ResultSet rs = stm.executeQuery("select * from " + usertable + " limit " + (pageNo - 1) * 4 + ", 4" );
+	    ResultSet rs = stm.executeQuery("select * from " + usersTable + " limit " + (pageNo - 1) * 4 + ", 4" );
 	    List<User> users = new ArrayList<User>();
 	   
 	    User u = new User();
 	    while (rs.next()) {
-	    	
+	    	u.setId(rs.getInt(1));
 	    	u.setAdmin(rs.getString(16));
 	    	u.setCurrentSignInAt(rs.getString(9));
 	    	u.setCurrentSignInIp(rs.getString(11));
@@ -82,10 +82,11 @@ public class UserDAO {
 	}
 	
 	public User findById(int userId) throws SQLException {
-		ResultSet rs = stm.executeQuery("select * from " + usertable + " WHERE id = " + userId);
+		ResultSet rs = stm.executeQuery("select * from " + usersTable + " WHERE id = " + userId);
 		
 		User u = new User();
 	    while (rs.next()) {
+	    	u.setId(rs.getInt(1));
 	    	u.setAdmin(rs.getString(16));
 	    	u.setCurrentSignInAt(rs.getString(9));
 	    	u.setCurrentSignInIp(rs.getString(11));
@@ -99,7 +100,21 @@ public class UserDAO {
 	    	u.setRememberToken(rs.getString(6));
 	    	u.setResetPasswordToken(rs.getString(5));
 	    	u.setSignInCount(rs.getInt(8));
+	    	
 	    }
 	    return u;
+	}
+	public int countUpdates( int userId) throws SQLException{
+		ResultSet rs   = stm.executeQuery("select sign_in_count from " + usersTable + " where id = "+ userId );
+		int count = 0;
+		
+		while(rs.next()){
+			
+			count = rs.getInt(1);
+		}
+		
+		int finalcount = stm.executeUpdate("update "+ usersTable  + " set  sign_in_count = " + (count+1) + " where id = " + userId );
+		
+		return finalcount;
 	}
 }

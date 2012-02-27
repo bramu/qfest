@@ -10,7 +10,7 @@ import com.tb.beans.*;
 import com.tb.utils.*;
 
 public class QuestionDAO {
-	private String questionstable = "questions";
+	private String questionsTable = "questions";
 	private Statement stm;
 	UserDAO udao = new UserDAO();
 	public QuestionDAO() {
@@ -24,7 +24,7 @@ public class QuestionDAO {
 	}
 
 	public int getTotalCount() throws SQLException {
-	    ResultSet rs = stm.executeQuery("select count(*) as total_count from " + questionstable);
+	    ResultSet rs = stm.executeQuery("select count(*) as total_count from " + questionsTable);
 	    
 	    while (rs.next()) {
 	    	return rs.getInt(1);
@@ -33,12 +33,13 @@ public class QuestionDAO {
 	}
 	
 	public List<Question> fetchAll(int pageNo) throws SQLException {
-	    ResultSet rs = stm.executeQuery("select * from " + questionstable + " limit " + (pageNo - 1) * 4 + ", 4" );
+	    ResultSet rs = stm.executeQuery("select * from " + questionsTable + " limit " + (pageNo - 1) * 4 + ", 4" );
 	    List<Question> questions = new ArrayList<Question>();
 	    
 	    while (rs.next()) {
 	    	Question q = new Question();
 	    	q.setUser(udao.findById(rs.getInt(1)));
+	    	q.setId(rs.getInt(1));
 	    	q.setAnswersCount(rs.getInt(12));
 	    	q.setBookmarksCount(rs.getInt(16));
 	    	q.setCommentsCount(rs.getInt(13));
@@ -58,10 +59,11 @@ public class QuestionDAO {
 	}
 	
 	public Question findById(int questionId) throws SQLException {
-		ResultSet rs = stm.executeQuery("select * from  " + questionstable + " WHERE id = " + questionId);
+		ResultSet rs = stm.executeQuery("select * from  " + questionsTable + " WHERE id = " + questionId);
 		Question q = new Question();
 	    while (rs.next()) {
 	    	q.setUser(udao.findById(rs.getInt(1)));
+	    	q.setId(rs.getInt(1));
 	    	q.setAnswersCount(rs.getInt(12));
 	    	q.setBookmarksCount(rs.getInt(16));
 	    	q.setCommentsCount(rs.getInt(13));
@@ -82,13 +84,13 @@ public class QuestionDAO {
 	
 	public Question create(String title) throws SQLException {
 		Question q = new Question();
-		int id = stm.executeUpdate("insert into "+ questionstable +"(title,company_id) values('"+ title +"','1')");
+		int id = stm.executeUpdate("insert into "+ questionsTable +"(title,company_id, created_at, updated_at) values('"+ title +"','1', NOW(), NOW())");
 		q.setId(id);
 		q.setTitle(title);
 		return q;
 	}
-	public int countUpdate( int count_column,int question_id) throws SQLException{
-		ResultSet rs   = stm.executeQuery("select "+ count_column +" from " + questionstable + " where id = "+ question_id );
+	public int countUpdates( String count_column,int question_id) throws SQLException{
+		ResultSet rs   = stm.executeQuery("select "+ count_column +" from " + questionsTable + " where id = "+ question_id );
 		int count = 0;
 		
 		while(rs.next()){
@@ -96,13 +98,13 @@ public class QuestionDAO {
 			count = rs.getInt(1);
 		}
 		
-		int finalcount = stm.executeUpdate("update "+ questionstable  + " set " + count_column + " = " +( count+1) + " where id = " + question_id );
+		 stm.executeUpdate("update "+ questionsTable  + " set " + count_column + " = " +( count+1) + " where id = " + question_id );
 		
-		return finalcount;
+		return count+1 ;
 	}
 	
 	public List<Question> unanswered(int pageNo) throws SQLException{
-		String sql = "select id,title from "+ questionstable +" where answers_count = 0 and order by id desc " +
+		String sql = "select id,title from " + questionsTable + " where answers_count = 0  order by id desc " +
 						" limit " + (pageNo - 1) * 4 + ",4";
 		List<Question> questions = new ArrayList<Question>();
 		ResultSet rs = stm.executeQuery(sql);
@@ -116,7 +118,7 @@ public class QuestionDAO {
 	}
 	
 	public int getTotalUnansweredCount() throws SQLException {
-		String sql = "select count(*) from "+ questionstable +" where answers_count = 0";
+		String sql = "select count(*) from "+ questionsTable +" where answers_count = 0";
 	    ResultSet rs = stm.executeQuery(sql);
 	    
 	    while (rs.next()) {
@@ -126,7 +128,35 @@ public class QuestionDAO {
 	}
 	
 	public List<Question> recent(int pageNo) throws SQLException{
-		String sql="SELECT * FROM "+ questionstable +" ORDER BY id DESC limit " + (pageNo - 1) * 4  + ", 4";
+		String sql="SELECT id, title FROM "+ questionsTable +" ORDER BY id DESC limit " + (pageNo - 1) * 4  + ", 4";
+		List<Question> questions = new ArrayList<Question>();
+		ResultSet rs = stm.executeQuery(sql);
+		while(rs.next()){
+			Question q = new Question();
+			q.setId(rs.getInt(1));
+			q.setTitle(rs.getString(2));
+			questions.add(q);
+		}
+		return questions;
+		  
+	}
+	
+	public List<Question> mostViewed(int pageNo) throws SQLException{
+		String sql="SELECT id, title FROM "+ questionsTable +" ORDER BY views_count DESC limit " + (pageNo - 1) * 4  + ", 4";
+		List<Question> questions = new ArrayList<Question>();
+		ResultSet rs = stm.executeQuery(sql);
+		while(rs.next()){
+			Question q = new Question();
+			q.setId(rs.getInt(1));
+			q.setTitle(rs.getString(2));
+			questions.add(q);
+		}
+		return questions;
+		  
+	}
+	
+	public List<Question> mostRated(int pageNo) throws SQLException{
+		String sql="SELECT id, title FROM "+ questionsTable +" ORDER BY (yes_count + no_count) DESC limit " + (pageNo - 1) * 4  + ", 4";
 		List<Question> questions = new ArrayList<Question>();
 		ResultSet rs = stm.executeQuery(sql);
 		while(rs.next()){
@@ -153,10 +183,8 @@ public class QuestionDAO {
 		return questions;		  
 	}
 	
-	public int updateCounts(String countColumn) throws SQLException{
-		return 0;
-		// TODO
-		/*ResultSet rs   = stm.executeQuery("select "+ count_column +" from " + answerstable + " where id = "+ question_id );
+	public int countUpdate( String countColumn,int questionId) throws SQLException{
+		ResultSet rs   = stm.executeQuery("select "+ countColumn +" from " + questionsTable + " where id = "+ questionId );
 		int count = 0;
 		
 		while(rs.next()){
@@ -164,9 +192,9 @@ public class QuestionDAO {
 			count = rs.getInt(1);
 		}
 		
-		int finalcount = stm.executeUpdate("update "+ answerstable  + " set " + count_column + " = " + (count+1) + " where id = " + question_id );
+		int finalcount = stm.executeUpdate("update "+ questionsTable  + " set " + countColumn + " = " + (count+1) + " where id = " + questionId );
 		
-		return finalcount;*/
+		return finalcount;
 	}
 	 
 }

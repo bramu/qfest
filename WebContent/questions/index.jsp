@@ -41,7 +41,7 @@
 						<div class="nav-menu span-26 corners black-bg4 menu-shadow">
 							<ul class="nav">
 								<li><a href="#"></a></li>
-								<li><a href="/qfest/questions?action=index">Questions</a></li>
+								<li><a href="/qfest/questions">Questions</a></li>
 								<li><a href="#">Interviews</a></li>
 								<li><a href="#">Companies</a></li>
 								<li><a href="#">Skills</a></li>
@@ -80,9 +80,9 @@
 
 					</div>
 					<ul class="nav nav-pills">
-						<li><a href="#">recent</a></li>
-						<li><a href="#">rated</a></li>
-						<li><a href="#">viewed</a></li>
+						<li><a href="/qfest/questions?action=index&type=recent">recent</a></li>
+						<li><a href="/qfest/questions?action=index&type=rated">rated</a></li>
+						<li><a href="/qfest/questions?action=index&type=viewed">viewed</a></li>
 						<li><a
 							href="/qfest/questions?action=index&type=unanswered
 						">unanswered</a></li>
@@ -94,6 +94,12 @@
 				<%
 					List<Question> questions = (List<Question>)( request
 							.getAttribute("questions"));
+				
+				%>
+				
+				
+				<%	
+				
 				
 					for (int i = 0; i < questions.size(); i++) {
 				%>
@@ -114,12 +120,13 @@
 					</div>
 					<div class="span3">
 						<a
-							href='/qfest/questions?action=view&id=<%=questions.get(i).getId()%>'>view</a>
+							href="/qfest/questions?action=view&id=<%=questions.get(i).getId()%>">view</a>
 						<div>
-							<a href="#">up</a> <a href="#">down</a>
+							<a href="/qfest/ratings?action=up&id=<%=questions.get(i).getId()%>">up</a>
+							 <a href="/qfest/ratings?action=down&id=<%=questions.get(i).getId()%>">down</a>
 						</div>
 						<div>
-							<a href="#">flag as inappropriate</a>
+							<a href="/qfest/ratings?action=inappropriate&id=<%=questions.get(i).getId()%>">flag as inappropriate</a>
 						</div>
 					</div>
 				</div>

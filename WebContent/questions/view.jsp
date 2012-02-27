@@ -79,12 +79,10 @@
 					<div class="span6">
 						<div>
 							<b> Answers:
-								<% List<Answer> answers = (List<Answer>)(request.getAttribute("answers"));
-									for(int i = 0 ;i<answers.size();i++){
-										
-										out.println(answers.get(i).getAnswer());
-										
-									}
+								<% List<Answer> answers = (List<Answer>)request.getAttribute("answers");
+								for(int i =0;i<answers.size();i++){
+								out.print(answers.get(i).getAnswerText());
+								}
 								%>
 							</b>
 						</div>
@@ -134,7 +132,7 @@
 				</div>
 				<div class="page-header"></div>
 				<div align="middle">
-					<h1>4334</h1>
+					<h1><%=(Integer)request.getAttribute("totalCount") %></h1>
 				</div>
 				<div align="middle">
 					<h1>Questions</h1>
