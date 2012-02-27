@@ -38,7 +38,6 @@ public class QuestionsServlet extends HttpServlet {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-
 	}
 
 	public void performAction(HttpServletRequest req, HttpServletResponse resp)
