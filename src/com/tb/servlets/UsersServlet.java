@@ -41,6 +41,7 @@ public class UsersServlet extends HttpServlet {
 
 	private void performAction(HttpServletRequest req, HttpServletResponse resp)
 			throws IOException, SQLException {
+		
 		 if (req.getParameter("action").equals("register")) {
 			performRegisterAction(req, resp);
 		} else if (req.getParameter("action").equals("login")) {
@@ -52,6 +53,10 @@ public class UsersServlet extends HttpServlet {
 		}else if (req.getParameter("action").equals("logout")) {
 			performLogoutAction(req, resp);
 		}
+		else if (req.getParameter("action").equals("add")) {
+			performAddAction(req, resp);
+		}
+
 
 	}
 
@@ -76,10 +81,9 @@ public class UsersServlet extends HttpServlet {
 		try {
 			if (b) {
 				u = udao.createAccount(req.getParameter("name"),
-						req.getParameter("email"), req.getParameter("pw"),
-						req.getParameter("c_pw"));
+						req.getParameter("email"), req.getParameter("pw"));
 				req.getSession().setAttribute("name", u.getName());
-				
+				req.getSession().setAttribute("userId", u.getId());
 				resp.sendRedirect("/qfest/questions");
 				
 				
@@ -115,6 +119,7 @@ public class UsersServlet extends HttpServlet {
 				resp.sendRedirect("/qfest/users?action=login&msg1=Login Failed Try Again");
 			} else {
 				req.getSession().setAttribute("name", user.getName());
+				req.getSession().setAttribute("userId", user.getId());
 				resp.sendRedirect("/qfest/questions");
 			}
 			
@@ -129,8 +134,19 @@ public class UsersServlet extends HttpServlet {
 			HttpServletResponse resp) throws IOException {
 		
 		req.getSession().removeAttribute("name");
-		
+		req.getSession().removeAttribute("userId");
 		resp.sendRedirect("/qfest/questions?action=index");
+	}
+	private void performAddAction(HttpServletRequest req,
+			HttpServletResponse resp) throws IOException {
+		try {
+			RequestDispatcher rd = getServletContext().getRequestDispatcher("/users/add.jsp");
+			rd.forward(req, resp);
+			
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	
 	

@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 import com.tb.beans.Answer;
 import com.tb.beans.Question;
 import com.tb.dao.AnswerDAO;
+import com.tb.dao.BookmarkDAO;
 import com.tb.dao.QuestionDAO;
 import com.tb.dao.ViewDAO;
 
@@ -43,7 +44,7 @@ public class QuestionsServlet extends HttpServlet {
 	}
 
 	public void performAction(HttpServletRequest req, HttpServletResponse resp)
-			throws SQLException, IOException {
+			throws SQLException, IOException, ServletException {
 		if (req.getParameter("action") == null) {
 			performIndexAction(req, resp);
 		} else if (req.getParameter("action").equals("index")) {
@@ -54,12 +55,21 @@ public class QuestionsServlet extends HttpServlet {
 
 			performCreateAction(req, resp);
 		} else if (req.getParameter("action").equals("view")) {
-
 			performViewAction(req, resp);
+		} else if (req.getParameter("action").equals("write_answer")) {
+			performWriteAnswerAction(req, resp);
 		}
 
 	}
 
+	private void performWriteAnswerAction(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		req.setAttribute("questionId", req.getParameter("questionId"));
+		
+		RequestDispatcher rd1 = getServletContext()
+				.getRequestDispatcher("/questions/write_answer.jsp");
+		rd1.forward(req, resp);
+	}
+	
 	private void performIndexAction(HttpServletRequest req,
 			HttpServletResponse resp) {
 		try {
@@ -120,6 +130,23 @@ public class QuestionsServlet extends HttpServlet {
 				req.setAttribute("questions", rated);
 				req.setAttribute("pageNo", pageNo);
 				req.setAttribute("totalCount", qdao.getTotalCount());
+				RequestDispatcher rd1 = getServletContext()
+						.getRequestDispatcher("/questions/index.jsp");
+				rd1.forward(req, resp);
+			}else if (req.getParameter("type").equals("bookmarkable")) {
+				BookmarkDAO bdao = new BookmarkDAO();
+			    bdao.bookmarkable(Integer.parseInt(req.getParameter("id")), (Integer)req.getSession().getAttribute("userId"));
+				resp.sendRedirect("/qfest/questions?action=index");
+			}
+			else if (req.getParameter("type").equals("bookmarked")) {
+				String type = req.getParameter("type");
+				int userId = (Integer)req.getSession().getAttribute("userId");
+				BookmarkDAO bdao = new BookmarkDAO();
+				List<Question> bookmarked = bdao.bookmarked(userId,pageNo);
+				req.setAttribute("questions", bookmarked);
+				req.setAttribute("totalCount", qdao.getTotalCount());
+				req.setAttribute("pageNo", pageNo);
+				req.setAttribute("type", type);
 				RequestDispatcher rd1 = getServletContext()
 						.getRequestDispatcher("/questions/index.jsp");
 				rd1.forward(req, resp);

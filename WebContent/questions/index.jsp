@@ -9,23 +9,36 @@
 <link href="html/css/bootstrap.css" rel="stylesheet">
 <link href="html/css/docs.css" rel="stylesheet">
 <link href="html/css/bootstrap-responsive.css" rel="stylesheet">
-<script src="js/jquery.js"></script>
-<script src="js/google-code-prettify/prettify.js"></script>
-<script src="js/bootstrap-transition.js"></script>
-<script src="js/bootstrap-alert.js"></script>
+<script src="html/js/jquery.js"></script>
 
-<script src="js/bootstrap-modal.js"></script>
-<script src="js/bootstrap-dropdown.js"></script>
-<script src="js/bootstrap-scrollspy.js"></script>
-<script src="js/bootstrap-tab.js"></script>
-<script src="js/bootstrap-tooltip.js"></script>
-<script src="js/bootstrap-popover.js"></script>
+<script type="text/javascript"
+	src="html/fancybox/jquery.mousewheel-3.0.4.pack.js"></script>
+<script type="text/javascript"
+	src="html/fancybox/jquery.fancybox-1.3.4.pack.js"></script>
+<link rel="stylesheet" type="text/css"
+	href="html/fancybox/jquery.fancybox-1.3.4.css" media="screen" />
 
-<script src="js/bootstrap-button.js"></script>
-<script src="js/bootstrap-collapse.js"></script>
-<script src="js/bootstrap-carousel.js"></script>
-<script src="js/bootstrap-typeahead.js"></script>
-<script src="js/application.js"></script>
+<script src="html/js/bootstrap-transition.js"></script>
+<script src="html/js/bootstrap-alert.js"></script>
+
+<script src="html/js/bootstrap-modal.js"></script>
+<script src="html/js/bootstrap-dropdown.js"></script>
+<script src="html/js/bootstrap-scrollspy.js"></script>
+<script src="html/js/bootstrap-tab.js"></script>
+<script src="html/js/bootstrap-tooltip.js"></script>
+<script src="html/js/bootstrap-popover.js"></script>
+
+<script src="html/js/bootstrap-button.js"></script>
+<script src="html/js/bootstrap-collapse.js"></script>
+<script src="html/js/bootstrap-carousel.js"></script>
+<script src="html/js/bootstrap-typeahead.js"></script>
+<script src="html/js/application.js"></script>
+
+<script type="text/javascript">
+	$(document).ready(function() {
+		$("#write-answer").fancybox();
+	});
+</script>
 <title>Qfest index page</title>
 </head>
 <body>
@@ -69,14 +82,17 @@
 				<div class="row">
 					<div class="span5">
 						<%
-						if((String)request.getAttribute("type") != null){%>
-							<h1><%=(String)request.getAttribute("type") %></h1>
-						
-						<%}else{%>
-							<h1>Recent Questions</h1>
-						<% }%>
-						
-						
+							if ((String) request.getAttribute("type") != null) {
+						%>
+						<h1><%=(String) request.getAttribute("type")%></h1>
+						<%
+							} else {
+						%>
+						<h1>Recent Questions</h1>
+						<%
+							}
+						%>
+
 
 					</div>
 					<ul class="nav nav-pills">
@@ -86,21 +102,28 @@
 						<li><a
 							href="/qfest/questions?action=index&type=unanswered
 						">unanswered</a></li>
+						<%
+							if (session.getAttribute("userId") != null
+									&& (Integer) session.getAttribute("userId") == 0) {
+						%>
+						<li><a href="#">bookmarked</a></li>
+						<%
+							} else if (session.getAttribute("userId") != null
+									&& (Integer) session.getAttribute("userId") != 0) {
+						%>
+						<li><a href="/qfest/questions?action=index&type=bookmarked">bookmarked</a></li>
+						<%
+							}
+						%>
 					</ul>
 
 
 				</div>
 				<div class="page-header"></div>
 				<%
-					List<Question> questions = (List<Question>)( request
+					List<Question> questions = (List<Question>) (request
 							.getAttribute("questions"));
-				
-				%>
-				
-				
-				<%	
-				
-				
+
 					for (int i = 0; i < questions.size(); i++) {
 				%>
 				<div class="row">
@@ -122,79 +145,100 @@
 						<a
 							href="/qfest/questions?action=view&id=<%=questions.get(i).getId()%>">view</a>
 						<div>
-							<a href="/qfest/ratings?action=up&id=<%=questions.get(i).getId()%>">up</a>
-							 <a href="/qfest/ratings?action=down&id=<%=questions.get(i).getId()%>">down</a>
+							<a id='up-<%=questions.get(i).getId()%>' href="/qfest/ratings?action=up&id=<%=questions.get(i).getId()%>">up</a>
+							<a id='down-<%=questions.get(i).getId()%>' href="/qfest/ratings?action=down&id=<%=questions.get(i).getId()%>">down</a>
 						</div>
 						<div>
-							<a href="/qfest/ratings?action=inappropriate&id=<%=questions.get(i).getId()%>">flag as inappropriate</a>
+							<a
+								href="/qfest/ratings?action=inappropriate&id=<%=questions.get(i).getId()%>">flag
+								as inappropriate</a>
 						</div>
 					</div>
 				</div>
 
 				<div style="margin: 9px 0;" class="btn-group">
-					<a href="#" class="btn">WriteAnswer</a> <a href="#" class="btn">WriteComment</a>
-					<a href="#" class="btn">Bookmark</a>
-				</div>
+					<%
+						if (session.getAttribute("userId") == null) {
+					%>
+					<a href="/qfest/users?action=login" id='write-answer' class="btn">WriteAnswer</a> <a
+						href="/qfest/users?action=login" class="btn">WriteComment</a> <a
+						href="/qfest/users?action=login" class="btn">Bookmark</a>
 
+					<%
+						} else {
+					%>
+					<a
+						href="/qfest/questions?action=write_answer&questionId=<%=questions.get(i).getId()%>"
+						class="btn" id='write-answer'>WriteAnswer</a> 
+						<a href="/qfest/questions?action=view&id=<%=questions.get(i).getId()%>"
+						class="btn">WriteComment</a> <a
+						href="/qfest/questions?action=index&type=bookmarkable&id=<%=questions.get(i).getId()%>"
+						class="btn">Bookmark</a>
+					<%
+						}
+					%>
+				</div>
 				<div class="page-header"></div>
 				<%
-					}	
-					%>
-				<% if((String)request.getAttribute("type") != null){%>
+					}
+				%>
+				<%
+					if ((String) request.getAttribute("type") != null) {
+				%>
 				<div class="pagination">
 
 					<ul>
-						<% 
+						<%
 							if ((Integer) request.getAttribute("pageNo") > 1) {
 						%>
-						<li><a href="/qfest/questions?action=index&type=<%=(String)request.getAttribute("type") %>&page=1">first</a></li>
+						<li><a
+							href="/qfest/questions?action=index&type=<%=(String) request.getAttribute("type")%>&page=1">first</a></li>
 						<%
 							} else {
 						%>
 						<li class="active"><a href="#">first</a></li>
 						<%
 							}
-						%>
 
-						<%  
-							for (int i = 1; i <= Math.abs(((Integer) request
-									.getAttribute("totalCount") / 4)) + 1; i++) {
-								if ((Integer) request.getAttribute("pageNo") == i) {
+								for (int i = 1; i <= Math.abs(((Integer) request
+										.getAttribute("totalCount") / 4)) + 1; i++) {
+									if ((Integer) request.getAttribute("pageNo") == i) {
 						%>
 						<li class="active"><a href="#"><%=i%></a></li>
 						<%
 							} else {
 						%>
-						<li><a href="/qfest/questions?action=index&type=<%=(String)request.getAttribute("type") %>&page=<%=i%>"><%=i%></a></li>
+						<li><a
+							href="/qfest/questions?action=index&type=<%=(String) request.getAttribute("type")%>&page=<%=i%>"><%=i%></a></li>
 						<%
 							}
-							}
+								}
 						%>
 						<%
 							int totalPages = Math.abs(((Integer) request
-									.getAttribute("totalCount") / 4)) + 1;
-							if (totalPages > (Integer) request.getAttribute("pageNo")) {
+										.getAttribute("totalCount") / 4)) + 1;
+								if (totalPages > (Integer) request.getAttribute("pageNo")) {
 						%>
 						<li><a
-							href="/qfest/questions?action=index&type=<%=(String)request.getAttribute("type") %>&page=<%=totalPages%>">last</a></li>
+							href="/qfest/questions?action=index&type=<%=(String) request.getAttribute("type")%>&page=<%=totalPages%>">last</a></li>
 						<%
 							} else {
 						%>
 						<li class="active"><a href="#">last</a></li>
 						<%
 							}
-							
 						%>
 
 					</ul>
 				</div>
 
-				<%} 
-				else{%>
+				<%
+					} else {
+				%>
 				<div class="pagination">
 
 					<ul>
-						<% 
+						<%
 							if ((Integer) request.getAttribute("pageNo") > 1) {
 						%>
 						<li><a href="/qfest/questions?action=index&page=1">first</a></li>
@@ -206,10 +250,10 @@
 							}
 						%>
 
-						<%  
+						<%
 							for (int i = 1; i <= Math.abs(((Integer) request
-									.getAttribute("totalCount") / 4)) + 1; i++) {
-								if ((Integer) request.getAttribute("pageNo") == i) {
+										.getAttribute("totalCount") / 4)) + 1; i++) {
+									if ((Integer) request.getAttribute("pageNo") == i) {
 						%>
 						<li class="active"><a href="#"><%=i%></a></li>
 						<%
@@ -218,12 +262,12 @@
 						<li><a href="/qfest/questions?action=index&page=<%=i%>"><%=i%></a></li>
 						<%
 							}
-							}
+								}
 						%>
 						<%
 							int totalPages = Math.abs(((Integer) request
-									.getAttribute("totalCount") / 4)) + 1;
-							if (totalPages > (Integer) request.getAttribute("pageNo")) {
+										.getAttribute("totalCount") / 4)) + 1;
+								if (totalPages > (Integer) request.getAttribute("pageNo")) {
 						%>
 						<li><a
 							href="/qfest/questions?action=index&page=<%=totalPages%>">last</a></li>
@@ -233,12 +277,13 @@
 						<li class="active"><a href="#">last</a></li>
 						<%
 							}
-							
 						%>
 
 					</ul>
 				</div>
-				<%} %>
+				<%
+					}
+				%>
 			</div>
 
 			<div class="span3">
@@ -252,7 +297,8 @@
 						} else {
 					%>
 					<li><a href="#">Hi,guest</a></li>
-					<li><a href="/qfest/users?action=register">Register </a></li>
+					<li><a id='fancybox' href="/qfest/users?action=register">Register
+					</a></li>
 					<li><a href="/qfest/users?action=login">Login </a></li>
 					<%
 						}
@@ -266,7 +312,22 @@
 						you...</h3>
 
 					<div align="middle">
-						<a href="" class="label label-info">Add Question</a>
+						<%
+							if (session.getAttribute("userId") != null
+									&& (Integer) session.getAttribute("userId") == 0) {
+						%>
+						<a href="/qfest/users?action=login" class="label label-info">Add
+							Question</a>
+
+						<%
+							} else {
+						%>
+						<a href="/qfest/users?action=add" class="label label-info">Add
+							Question</a>
+
+						<%
+							}
+						%>
 					</div>
 				</div>
 				<div class="page-header"></div>
