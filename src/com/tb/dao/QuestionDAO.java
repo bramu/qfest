@@ -82,12 +82,23 @@ public class QuestionDAO {
 	}
 	
 	
-	public Question create(String title) throws SQLException {
+	public int create(int userId,String title,String questionText,String answerText) throws SQLException {
 		Question q = new Question();
-		int id = stm.executeUpdate("insert into "+ questionsTable +"(title,company_id, created_at, updated_at) values('"+ title +"','1', NOW(), NOW())");
-		q.setId(id);
+		int qId = 0;
+		String sql = "insert into "+ questionsTable +"(user_id,title,question_text, created_at, updated_at) " +
+				"values('"+ userId+"','"+ title +"','"+ questionText +"', NOW(), NOW())";
+		stm.executeUpdate(sql,Statement.RETURN_GENERATED_KEYS);
+		ResultSet rs = stm.getGeneratedKeys();
+		if(rs.next()){
+			qId = rs.getInt(1);
+		}
+		q.setId(qId);
 		q.setTitle(title);
-		return q;
+		q.setQuestionText(questionText);
+		q.setUserId(userId);
+		stm.executeUpdate("insert into answers(question_id,answer_text,user_id,created_at, updated_at) " +
+				"values('"+ qId +"','"+ answerText +"','"+ userId +"',NOW(),NOW())");
+		return qId;
 	}
 	public int countUpdates( String count_column,int question_id) throws SQLException{
 		ResultSet rs   = stm.executeQuery("select "+ count_column +" from " + questionsTable + " where id = "+ question_id );
@@ -195,6 +206,22 @@ public class QuestionDAO {
 		int finalcount = stm.executeUpdate("update "+ questionsTable  + " set " + countColumn + " = " + (count+1) + " where id = " + questionId );
 		
 		return finalcount;
+	}
+	public int submitComment(int questionId,String comment, int userId) throws SQLException{
+		Comment c = new Comment();
+		String sql =  "insert into comments(commentable_id,content,commentable_type,user_id,created_at,updated_at) " +
+				"values('" + questionId+ "','"+ comment +"','question','"+ userId+"',NOW(),NOW())";
+		stm.executeUpdate(sql,Statement.RETURN_GENERATED_KEYS);
+		ResultSet rs = stm.getGeneratedKeys();
+		int commentId = 0;
+		while(rs.next()){
+			commentId = rs.getInt(1);
+		}
+		c.setCommentableId(questionId);
+		c.setCommentableType("question");
+		c.setCommentableId(commentId);
+		c.setUserId(userId);
+		return commentId;
 	}
 	 
 }

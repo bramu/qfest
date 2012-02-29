@@ -15,7 +15,6 @@ import com.tb.beans.Question;
 import com.tb.dao.AnswerDAO;
 import com.tb.dao.BookmarkDAO;
 import com.tb.dao.QuestionDAO;
-import com.tb.dao.ViewDAO;
 
 public class QuestionsServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
@@ -49,27 +48,39 @@ public class QuestionsServlet extends HttpServlet {
 			performIndexAction(req, resp);
 		} else if (req.getParameter("action").equals("index")) {
 			performIndexAction(req, resp);
-		} else if (req.getParameter("action").equals("new")) {
-			performNewAction(req, resp);
+		} else if (req.getParameter("action").equals("add")) {
+			performAddAction(req, resp);
 		} else if (req.getParameter("action").equals("create")) {
 
 			performCreateAction(req, resp);
 		} else if (req.getParameter("action").equals("view")) {
 			performViewAction(req, resp);
-		} else if (req.getParameter("action").equals("write_answer")) {
-			performWriteAnswerAction(req, resp);
+		}  else if (req.getParameter("action").equals("writeComment")) {
+			performWriteCommentAction(req, resp);
+		} 
+		else if (req.getParameter("action").equals("submitComment")) {
+			performSubmitCommentAction(req, resp);
+		}
+	}
+	private void performWriteCommentAction(HttpServletRequest req,
+			HttpServletResponse resp) throws ServletException, IOException {
+		req.setAttribute("questionId", req.getParameter("questionId"));
+
+		RequestDispatcher rd1 = getServletContext().getRequestDispatcher(
+				"/questions/writeComment.jsp");
+		rd1.forward(req, resp);
+	}
+	private void performSubmitCommentAction(HttpServletRequest req,
+			HttpServletResponse resp) throws ServletException, IOException {
+		try {
+			int questionId = Integer.parseInt( req.getParameter("questionId"));
+			String comment = req.getParameter("comment");
+			int userId = (Integer) req.getSession().getAttribute("userId");
+			qdao.submitComment(questionId, comment, userId);
+		} catch (Exception e) {
 		}
 
 	}
-
-	private void performWriteAnswerAction(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		req.setAttribute("questionId", req.getParameter("questionId"));
-		
-		RequestDispatcher rd1 = getServletContext()
-				.getRequestDispatcher("/questions/write_answer.jsp");
-		rd1.forward(req, resp);
-	}
-	
 	private void performIndexAction(HttpServletRequest req,
 			HttpServletResponse resp) {
 		try {
@@ -159,14 +170,14 @@ public class QuestionsServlet extends HttpServlet {
 		}
 	}
 
-	private void performNewAction(HttpServletRequest req,
-			HttpServletResponse resp) {
+	private void performAddAction(HttpServletRequest req,
+			HttpServletResponse resp) throws IOException {
 		try {
-
-			RequestDispatcher rd = getServletContext().getRequestDispatcher(
-					"/questions/new.jsp");
+			
+			req.getSession().setAttribute("userId", req.getParameter("userId") );
+			RequestDispatcher rd = getServletContext().getRequestDispatcher("/questions/add.jsp");
 			rd.forward(req, resp);
-
+			
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -176,10 +187,12 @@ public class QuestionsServlet extends HttpServlet {
 	private void performCreateAction(HttpServletRequest req,
 			HttpServletResponse resp) {
 		try {
-
-			resp.setContentType("text/html");
-			qdao.create(req.getParameter("title"));
-			resp.sendRedirect("/qfest/questions?action=index");
+			int uId = Integer.parseInt(req.getParameter("userId"));
+			 String tle = req.getParameter("title");
+			String qText = req.getParameter("questionText");
+			String aText = req.getParameter("answerText");
+			qdao.create(uId, tle, qText, aText);
+			resp.sendRedirect("/qfest/questions");
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -195,10 +208,9 @@ public class QuestionsServlet extends HttpServlet {
 			AnswerDAO adao = new AnswerDAO();
 			List<Answer> answers = adao.listOfAnswers(Integer.parseInt(req
 					.getParameter("id")));
-			ViewDAO vdao = new ViewDAO();
 			req.setAttribute("answers", answers);
 			req.setAttribute("question", q);
-			req.setAttribute("totalCount", vdao.viewedCount());
+			req.setAttribute("totalCount", qdao.getTotalCount());
 			RequestDispatcher rd = getServletContext().getRequestDispatcher(
 					"/questions/view.jsp");
 			rd.forward(req, resp);

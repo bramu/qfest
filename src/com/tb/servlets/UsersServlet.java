@@ -52,11 +52,7 @@ public class UsersServlet extends HttpServlet {
 			performLoginCheckAction(req, resp);
 		}else if (req.getParameter("action").equals("logout")) {
 			performLogoutAction(req, resp);
-		}
-		else if (req.getParameter("action").equals("add")) {
-			performAddAction(req, resp);
-		}
-
+		}	
 
 	}
 
@@ -137,17 +133,7 @@ public class UsersServlet extends HttpServlet {
 		req.getSession().removeAttribute("userId");
 		resp.sendRedirect("/qfest/questions?action=index");
 	}
-	private void performAddAction(HttpServletRequest req,
-			HttpServletResponse resp) throws IOException {
-		try {
-			RequestDispatcher rd = getServletContext().getRequestDispatcher("/users/add.jsp");
-			rd.forward(req, resp);
-			
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-	}
+	
 	
 	
 }

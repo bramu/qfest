@@ -90,5 +90,20 @@ public class AnswerDAO {
 
 		return count+1;
 	}
+	public int submitAnswer(int questionId,String answer, int userId) throws SQLException{
+		Answer a = new Answer();
+		String sql =  "insert into "+ answersTable +"(question_id,answer_text,user_id,created_at,updated_at) " +
+				"values('" + questionId+ "','"+ answer +"','"+ userId+"',NOW(),NOW())";
+		stm.executeUpdate(sql,Statement.RETURN_GENERATED_KEYS);
+		ResultSet rs = stm.getGeneratedKeys();
+		int answerId = 0;
+		while(rs.next()){
+			answerId = rs.getInt(1);
+		}
+		a.setAnswerText(answer);
+		a.setQuestionId(questionId);
+		a.setUserId(userId);
+		return answerId;
+	}
 
 }

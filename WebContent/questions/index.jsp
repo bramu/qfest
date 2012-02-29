@@ -36,7 +36,15 @@
 
 <script type="text/javascript">
 	$(document).ready(function() {
-		$("#write-answer").fancybox();
+		$("a[id^=write-answer-]").fancybox();
+		$("a[id^=write-comment-]").fancybox();
+		$("#login").fancybox();
+		$("#register").fancybox();
+		$("#dologin").fancybox();
+		$("#alogin").fancybox();
+		$("#clogin").fancybox();
+		$("#blogin").fancybox();
+		
 	});
 </script>
 <title>Qfest index page</title>
@@ -103,13 +111,11 @@
 							href="/qfest/questions?action=index&type=unanswered
 						">unanswered</a></li>
 						<%
-							if (session.getAttribute("userId") != null
-									&& (Integer) session.getAttribute("userId") == 0) {
+							if (session.getAttribute("userId") == null) {
 						%>
 						<li><a href="#">bookmarked</a></li>
 						<%
-							} else if (session.getAttribute("userId") != null
-									&& (Integer) session.getAttribute("userId") != 0) {
+							} else {
 						%>
 						<li><a href="/qfest/questions?action=index&type=bookmarked">bookmarked</a></li>
 						<%
@@ -145,8 +151,10 @@
 						<a
 							href="/qfest/questions?action=view&id=<%=questions.get(i).getId()%>">view</a>
 						<div>
-							<a id='up-<%=questions.get(i).getId()%>' href="/qfest/ratings?action=up&id=<%=questions.get(i).getId()%>">up</a>
-							<a id='down-<%=questions.get(i).getId()%>' href="/qfest/ratings?action=down&id=<%=questions.get(i).getId()%>">down</a>
+							<a id='up-<%=questions.get(i).getId()%>'
+								href="/qfest/ratings?action=up&id=<%=questions.get(i).getId()%>">up</a>
+							<a id='down-<%=questions.get(i).getId()%>'
+								href="/qfest/ratings?action=down&id=<%=questions.get(i).getId()%>">down</a>
 						</div>
 						<div>
 							<a
@@ -160,18 +168,18 @@
 					<%
 						if (session.getAttribute("userId") == null) {
 					%>
-					<a href="/qfest/users?action=login" id='write-answer' class="btn">WriteAnswer</a> <a
-						href="/qfest/users?action=login" class="btn">WriteComment</a> <a
-						href="/qfest/users?action=login" class="btn">Bookmark</a>
+					<a href="/qfest/users?action=login" id="alogin" class="btn">WriteAnswer</a>
+					<a href="/qfest/users?action=login" id="clogin" class="btn">WriteComment</a>
+					<a href="/qfest/users?action=login" id="blogin" class="btn">Bookmark</a>
 
 					<%
 						} else {
 					%>
 					<a
-						href="/qfest/questions?action=write_answer&questionId=<%=questions.get(i).getId()%>"
-						class="btn" id='write-answer'>WriteAnswer</a> 
-						<a href="/qfest/questions?action=view&id=<%=questions.get(i).getId()%>"
-						class="btn">WriteComment</a> <a
+						href="/qfest/answers?action=writeAnswer&questionId=<%=questions.get(i).getId()%>"
+						class="btn" id='write-answer-<%=questions.get(i).getId()%>'>WriteAnswer</a> <a
+						href="/qfest/questions?action=writeComment&questionId=<%=questions.get(i).getId()%>"
+						class="btn" id='write-comment-<%=questions.get(i).getId()%>'>WriteComment</a> <a
 						href="/qfest/questions?action=index&type=bookmarkable&id=<%=questions.get(i).getId()%>"
 						class="btn">Bookmark</a>
 					<%
@@ -297,9 +305,10 @@
 						} else {
 					%>
 					<li><a href="#">Hi,guest</a></li>
-					<li><a id='fancybox' href="/qfest/users?action=register">Register
+					<li><a id='register' href="/qfest/users?action=register">Register
 					</a></li>
-					<li><a href="/qfest/users?action=login">Login </a></li>
+					<li><a id='dologin' href="/qfest/users?action=login">Login
+					</a></li>
 					<%
 						}
 					%>
@@ -313,8 +322,7 @@
 
 					<div align="middle">
 						<%
-							if (session.getAttribute("userId") != null
-									&& (Integer) session.getAttribute("userId") == 0) {
+							if (session.getAttribute("userId") == null)	 {
 						%>
 						<a href="/qfest/users?action=login" class="label label-info">Add
 							Question</a>
@@ -322,7 +330,7 @@
 						<%
 							} else {
 						%>
-						<a href="/qfest/users?action=add" class="label label-info">Add
+						<a href="/qfest/questions?action=add&userId=<%=session.getAttribute("userId") %>" class="label label-info">Add
 							Question</a>
 
 						<%
