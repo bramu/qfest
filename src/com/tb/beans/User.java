@@ -4,7 +4,6 @@ public class User extends Base {
 
 	private String name;
 	private String email;
-	private String password;
 	private String encryptedPassword;
 	private String passwordSalt;
 	private String resetPasswordToken;
@@ -33,13 +32,7 @@ public class User extends Base {
 		this.email = email;
 	}
 
-	public String getPassword() {
-		return password;
-	}
-
-	public void setPassword(String password) {
-		this.password = password;
-	}
+	
 
 	public String getEncryptedPassword() {
 		return encryptedPassword;

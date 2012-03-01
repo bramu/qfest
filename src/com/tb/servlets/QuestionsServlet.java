@@ -1,6 +1,7 @@
 package com.tb.servlets;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.sql.SQLException;
 import java.util.List;
 
@@ -11,6 +12,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.tb.beans.Answer;
+import com.tb.beans.Comment;
 import com.tb.beans.Question;
 import com.tb.dao.AnswerDAO;
 import com.tb.dao.BookmarkDAO;
@@ -60,6 +62,8 @@ public class QuestionsServlet extends HttpServlet {
 		} 
 		else if (req.getParameter("action").equals("submitComment")) {
 			performSubmitCommentAction(req, resp);
+		}else if (req.getParameter("action").equals("getComments")) {
+			performGetCommentAction(req, resp);
 		}
 	}
 	private void performWriteCommentAction(HttpServletRequest req,
@@ -77,6 +81,7 @@ public class QuestionsServlet extends HttpServlet {
 			String comment = req.getParameter("comment");
 			int userId = (Integer) req.getSession().getAttribute("userId");
 			qdao.submitComment(questionId, comment, userId);
+			resp.sendRedirect("/qfest/questions");
 		} catch (Exception e) {
 		}
 
@@ -147,7 +152,7 @@ public class QuestionsServlet extends HttpServlet {
 			}else if (req.getParameter("type").equals("bookmarkable")) {
 				BookmarkDAO bdao = new BookmarkDAO();
 			    bdao.bookmarkable(Integer.parseInt(req.getParameter("id")), (Integer)req.getSession().getAttribute("userId"));
-				resp.sendRedirect("/qfest/questions?action=index");
+				resp.sendRedirect("/qfest/questions");
 			}
 			else if (req.getParameter("type").equals("bookmarked")) {
 				String type = req.getParameter("type");
@@ -202,18 +207,35 @@ public class QuestionsServlet extends HttpServlet {
 			HttpServletResponse resp) {
 		try {
 			
-			
-			Question q = qdao
-					.findById(Integer.parseInt(req.getParameter("id")));
-			AnswerDAO adao = new AnswerDAO();
-			List<Answer> answers = adao.listOfAnswers(Integer.parseInt(req
-					.getParameter("id")));
-			req.setAttribute("answers", answers);
+			Question q = qdao.findById(Integer.parseInt(req.getParameter("questionId")));	
 			req.setAttribute("question", q);
 			req.setAttribute("totalCount", qdao.getTotalCount());
+			List<Comment> comments = qdao.listOfComments(Integer.parseInt(req
+					.getParameter("questionId")));
+			req.setAttribute("comments", comments);
+			AnswerDAO adao = new AnswerDAO();
+			List<Answer> answers = adao.listOfAnswers(Integer.parseInt(req
+					.getParameter("questionId")));
+			req.setAttribute("answers", answers);
+			
 			RequestDispatcher rd = getServletContext().getRequestDispatcher(
 					"/questions/view.jsp");
 			rd.forward(req, resp);
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	private void performGetCommentAction(HttpServletRequest req,
+			HttpServletResponse resp) {
+		try {
+			List<Comment> comments = qdao.listOfComments(Integer.parseInt(req
+					.getParameter("questionId")));
+			req.setAttribute("comments", comments);
+			RequestDispatcher rd1 = getServletContext().getRequestDispatcher(
+					"/questions/view.jsp");
+			rd1.forward(req, resp);
+			
 			
 		} catch (Exception e) {
 			e.printStackTrace();

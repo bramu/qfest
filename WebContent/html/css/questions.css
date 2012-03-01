@@ -1,0 +1,64 @@
+.left .h1 {
+	border-bottom: 1px solid #006699;
+    color: #000000;
+    font-family: Tahoma;
+    font-size: 20px;
+    font-weight: normal;
+    margin: 0;
+    padding: 0 0 10px;
+}
+
+.left .h1 .links {
+    float: right;
+    width: auto;
+}
+
+.left .h1 .links ul {
+    margin: 0;
+    padding: 0;
+}
+
+.left .h1 .links li {
+    font-size: 14px;
+    list-style: none outside none;
+    margin: 0;
+    padding: 0;
+}
+
+.left .h1 .links li a {
+    color: #000000;
+    font-family: Tahoma;
+    padding: 3px 8px;
+    text-decoration: none;
+}
+
+.left .ques_list {
+    margin: 0;
+}
+
+.left .ques_list .eachlist {
+    border-bottom: 1px solid #E5E5E5;
+    padding: 10px 0;
+}
+
+.left .ques_list .eachlist .rt {
+    float: right;
+    font-size: 13px;
+    text-align: right;
+    width: 130px;
+}
+
+.left .ques_list .eachlist h2 {
+    color: #7C7F7E;
+    font-size: 16px;
+    font-weight: normal;
+    line-height: 22px;
+    margin: 0 0 10px;
+    padding: 0;
+    width: 630px;
+}
+
+.eachlist h2 a {
+    color: #333333;
+    text-decoration: none;
+}

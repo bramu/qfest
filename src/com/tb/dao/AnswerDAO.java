@@ -28,9 +28,9 @@ public class AnswerDAO {
 		}
 	}
 
-	public List<Answer> listOfAnswers(int id) throws SQLException {
+	public List<Answer> listOfAnswers(int questionId) throws SQLException {
 		ResultSet rs = stm.executeQuery("select answer_text from " + answersTable
-				+ " where question_id=" + id);
+				+ " where question_id=" + questionId);
 		List<Answer> answers = new ArrayList<Answer>();
 		while (rs.next()) {
 			Answer a = new Answer();

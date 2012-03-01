@@ -9,6 +9,8 @@
 <link href="html/css/bootstrap.css" rel="stylesheet">
 <link href="html/css/docs.css" rel="stylesheet">
 <link href="html/css/bootstrap-responsive.css" rel="stylesheet">
+<link href="html/css/questions.css" rel="stylesheet">
+
 <script src="html/js/jquery.js"></script>
 
 <script type="text/javascript"
@@ -44,7 +46,7 @@
 		$("#alogin").fancybox();
 		$("#clogin").fancybox();
 		$("#blogin").fancybox();
-		
+
 	});
 </script>
 <title>Qfest index page</title>
@@ -62,7 +64,7 @@
 						<div class="nav-menu span-26 corners black-bg4 menu-shadow">
 							<ul class="nav">
 								<li><a href="#"></a></li>
-								<li><a href="/qfest/questions">Questions</a></li>
+								<li><a href="/qfest/questions?action=index">Questions</a></li>
 								<li><a href="#">Interviews</a></li>
 								<li><a href="#">Companies</a></li>
 								<li><a href="#">Skills</a></li>
@@ -87,51 +89,74 @@
 		</div>
 		<div class="row">
 			<div class="span9">
-				<div class="row">
-					<div class="span5">
-						<%
-							if ((String) request.getAttribute("type") != null) {
-						%>
-						<h1><%=(String) request.getAttribute("type")%></h1>
-						<%
-							} else {
-						%>
-						<h1>Recent Questions</h1>
-						<%
-							}
-						%>
-
-
-					</div>
-					<ul class="nav nav-pills">
-						<li><a href="/qfest/questions?action=index&type=recent">recent</a></li>
-						<li><a href="/qfest/questions?action=index&type=rated">rated</a></li>
-						<li><a href="/qfest/questions?action=index&type=viewed">viewed</a></li>
-						<li><a
-							href="/qfest/questions?action=index&type=unanswered
-						">unanswered</a></li>
-						<%
-							if (session.getAttribute("userId") == null) {
-						%>
-						<li><a href="#">bookmarked</a></li>
-						<%
-							} else {
-						%>
-						<li><a href="/qfest/questions?action=index&type=bookmarked">bookmarked</a></li>
-						<%
-							}
-						%>
-					</ul>
-
+				<div class="left">
+					<h1 class="h1">
+						<div class="links">
+							<ul class="nav nav-pills">
+								<li><a href="/qfest/questions?action=index&type=recent">recent</a></li>
+								<li><a href="/qfest/questions?action=index&type=rated">rated</a></li>
+								<li><a href="/qfest/questions?action=index&type=viewed">viewed</a></li>
+								<li><a
+									href="/qfest/questions?action=index&type=unanswered
+								">unanswered</a></li>
+								<%
+									if (session.getAttribute("userId") == null) {
+								%>
+								<li><a href="#">bookmarked</a></li>
+								<%
+									} else {
+								%>
+								<li><a href="/qfest/questions?action=index&type=bookmarked">bookmarked</a></li>
+								<%
+									}
+								%>
+							</ul>
+						</div>
+						<span>
+							<%
+								if ((String) request.getAttribute("type") != null) {
+							%>
+							<%=(String) request.getAttribute("type")%>
+							<%
+								} else {
+							%>
+							<%= "Recent" %>
+							<%	}
+							%>Questions</span> <span class="header_tags"> 
+						</span>
+					</h1>
 
 				</div>
-				<div class="page-header"></div>
+				
+				<!--  div ends here -->
+				
+				
+				<div class="ques_list">
 				<%
+				
 					List<Question> questions = (List<Question>) (request
 							.getAttribute("questions"));
 
 					for (int i = 0; i < questions.size(); i++) {
 				%>
+				
+					<div class="each_list">
+					
+						<div class="rt">
+						
+						</div> <!--  end of rt div -->
+						
+						<div>
+							<h2><a><%= questions.get(i).getTitle() %></a></h2>
+						</div> <!-- end of empty div -->
+						
+						<div class="det">
+							
+						</div> <!-- end of det -->
+					
+					</div> <!-- end of each list -->
+					
+				
 				<div class="row">
 					<div class="span6">
 
@@ -149,7 +174,7 @@
 					</div>
 					<div class="span3">
 						<a
-							href="/qfest/questions?action=view&id=<%=questions.get(i).getId()%>">view</a>
+							href="/qfest/questions?action=view&questionId=<%=questions.get(i).getId()%>">view</a>
 						<div>
 							<a id='up-<%=questions.get(i).getId()%>'
 								href="/qfest/ratings?action=up&id=<%=questions.get(i).getId()%>">up</a>
@@ -177,9 +202,11 @@
 					%>
 					<a
 						href="/qfest/answers?action=writeAnswer&questionId=<%=questions.get(i).getId()%>"
-						class="btn" id='write-answer-<%=questions.get(i).getId()%>'>WriteAnswer</a> <a
+						class="btn" id='write-answer-<%=questions.get(i).getId()%>'>WriteAnswer</a>
+					<a
 						href="/qfest/questions?action=writeComment&questionId=<%=questions.get(i).getId()%>"
-						class="btn" id='write-comment-<%=questions.get(i).getId()%>'>WriteComment</a> <a
+						class="btn" id='write-comment-<%=questions.get(i).getId()%>'>WriteComment</a>
+					<a
 						href="/qfest/questions?action=index&type=bookmarkable&id=<%=questions.get(i).getId()%>"
 						class="btn">Bookmark</a>
 					<%
@@ -190,6 +217,8 @@
 				<%
 					}
 				%>
+				</div> <!-- end of ques_list div -->
+				
 				<%
 					if ((String) request.getAttribute("type") != null) {
 				%>
@@ -322,7 +351,7 @@
 
 					<div align="middle">
 						<%
-							if (session.getAttribute("userId") == null)	 {
+							if (session.getAttribute("userId") == null) {
 						%>
 						<a href="/qfest/users?action=login" class="label label-info">Add
 							Question</a>
@@ -330,8 +359,9 @@
 						<%
 							} else {
 						%>
-						<a href="/qfest/questions?action=add&userId=<%=session.getAttribute("userId") %>" class="label label-info">Add
-							Question</a>
+						<a
+							href="/qfest/questions?action=add&userId=<%=session.getAttribute("userId")%>"
+							class="label label-info">Add Question</a>
 
 						<%
 							}

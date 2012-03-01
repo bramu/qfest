@@ -1,6 +1,8 @@
 package com.tb.servlets;
 
 import java.io.IOException;
+import java.sql.SQLException;
+import java.util.List;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -8,6 +10,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.tb.beans.Answer;
 import com.tb.dao.AnswerDAO;
 
 public class AnswersServlet extends HttpServlet {
@@ -17,16 +20,32 @@ public class AnswersServlet extends HttpServlet {
 
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
-		performAction(req, resp);
+		try {
+			performAction(req, resp);
+		} catch (NumberFormatException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
-		performAction(req, resp);
+		try {
+			performAction(req, resp);
+		} catch (NumberFormatException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	private void performAction(HttpServletRequest req, HttpServletResponse resp)
-			throws ServletException, IOException {
+			throws ServletException, IOException, NumberFormatException, SQLException {
 		if (req.getParameter("action").equals("writeAnswer")) {
 			performWriteAnswerAction(req, resp);
 		} else if (req.getParameter("action").equals("writeComment")) {
@@ -36,6 +55,9 @@ public class AnswersServlet extends HttpServlet {
 		} else if (req.getParameter("action").equals("submitComment")) {
 			performSubmitCommentAction(req, resp);
 		}
+		 else if (req.getParameter("action").equals("getAnswers")) {
+				performGetAnswerAction(req, resp);
+			}
 	}
 
 	private void performWriteAnswerAction(HttpServletRequest req,
@@ -73,4 +95,15 @@ public class AnswersServlet extends HttpServlet {
 			HttpServletResponse resp) throws ServletException, IOException {
 
 	}
+	private void performGetAnswerAction(HttpServletRequest req,
+			HttpServletResponse resp) throws ServletException, IOException, NumberFormatException, SQLException {
+		AnswerDAO adao = new AnswerDAO();
+		List<Answer> answers = adao.listOfAnswers(Integer.parseInt(req
+				.getParameter("questionId")));
+		req.setAttribute("answers", answers);
+		RequestDispatcher rd1 = getServletContext().getRequestDispatcher(
+				"/questions/view.jsp");
+		rd1.forward(req, resp);
+	}
+	
 }

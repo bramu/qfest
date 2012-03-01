@@ -59,24 +59,26 @@ public class QuestionDAO {
 	}
 	
 	public Question findById(int questionId) throws SQLException {
-		ResultSet rs = stm.executeQuery("select * from  " + questionsTable + " WHERE id = " + questionId);
+		ResultSet rs = stm.executeQuery("select id,question_text,title from  " + questionsTable + " WHERE id = " + questionId);
 		Question q = new Question();
 	    while (rs.next()) {
 	    	q.setUser(udao.findById(rs.getInt(1)));
 	    	q.setId(rs.getInt(1));
-	    	q.setAnswersCount(rs.getInt(12));
+	    	 q.setQuestionText(rs.getString(2));
+	    	 q.setTitle(rs.getString(3));
+	    	/*q.setAnswersCount(rs.getInt(12));
 	    	q.setBookmarksCount(rs.getInt(16));
 	    	q.setCommentsCount(rs.getInt(13));
 	    	q.setFlag(rs.getInt(8));
 	    	q.setInappCount(rs.getInt(15));
 	        q.setInterviewId(rs.getInt(4));
 	        q.setNoCount(rs.getInt(11));
-	        q.setQuestionText(rs.getString(2));
+	       ;
 	        q.setSource(rs.getString(3));
-	        q.setTitle(rs.getString(9));
+	       
 	        q.setUserId(rs.getInt(5));
 	        q.setViewsCount(rs.getInt(14));
-	        q.setYesCount(rs.getInt(10));
+	        q.setYesCount(rs.getInt(10));*/
 	    }
 	    return q;
 	}
@@ -214,7 +216,8 @@ public class QuestionDAO {
 		stm.executeUpdate(sql,Statement.RETURN_GENERATED_KEYS);
 		ResultSet rs = stm.getGeneratedKeys();
 		int commentId = 0;
-		while(rs.next()){
+		
+		while(rs.next()) {
 			commentId = rs.getInt(1);
 		}
 		c.setCommentableId(questionId);
@@ -222,6 +225,16 @@ public class QuestionDAO {
 		c.setCommentableId(commentId);
 		c.setUserId(userId);
 		return commentId;
+	}
+	public List<Comment> listOfComments(int questionId) throws SQLException{
+		ResultSet rs = stm.executeQuery("select content from comments where  commentable_type = 'question' and commentable_id = "+ questionId );
+		List<Comment> comments = new ArrayList<Comment>();
+		Comment c = new Comment();
+		while(rs.next()){
+			c.setContent(rs.getString(1));
+			comments.add(c);
+		}
+		return comments;
 	}
 	 
 }

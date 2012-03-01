@@ -1,3 +1,4 @@
+<%@page import="com.tb.beans.Comment"%>
 <%@page import="java.util.List"%>
 <%@page import="com.tb.beans.Question"%>
 <%@page import="com.tb.beans.Answer"%>
@@ -12,23 +13,23 @@
 <link href="html/css/bootstrap-responsive.css" rel="stylesheet">
 <script type="text/javascript"
 	src="http://platform.twitter.com/widgets.js"></script>
-<script src="js/jquery.js"></script>
-<script src="js/google-code-prettify/prettify.js"></script>
-<script src="js/bootstrap-transition.js"></script>
-<script src="js/bootstrap-alert.js"></script>
+<script src="html/js/jquery.js"></script>
+<script src="html/js/google-code-prettify/prettify.js"></script>
+<script src="html/js/bootstrap-transition.js"></script>
+<script src="html/js/bootstrap-alert.js"></script>
 
-<script src="js/bootstrap-modal.js"></script>
-<script src="js/bootstrap-dropdown.js"></script>
-<script src="js/bootstrap-scrollspy.js"></script>
-<script src="js/bootstrap-tab.js"></script>
-<script src="js/bootstrap-tooltip.js"></script>
-<script src="js/bootstrap-popover.js"></script>
+<script src="html/js/bootstrap-modal.js"></script>
+<script src="html/js/bootstrap-dropdown.js"></script>
+<script src="html/js/bootstrap-scrollspy.js"></script>
+<script src="html/js/bootstrap-tab.js"></script>
+<script src="html/js/bootstrap-tooltip.js"></script>
+<script src="html/js/bootstrap-popover.js"></script>
 
-<script src="js/bootstrap-button.js"></script>
-<script src="js/bootstrap-collapse.js"></script>
-<script src="js/bootstrap-carousel.js"></script>
-<script src="js/bootstrap-typeahead.js"></script>
-<script src="js/application.js"></script>
+<script src="html/js/bootstrap-button.js"></script>
+<script src="html/js/bootstrap-collapse.js"></script>
+<script src="html/js/bootstrap-carousel.js"></script>
+<script src="html/js/bootstrap-typeahead.js"></script>
+<script src="html/js/application.js"></script>
 <title>Qfest view page</title>
 </head>
 <body>
@@ -44,7 +45,7 @@
 						<div class="nav-menu span-26 corners black-bg4 menu-shadow">
 							<ul class="nav">
 								<li><a href="#"></a></li>
-								<li><a href="#">Questions</a></li>
+								<li><a href="/qfest/questions">Questions</a></li>
 								<li><a href="#">Interviews</a></li>
 								<li><a href="#">Companies</a></li>
 								<li><a href="#">Skills</a></li>
@@ -78,44 +79,65 @@
 				<div class="row">
 					<div class="span6">
 						<div>
-							<b> Answers:
-								<% List<Answer> answers = (List<Answer>)request.getAttribute("answers");
-								for(int i =0;i<answers.size();i++){
-								out.print(answers.get(i).getAnswerText());
-								}
+							<p>
+								<%
+									out.print(((Question) request.getAttribute("question"))
+											.getQuestionText());
 								%>
-							</b>
+							</p>
+							
 						</div>
 						<div>
 							<a class="label label-info" href="#">java</a> <a
 								class="label label-info" href="#">arrays</a> <a
 								class="label label-info" href="#">servlets</a>
 						</div>
-						<form class="form-horizontal">
-							<fieldset>
-								<div class="control-group">
-									<label for="textarea" class="control-label">Write
-										Answer Here</label>
-									<div class="controls">
-										<textarea rows="3" id="textarea" class="input-xlarge"></textarea>
-									</div>
-								</div>
-								<div class="control-group">
-									<label for="textarea" class="control-label">Write
-										Comments Here</label>
-									<div class="controls">
-										<textarea rows="3" id="textarea" class="input-xlarge"></textarea>
-									</div>
-								</div>
-								<div align="middle">
-									<a class="label label-info" href="#">submit</a> <a
-										class="label label-info" href="#">cancle</a>
-								</div>
-							</fieldset>
-						</form>
+
 					</div>
 					<div class="span3">
 						<a href="#">up</a> <a href="#">down</a>
+					</div>
+				</div>
+				<br />
+				<div style="margin-bottom: 9px;" class="tabbable">
+					<ul class="nav nav-tabs">
+						<li class=""><a data-toggle="tab" href="#answers_tab">answers</a></li>
+						<li class=""><a data-toggle="tab" href="#comments_tab">comments</a></li>
+
+					</ul>
+					<div class="tab-content">
+						<div id="answers_tab" class="tab-pane">
+							<p>
+								<%
+								
+								List<Answer> answers = (List<Answer>) request
+										.getAttribute("answers");
+							if(answers.isEmpty()){
+								out.println("No answers to display");
+							}else {
+								for (int i = 0; i < answers.size(); i++) {
+									out.println(answers.get(i).getAnswerText());
+								}
+							}
+							%>
+							</p>
+						</div>
+						<div id="comments_tab" class="tab-pane">
+							<p>
+							   <%
+								List<Comment> comments = (List<Comment>) request
+										.getAttribute("comments");
+							   if(comments.size()== 0){
+								   out.println("No comments to display for this question");
+							   }else{
+								for (int i = 0; i < comments.size(); i++) {
+									out.println(comments.get(i).getContent());
+								}
+							   }
+							%>
+							</p>
+						</div>
+
 					</div>
 				</div>
 
@@ -132,7 +154,7 @@
 				</div>
 				<div class="page-header"></div>
 				<div align="middle">
-					<h1><%=(Integer)request.getAttribute("totalCount") %></h1>
+					<h1><%=(Integer) request.getAttribute("totalCount")%></h1>
 				</div>
 				<div align="middle">
 					<h1>Questions</h1>
