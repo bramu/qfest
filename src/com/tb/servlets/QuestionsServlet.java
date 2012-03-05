@@ -66,6 +66,7 @@ public class QuestionsServlet extends HttpServlet {
 			performGetCommentAction(req, resp);
 		}
 	}
+	/* send request to the write comment jsp setting the questionId in the attribute*/
 	private void performWriteCommentAction(HttpServletRequest req,
 			HttpServletResponse resp) throws ServletException, IOException {
 		req.setAttribute("questionId", req.getParameter("questionId"));
@@ -74,6 +75,7 @@ public class QuestionsServlet extends HttpServlet {
 				"/questions/writeComment.jsp");
 		rd1.forward(req, resp);
 	}
+	/* insert the comment for the question into the database*/
 	private void performSubmitCommentAction(HttpServletRequest req,
 			HttpServletResponse resp) throws ServletException, IOException {
 		try {
@@ -81,11 +83,13 @@ public class QuestionsServlet extends HttpServlet {
 			String comment = req.getParameter("comment");
 			int userId = (Integer) req.getSession().getAttribute("userId");
 			qdao.submitComment(questionId, comment, userId);
+			qdao.countUpdates("comments_count", questionId);
 			resp.sendRedirect("/qfest/questions");
 		} catch (Exception e) {
 		}
 
 	}
+	/*sending the request to the index.jsp file to display all questions*/
 	private void performIndexAction(HttpServletRequest req,
 			HttpServletResponse resp) {
 		try {
@@ -104,7 +108,7 @@ public class QuestionsServlet extends HttpServlet {
 						.getRequestDispatcher("/questions/index.jsp");
 				rd2.forward(req, resp);
 			}
-
+			/*sending the request to the index.jsp file to display all unanswered questions*/
 			else if (req.getParameter("type").equals("unanswered")) {
 				String type = req.getParameter("type");
 				List<Question> unanswered = qdao.unanswered(pageNo);
@@ -116,6 +120,7 @@ public class QuestionsServlet extends HttpServlet {
 						.getRequestDispatcher("/questions/index.jsp");
 				rd1.forward(req, resp);
 			}
+			/*sending the request to the index.jsp file to display all recent questions*/
 			else if (req.getParameter("type").equals("recent")) {
 				String type = req.getParameter("type");
 				List<Question> recent = qdao.recent(pageNo);
@@ -127,6 +132,7 @@ public class QuestionsServlet extends HttpServlet {
 						.getRequestDispatcher("/questions/index.jsp");
 				rd1.forward(req, resp);
 			}
+			/*sending the request to the index.jsp file to display all viewed questions*/
 			else if (req.getParameter("type").equals("viewed")) {
 				String type = req.getParameter("type");
 				List<Question> viewed = qdao.mostViewed(pageNo);
@@ -139,6 +145,7 @@ public class QuestionsServlet extends HttpServlet {
 						.getRequestDispatcher("/questions/index.jsp");
 				rd1.forward(req, resp);
 			}
+			/*sending the request to the index.jsp file to display all most liked questions*/
 			else if (req.getParameter("type").equals("rated")) {
 				String type = req.getParameter("type");
 				List<Question> rated = qdao.mostRated(pageNo);
@@ -149,11 +156,14 @@ public class QuestionsServlet extends HttpServlet {
 				RequestDispatcher rd1 = getServletContext()
 						.getRequestDispatcher("/questions/index.jsp");
 				rd1.forward(req, resp);
-			}else if (req.getParameter("type").equals("bookmarkable")) {
+			}
+			/*the registered user can bookmark some questions*/
+			else if (req.getParameter("type").equals("bookmarkable")) {
 				BookmarkDAO bdao = new BookmarkDAO();
 			    bdao.bookmarkable(Integer.parseInt(req.getParameter("id")), (Integer)req.getSession().getAttribute("userId"));
 				resp.sendRedirect("/qfest/questions");
 			}
+			/*to show the bookmarked questions for the user */
 			else if (req.getParameter("type").equals("bookmarked")) {
 				String type = req.getParameter("type");
 				int userId = (Integer)req.getSession().getAttribute("userId");
@@ -174,7 +184,7 @@ public class QuestionsServlet extends HttpServlet {
 			e.printStackTrace();
 		}
 	}
-
+	/*to add the question by the registered user*/
 	private void performAddAction(HttpServletRequest req,
 			HttpServletResponse resp) throws IOException {
 		try {
@@ -188,7 +198,7 @@ public class QuestionsServlet extends HttpServlet {
 			e.printStackTrace();
 		}
 	}
-
+	/*to insert the question details into the database*/
 	private void performCreateAction(HttpServletRequest req,
 			HttpServletResponse resp) {
 		try {
@@ -202,7 +212,7 @@ public class QuestionsServlet extends HttpServlet {
 			e.printStackTrace();
 		}
 	}
-
+	/* to show the details of the question*/
 	private void performViewAction(HttpServletRequest req,
 			HttpServletResponse resp) {
 		try {

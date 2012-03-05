@@ -13,20 +13,24 @@
 <body>
 	<div id="fancybox-content"
 		style="border-width: 10px; width: 480px; height: auto;">
-		
-				<form method = "post" class="form-horizontal"
-				 action="/qfest/answers?action=submitAnswer&questionId=<%=request.getAttribute("questionId")%>">				
-					<legend>Write Answer</legend>
-					<div class="control-group">
-						<label for="answer" class="control-label">Textarea</label>
-						<div class="controls">
-							<textarea rows="10" id="textarea" name = "answer" class="input-xlarge"></textarea>
-						</div>
-					</div>
-					<div align="middle">
-						<button class="label label-info" type="submit">Submit</button>
-					</div>
-				</form>
+
+		<form method="post" class="form-horizontal"
+			action="/qfest/answers">
+			<input type="hidden" name="action" value="submitAnswer"> <input
+				type="hidden" name="questionId"
+				value="<%=request.getAttribute("questionId")%>"> -->
+			<legend>Write Answer</legend>
+			<div class="control-group">
+				<label for="answer" class="control-label">Textarea</label>
+				<div class="controls">
+					<textarea rows="10" id="textarea" name="answer"
+						class="input-xlarge"></textarea>
+				</div>
 			</div>
- </body>
+			<div align="middle">
+				<button class="label label-info" type="submit">Submit</button>
+			</div>
+		</form>
+	</div>
+</body>
 </html>

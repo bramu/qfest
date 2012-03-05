@@ -13,6 +13,7 @@ public class QuestionDAO {
 	private String questionsTable = "questions";
 	private Statement stm;
 	UserDAO udao = new UserDAO();
+	/* constructor for the connection with the database*/
 	public QuestionDAO() {
 		try {
 			
@@ -22,7 +23,7 @@ public class QuestionDAO {
 			e.printStackTrace();
 		}
 	}
-
+	/* count the number of questions in the questions table*/
 	public int getTotalCount() throws SQLException {
 	    ResultSet rs = stm.executeQuery("select count(*) as total_count from " + questionsTable);
 	    
@@ -31,7 +32,7 @@ public class QuestionDAO {
 	    }
 	    return 0;
 	}
-	
+	/* get the list of questions from questions table*/
 	public List<Question> fetchAll(int pageNo) throws SQLException {
 	    ResultSet rs = stm.executeQuery("select * from " + questionsTable + " limit " + (pageNo - 1) * 4 + ", 4" );
 	    List<Question> questions = new ArrayList<Question>();
@@ -57,7 +58,7 @@ public class QuestionDAO {
 	    }
 	    return questions;
 	}
-	
+	/* get one row from the questions table for the given questionId*/
 	public Question findById(int questionId) throws SQLException {
 		ResultSet rs = stm.executeQuery("select id,question_text,title from  " + questionsTable + " WHERE id = " + questionId);
 		Question q = new Question();
@@ -83,7 +84,7 @@ public class QuestionDAO {
 	    return q;
 	}
 	
-	
+	/* adding question and answer by the registered user*/
 	public int create(int userId,String title,String questionText,String answerText) throws SQLException {
 		Question q = new Question();
 		int qId = 0;
@@ -102,6 +103,7 @@ public class QuestionDAO {
 				"values('"+ qId +"','"+ answerText +"','"+ userId +"',NOW(),NOW())");
 		return qId;
 	}
+	/* updating the count for the given count type in the questions table*/
 	public int countUpdates( String count_column,int question_id) throws SQLException{
 		ResultSet rs   = stm.executeQuery("select "+ count_column +" from " + questionsTable + " where id = "+ question_id );
 		int count = 0;
@@ -115,7 +117,7 @@ public class QuestionDAO {
 		
 		return count+1 ;
 	}
-	
+	/*get list of all unanswered questions*/
 	public List<Question> unanswered(int pageNo) throws SQLException{
 		String sql = "select id,title from " + questionsTable + " where answers_count = 0  order by id desc " +
 						" limit " + (pageNo - 1) * 4 + ",4";
@@ -129,7 +131,7 @@ public class QuestionDAO {
 		}
 		return questions;
 	}
-	
+	/*count the all unanswered questions from the database*/
 	public int getTotalUnansweredCount() throws SQLException {
 		String sql = "select count(*) from "+ questionsTable +" where answers_count = 0";
 	    ResultSet rs = stm.executeQuery(sql);
@@ -139,7 +141,7 @@ public class QuestionDAO {
 	    }
 	    return 0;
 	}
-	
+	/* get the all recently added questions*/
 	public List<Question> recent(int pageNo) throws SQLException{
 		String sql="SELECT id, title FROM "+ questionsTable +" ORDER BY id DESC limit " + (pageNo - 1) * 4  + ", 4";
 		List<Question> questions = new ArrayList<Question>();
@@ -153,7 +155,7 @@ public class QuestionDAO {
 		return questions;
 		  
 	}
-	
+	/*get all the most viewed questions*/
 	public List<Question> mostViewed(int pageNo) throws SQLException{
 		String sql="SELECT id, title FROM "+ questionsTable +" ORDER BY views_count DESC limit " + (pageNo - 1) * 4  + ", 4";
 		List<Question> questions = new ArrayList<Question>();
@@ -167,7 +169,7 @@ public class QuestionDAO {
 		return questions;
 		  
 	}
-	
+	/*get the list of most liked questions*/
 	public List<Question> mostRated(int pageNo) throws SQLException{
 		String sql="SELECT id, title FROM "+ questionsTable +" ORDER BY (yes_count + no_count) DESC limit " + (pageNo - 1) * 4  + ", 4";
 		List<Question> questions = new ArrayList<Question>();
@@ -181,7 +183,7 @@ public class QuestionDAO {
 		return questions;
 		  
 	}
-	
+	/*get the list of the particular tag related questions*/
 	public List<Question> tags(int tag_id,int pageNo) throws SQLException{
 		List<Question> questions = new ArrayList<Question>();
 		String sql = "select question_text from questions q, qtags qt where q.id = qt.question_id and qt.tag_id = " + tag_id  
@@ -195,20 +197,7 @@ public class QuestionDAO {
 		}
 		return questions;		  
 	}
-	
-	public int countUpdate( String countColumn,int questionId) throws SQLException{
-		ResultSet rs   = stm.executeQuery("select "+ countColumn +" from " + questionsTable + " where id = "+ questionId );
-		int count = 0;
-		
-		while(rs.next()){
-			
-			count = rs.getInt(1);
-		}
-		
-		int finalcount = stm.executeUpdate("update "+ questionsTable  + " set " + countColumn + " = " + (count+1) + " where id = " + questionId );
-		
-		return finalcount;
-	}
+	/*to insert the comments for the question into the database*/
 	public int submitComment(int questionId,String comment, int userId) throws SQLException{
 		Comment c = new Comment();
 		String sql =  "insert into comments(commentable_id,content,commentable_type,user_id,created_at,updated_at) " +
@@ -226,6 +215,7 @@ public class QuestionDAO {
 		c.setUserId(userId);
 		return commentId;
 	}
+	/* to show the list of comments for the selected question from the database*/
 	public List<Comment> listOfComments(int questionId) throws SQLException{
 		ResultSet rs = stm.executeQuery("select content from comments where  commentable_type = 'question' and commentable_id = "+ questionId );
 		List<Comment> comments = new ArrayList<Comment>();

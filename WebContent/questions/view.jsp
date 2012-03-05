@@ -94,9 +94,7 @@
 						</div>
 
 					</div>
-					<div class="span3">
-						<a href="#">up</a> <a href="#">down</a>
-					</div>
+					
 				</div>
 				<br />
 				<div style="margin-bottom: 9px;" class="tabbable">
@@ -116,10 +114,20 @@
 								out.println("No answers to display");
 							}else {
 								for (int i = 0; i < answers.size(); i++) {
-									out.println(answers.get(i).getAnswerText());
+									out.println(answers.get(i).getAnswerText());%>
+									<div>
+									<a id='up-<%=answers.get(i).getId()%>'
+										href="/qfest/ratings?action=like&type=answer&answerId=<%=answers.get(i).getId()%>"><img
+										src="html/images/link_like2.gif"> </a> <a
+										id='down-<%=answers.get(i).getId()%>'
+										href="/qfest/ratings?action=unlike&type=answer&answerId=<%=answers.get(i).getId()%>"><img
+										src="html/images/link_dislike2.gif"> </a>
+							
+								</div>  
+							<%    
 								}
-							}
-							%>
+							}%>
+							
 							</p>
 						</div>
 						<div id="comments_tab" class="tab-pane">

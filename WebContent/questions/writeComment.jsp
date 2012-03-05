@@ -15,10 +15,9 @@
 	<div id="fancybox-content"
 		style="border-width: 10px; width: 480px; height: auto;">
 
-		<form method="post" class="form-horizontal" 
-		action="/qfest/questions?action=submitComment&questionId=<%=request.getAttribute("questionId")%>">
-		<!-- /	<input type="hidden" name="action" value="">
-		<input type="hidden" name="questionId" value="<%=request.getAttribute("questionId") %>"> -->
+		<form method="post" class="form-horizontal" action="/qfest/questions">
+		<input type="hidden" name="action" value="submitComment">
+		<input type="hidden" name="questionId" value="<%= request.getAttribute("questionId") %>"> -->
 			<legend>Write Comment</legend>
 			<div class="control-group">
 				<label for="comment" class="control-label">Textarea</label>

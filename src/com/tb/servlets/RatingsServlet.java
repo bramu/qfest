@@ -39,28 +39,51 @@ public class RatingsServlet extends HttpServlet {
 
 	private void performAction(HttpServletRequest req, HttpServletResponse resp)
 			throws IOException, SQLException {
-		 if (req.getParameter("action").equals("up")) {
-			performUpAction(req, resp);
-		} else if (req.getParameter("action").equals("down")) {
-			performDownAction(req, resp);
+		 if (req.getParameter("action").equals("like")) {
+			performLikeAction(req, resp);
+		} else if (req.getParameter("action").equals("unlike")) {
+			performUnlikeAction(req, resp);
 		} else if (req.getParameter("action").equals("inappropriate")) {
 			performInappropriateAction(req, resp);
 		} 
-	}
-	private void performUpAction(HttpServletRequest req, HttpServletResponse resp)
-			throws IOException, SQLException {
-		rdao.Up(Integer.parseInt(req.getParameter("id")));
-		resp.sendRedirect("/qfest/questions");
 		
 	}
-	private void performDownAction(HttpServletRequest req, HttpServletResponse resp)
+	
+	private void performLikeAction(HttpServletRequest req, HttpServletResponse resp)
 			throws IOException, SQLException {
-		rdao.Down(Integer.parseInt(req.getParameter("id")));
-		resp.sendRedirect("/qfest/questions");
+		
+		if(req.getParameter("type").equals("question")){
+			rdao.like("question",Integer.parseInt(req.getParameter("questionId")));
+			resp.sendRedirect("/qfest/questions");
+		}
+
+		else if (req.getParameter("type").equals("answer")){
+			rdao.like("answer",Integer.parseInt(req.getParameter("answerId")));
+			resp.sendRedirect("/qfest/questions?action=view");
+		}
+		//we need to ajax response
+		
+		
+	}
+	private void performUnlikeAction(HttpServletRequest req, HttpServletResponse resp)
+			throws IOException, SQLException {
+
+		if(req.getParameter("type").equals("question")){
+			rdao.unlike("question",Integer.parseInt(req.getParameter("questionId")));
+			resp.sendRedirect("/qfest/questions");
+		}
+
+		else if (req.getParameter("type").equals("answer")){
+			rdao.unlike("answer",Integer.parseInt(req.getParameter("answerId")));
+			resp.sendRedirect("/qfest/questions?action=view");
+		}
+		//we need to ajax response
 	}
 	private void performInappropriateAction(HttpServletRequest req, HttpServletResponse resp)
 			throws IOException, SQLException {
 		rdao.Inappropriate(Integer.parseInt(req.getParameter("id")));
 		resp.sendRedirect("/qfest/questions");
 	}
+	
+	
 }

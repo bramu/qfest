@@ -2,7 +2,6 @@ package com.tb.servlets;
 
 import java.io.IOException;
 import java.sql.SQLException;
-import java.util.List;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -10,8 +9,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.tb.beans.Answer;
 import com.tb.dao.AnswerDAO;
+import com.tb.dao.QuestionDAO;
 
 public class AnswersServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
@@ -48,18 +47,12 @@ public class AnswersServlet extends HttpServlet {
 			throws ServletException, IOException, NumberFormatException, SQLException {
 		if (req.getParameter("action").equals("writeAnswer")) {
 			performWriteAnswerAction(req, resp);
-		} else if (req.getParameter("action").equals("writeComment")) {
-			performWriteCommentAction(req, resp);
 		} else if (req.getParameter("action").equals("submitAnswer")) {
 			performSubmitAnswerAction(req, resp);
-		} else if (req.getParameter("action").equals("submitComment")) {
-			performSubmitCommentAction(req, resp);
 		}
-		 else if (req.getParameter("action").equals("getAnswers")) {
-				performGetAnswerAction(req, resp);
-			}
+		
 	}
-
+	/*send request to the writeanswer.jsp and passing question id*/
 	private void performWriteAnswerAction(HttpServletRequest req,
 			HttpServletResponse resp) throws ServletException, IOException {
 		req.setAttribute("questionId", req.getParameter("questionId"));
@@ -68,16 +61,7 @@ public class AnswersServlet extends HttpServlet {
 				"/questions/writeAnswer.jsp");
 		rd1.forward(req, resp);
 	}
-
-	private void performWriteCommentAction(HttpServletRequest req,
-			HttpServletResponse resp) throws ServletException, IOException {
-		req.setAttribute("questionId", req.getParameter("questionId"));
-
-		RequestDispatcher rd1 = getServletContext().getRequestDispatcher(
-				"/questions/writeComment.jsp");
-		rd1.forward(req, resp);
-	}
-
+	/*call the submit answer method to insert the answer into the database*/
 	private void performSubmitAnswerAction(HttpServletRequest req,
 			HttpServletResponse resp) throws ServletException, IOException {
 		try {
@@ -85,25 +69,15 @@ public class AnswersServlet extends HttpServlet {
 			String answer = req.getParameter("answer");
 			int userId = (Integer) req.getSession().getAttribute("userId");
 			adao.submitAnswer(questionId, answer, userId);
+			QuestionDAO qdao = new QuestionDAO();
+			qdao.countUpdates("answers_count", questionId);
 			resp.sendRedirect("/qfest/questions");
-		} catch (Exception e) {
-		}
+			} catch (Exception e) {
+			}
 
 	}
 
-	private void performSubmitCommentAction(HttpServletRequest req,
-			HttpServletResponse resp) throws ServletException, IOException {
-
-	}
-	private void performGetAnswerAction(HttpServletRequest req,
-			HttpServletResponse resp) throws ServletException, IOException, NumberFormatException, SQLException {
-		AnswerDAO adao = new AnswerDAO();
-		List<Answer> answers = adao.listOfAnswers(Integer.parseInt(req
-				.getParameter("questionId")));
-		req.setAttribute("answers", answers);
-		RequestDispatcher rd1 = getServletContext().getRequestDispatcher(
-				"/questions/view.jsp");
-		rd1.forward(req, resp);
-	}
+	
+	
 	
 }

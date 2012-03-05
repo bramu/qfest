@@ -41,7 +41,7 @@
 						<div class="nav-menu span-26 corners black-bg4 menu-shadow">
 							<ul class="nav">
 								<li><a href="#"></a></li>
-								<li><a href="#">Questions</a></li>
+								<li><a href="/qfest/questions">Questions</a></li>
 								<li><a href="#">Interviews</a></li>
 								<li><a href="#">Companies</a></li>
 								<li><a href="#">Skills</a></li>
@@ -88,11 +88,11 @@
 							<label for="select01" class="control-label">Tags</label>
 							<div class="controls">
 								<select id="select01">
-									<option>something</option>
-									<option>2</option>
-									<option>3</option>
-									<option>4</option>
-									<option>5</option>
+									<option>select Tags</option>
+									<option>c</option>
+									<option>Java</option>
+									<option>servlets</option>
+									<option>linkedlist</option>
 								</select>
 							</div>
 						</div>

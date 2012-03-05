@@ -55,7 +55,7 @@ public class UsersServlet extends HttpServlet {
 		}	
 
 	}
-
+	/*send request to the user.jsp to render the registration form*/
 	private void performRegisterAction(HttpServletRequest req,
 			HttpServletResponse resp) {
 		try {
@@ -67,7 +67,7 @@ public class UsersServlet extends HttpServlet {
 			e.printStackTrace();
 		}
 	}
-
+	/*create account for the user checking the conditions*/
 	private void performCreateAccountAction(HttpServletRequest req,
 			HttpServletResponse resp) throws IOException, SQLException {
 		resp.setContentType("text/html");
@@ -91,7 +91,7 @@ public class UsersServlet extends HttpServlet {
 			e.printStackTrace();
 		}
 	}
-
+	/*send request to the user.jsp to render the login form*/
 	private void performLoginAction(HttpServletRequest req,
 			HttpServletResponse resp) {
 		try {
@@ -104,7 +104,7 @@ public class UsersServlet extends HttpServlet {
 			e.printStackTrace();
 		}
 	}
-
+	/*check the conditions to be successfully logged in*/
 	private void performLoginCheckAction(HttpServletRequest req,
 			HttpServletResponse resp) throws IOException {
 		try {
@@ -126,6 +126,7 @@ public class UsersServlet extends HttpServlet {
 		}
 
 	}
+	/*sign outing the user*/
 	private void performLogoutAction(HttpServletRequest req,
 			HttpServletResponse resp) throws IOException {
 		

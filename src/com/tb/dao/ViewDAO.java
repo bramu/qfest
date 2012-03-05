@@ -9,6 +9,7 @@ import com.tb.utils.DBConnector;
 public class ViewDAO {
 	private Statement stm;
 	private String watchesTable="watches";
+	/*constructor for connecting with the database*/
 	public ViewDAO() {
 		try {
 			Connection con = DBConnector.getInstance().getConnection();
@@ -17,7 +18,7 @@ public class ViewDAO {
 			e.printStackTrace();
 		}
 	}
-	
+
 	public int viewedCount() throws SQLException {
 		String sql = "SELECT COUNT(*) as viewedCount FROM "+ watchesTable +" WHERE watchable_type = 'questions'";
 		ResultSet rs = stm.executeQuery(sql);

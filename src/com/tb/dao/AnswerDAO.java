@@ -16,7 +16,7 @@ public class AnswerDAO {
 	
 	private QuestionDAO qdao = new QuestionDAO();
 	private UserDAO udao = new UserDAO();
-
+	/*constructor for connecting with the database*/
 	public AnswerDAO() {
 		try {
 
@@ -27,7 +27,7 @@ public class AnswerDAO {
 			e.printStackTrace();
 		}
 	}
-
+	/*get the list of answers for the selected question */
 	public List<Answer> listOfAnswers(int questionId) throws SQLException {
 		ResultSet rs = stm.executeQuery("select answer_text from " + answersTable
 				+ " where question_id=" + questionId);
@@ -39,7 +39,7 @@ public class AnswerDAO {
 		}
 		return answers;
 	}
-
+	/*get all the list of answers from answers table*/
 	public List<Answer> fetchAll(int pageNo) throws SQLException {
 		ResultSet rs = stm.executeQuery("select * from " + answersTable
 				+ " limit " + (pageNo - 1) * 4 + ", 4");
@@ -57,7 +57,7 @@ public class AnswerDAO {
 		}
 		return answers;
 	}
-
+	/*get one answer from answers table for the given answer id*/
 	public Answer findById(int answerId) throws SQLException {
 		ResultSet rs = stm.executeQuery("select * from " + answersTable
 				+ " WHERE id = " + answerId);
@@ -73,7 +73,7 @@ public class AnswerDAO {
 		}
 		return a;
 	}
-
+	
 	public int updateCounts(String countcolumn, int answerId)
 			throws SQLException {
 		ResultSet rs = stm.executeQuery("select " + countcolumn + " from "
@@ -90,6 +90,7 @@ public class AnswerDAO {
 
 		return count+1;
 	}
+	/* insert the answer for the selected question into the database*/
 	public int submitAnswer(int questionId,String answer, int userId) throws SQLException{
 		Answer a = new Answer();
 		String sql =  "insert into "+ answersTable +"(question_id,answer_text,user_id,created_at,updated_at) " +
