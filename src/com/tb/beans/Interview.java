@@ -1,6 +1,6 @@
 package com.tb.beans;
 
-public class Interview {
+public class Interview extends Base {
 	private int companyId;
 	private int locationId;
 	private int roleId;

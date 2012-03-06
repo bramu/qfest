@@ -25,4 +25,20 @@
     <servlet-name>user</servlet-name>
     <url-pattern>/users</url-pattern>
   </servlet-mapping>
+  <servlet>
+    <servlet-name>ratings</servlet-name>
+    <servlet-class>com.tb.servlets.RatingsServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>ratings</servlet-name>
+    <url-pattern>/ratings</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <servlet-name>answers</servlet-name>
+    <servlet-class>com.tb.servlets.AnswersServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>answers</servlet-name>
+    <url-pattern>/answers</url-pattern>
+  </servlet-mapping>
 </web-app>

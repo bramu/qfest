@@ -29,8 +29,8 @@
 </head>
 <body>
 	<div class="container">
-		<div class="navbar">
-			<div class="navbar-inner">
+		<div class="navbar" >
+			<div class="navbar-inner" >
 				<div style="width: auto;" class="container">
 					<a data-target=".nav-collapse" data-toggle="collapse"
 						class="btn btn-navbar"> <span class="icon-bar"></span> <span
@@ -65,22 +65,24 @@
 		</div>
 		<div class="row">
 			<div class="span9">
-				<h1 class="heading-title">
-					<div class="links">
-						<ul>
-							<li><a href="/questions/type/unanswered/page/1">unanswered</a>
-							</li>
-							<li>|</li>
-							<li><a href="/questions/type/viewed/page/1">viewed</a></li>
-							<li>|</li>
-							<li><a href="/questions/type/rated/page/1">rated</a></li>
-							<li>|</li>
-							<li><a class="link_on" href="/questions/type/recent/page/1">recent</a></li>
+				<div class="row">
+					<div class="span5">
+						<h2>Recent Questions</h2>
+					</div>
+					<div class="span4">
+						<ul class="nav nav-pills" align="right">
+							<li><a href="/qfest/questions?action=index&type=recent">recent</a></li>
+							<li><a href="/qfest/questions?action=index&type=rated">rated</a></li>
+							<li><a href="/qfest/questions?action=index&type=viewed">viewed</a></li>
+							<li><a
+								href="/qfest/questions?action=index&type=unanswered
+								">unanswered</a></li>
+							<li><a href="#">bookmark</a></li>
+
 						</ul>
 					</div>
-					<span>Recent Questions</span> <span class="header_tags"> </span>
-				</h1>
 
+				</div>
 				<div class="page-header"></div>
 
 				<div class="row">
@@ -96,7 +98,12 @@
 						</div>
 					</div>
 					<div class="span3">
-						<a href="#">up</a> <a href="#">down</a>
+						<a href="#">Show Answer</a>
+						<div>
+							<a href="#"><img src="images/link_like2.gif"> </a> <a
+								href="#"><img src="images/link_dislike2.gif"> </a>
+						</div>
+
 						<div>
 							<a href="#">flag as inappropriate</a>
 						</div>
@@ -108,150 +115,12 @@
 					<a href="#" class="btn">Bookmark</a>
 				</div>
 
-				<div class="page-header"></div>
-				<div class="row">
-					<div class="span6">
-						<div>
-							<h3>Display Question?</h3>
-						</div>
-						<div>
-							<a class="label label-info" href="#">java</a> <a
-								class="label label-info" href="#">arrays</a> <a
-								class="label label-info" href="#">servlets</a>
-						</div>
 
-					</div>
-					<div class="span3">
-						<a href="#">up</a> <a href="#">down</a>
-						<div>
-							<a href="#">flag as inappropriate</a>
-						</div>
-					</div>
-				</div>
-				<div style="margin: 9px 0;" class="btn-group">
-					<a href="#" class="btn">WriteAnswer</a> <a href="#" class="btn">WriteComment</a>
-					<a href="#" class="btn">Bookmark</a>
-				</div>
 				<div class="page-header"></div>
-				<div class="row">
-					<div class="span6">
-						<div>
-							<h3>Display Question?</h3>
-						</div>
-						<div>
-							<a class="label label-info" href="#">java</a> <a
-								class="label label-info" href="#">arrays</a> <a
-								class="label label-info" href="#">servlets</a>
-						</div>
 
-					</div>
-					<div class="span3">
-						<a href="#">up</a> <a href="#">down</a>
-						<div>
-							<a href="#">flag as inappropriate</a>
-						</div>
-					</div>
-				</div>
-				<div style="margin: 9px 0;" class="btn-group">
-					<a href="#" class="btn">WriteAnswer</a> <a href="#" class="btn">WriteComment</a>
-					<a href="#" class="btn">Bookmark</a>
-				</div>
-				<div class="page-header"></div>
-				<div class="row">
-					<div class="span6">
-						<div>
-							<h3>Display Question?</h3>
-						</div>
-						<div>
-							<a class="label label-info" href="#">java</a> <a
-								class="label label-info" href="#">arrays</a> <a
-								class="label label-info" href="#">servlets</a>
-						</div>
-					</div>
-					<div class="span3">
-						<a href="#">up</a> <a href="#">down</a>
-						<div>
-							<a href="#">flag as inappropriate</a>
-						</div>
-					</div>
-				</div>
-				<div style="margin: 9px 0;" class="btn-group">
-					<a href="#" class="btn">WriteAnswer</a> <a href="#" class="btn">WriteComment</a>
-					<a href="#" class="btn">Bookmark</a>
-				</div>
-				<div class="page-header"></div>
-				<div class="row">
-					<div class="span6">
-						<div>
-							<h3>Display Question?</h3>
-						</div>
-						<div>
-							<a class="label label-info" href="#">java</a> <a
-								class="label label-info" href="#">arrays</a> <a
-								class="label label-info" href="#">servlets</a>
-						</div>
+				
 
-					</div>
-					<div class="span3">
-						<a href="#">up</a> <a href="#">down</a>
-						<div>
-							<a href="#">flag as inappropriate</a>
-						</div>
-					</div>
-				</div>
-				<div style="margin: 9px 0;" class="btn-group">
-					<a href="#" class="btn">WriteAnswer</a> <a href="#" class="btn">WriteComment</a>
-					<a href="#" class="btn">Bookmark</a>
-				</div>
-				<div class="page-header"></div>
-				<div class="row">
-					<div class="span6">
-						<div>
-							<h3>Display Question?</h3>
-						</div>
-						<div>
-							<a class="label label-info" href="#">java</a> <a
-								class="label label-info" href="#">arrays</a> <a
-								class="label label-info" href="#">servlets</a>
-						</div>
 
-					</div>
-					<div class="span3">
-						<a href="#">up</a> <a href="#">down</a>
-						<div>
-							<a href="#">flag as inappropriate</a>
-						</div>
-					</div>
-				</div>
-				<div style="margin: 9px 0;" class="btn-group">
-					<a href="#" class="btn">WriteAnswer</a> <a href="#" class="btn">WriteComment</a>
-					<a href="#" class="btn">Bookmark</a>
-				</div>
-				<div class="page-header"></div>
-				<div class="row">
-					<div class="span6">
-						<div>
-							<h3>Display Question?</h3>
-						</div>
-						<div>
-							<a class="label label-info" href="#">java</a> <a
-								class="label label-info" href="#">arrays</a> <a
-								class="label label-info" href="#">servlets</a>
-						</div>
-
-					</div>
-					<div class="span3">
-						<a href="#">up</a> <a href="#">down</a>
-						<div>
-							<a href="#">flag as inappropriate</a>
-						</div>
-					</div>
-				</div>
-				<div style="margin: 9px 0;" class="btn-group">
-					<a href="#" class="btn">WriteAnswer</a> <a href="#" class="btn">WriteComment</a>
-					<a href="#" class="btn">Bookmark</a>
-				</div>
-				<div class="page-header"></div>
 				<div class="pagination">
 					<ul>
 						<li class="disabled"><a href="#">previous</a></li>
@@ -278,15 +147,7 @@
 						<a href="/questions/new">Add Question</a>
 					</div>
 				</div>
-				<div class="form-actions">
-					<h3>Share or ask the questions you already faced in interviews
-						and get answers and comments from thousands of people around
-						you...</h3>
 
-					<div align="middle">
-						<a href="#" class="label label-info">Add Question</a>
-					</div>
-				</div>
 				<div class="page-header"></div>
 				<div align="middle">
 					<h1>4334</h1>
@@ -342,20 +203,9 @@
 			</div>
 
 		</div>
-		<div class="container">
-			<div class="navbar">
-				<div class="navbar-inner">
-					<div class="container" style="width: 100%;">
-						<a class="btn btn-navbar" data-toggle="collapse"
-							data-target=".nav-collapse"> <span class="icon-bar"></span> <span
-							class="icon-bar"></span> <span class="icon-bar"></span>
-						</a> <a class="brand" href="#"> w5db.com.All rights reserved </a>
 
-					</div>
-				</div>
-				<!-- /navbar-inner -->
-			</div>
-		</div>
+
+
 	</div>
 
 </body>

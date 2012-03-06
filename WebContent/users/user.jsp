@@ -36,7 +36,7 @@
 					<a data-target=".nav-collapse" data-toggle="collapse"
 						class="btn btn-navbar"> <span class="icon-bar"></span> <span
 						class="icon-bar"></span> <span class="icon-bar"></span>
-					</a> <a href="#" class="brand">Quest fest</a>
+					</a> <a href="#" class="brand">Qfest</a>
 					<div class="nav-collapse">
 						<div class="nav-menu span-26 corners black-bg4 menu-shadow">
 							<ul class="nav">
@@ -162,7 +162,7 @@
 				<a class="btn btn-navbar" data-toggle="collapse"
 					data-target=".nav-collapse"> <span class="icon-bar"></span> <span
 					class="icon-bar"></span> <span class="icon-bar"></span>
-				</a> <a class="brand" href="#"> w5db.com.All rights reserved </a>
+				</a> <a class="brand" href="#"> Qfest.com.All rights reserved </a>
 
 			</div>
 		</div>

@@ -34,7 +34,7 @@ public class QuestionDAO {
 	}
 	/* get the list of questions from questions table*/
 	public List<Question> fetchAll(int pageNo) throws SQLException {
-	    ResultSet rs = stm.executeQuery("select * from " + questionsTable + " limit " + (pageNo - 1) * 4 + ", 4" );
+	    ResultSet rs = stm.executeQuery("select * from " + questionsTable + " limit " + (pageNo - 1) * 20 + ", 20" );
 	    List<Question> questions = new ArrayList<Question>();
 	    
 	    while (rs.next()) {
@@ -120,7 +120,7 @@ public class QuestionDAO {
 	/*get list of all unanswered questions*/
 	public List<Question> unanswered(int pageNo) throws SQLException{
 		String sql = "select id,title from " + questionsTable + " where answers_count = 0  order by id desc " +
-						" limit " + (pageNo - 1) * 4 + ",4";
+						" limit " + (pageNo - 1) * 20 + ",20";
 		List<Question> questions = new ArrayList<Question>();
 		ResultSet rs = stm.executeQuery(sql);
 		while(rs.next()){
@@ -143,7 +143,7 @@ public class QuestionDAO {
 	}
 	/* get the all recently added questions*/
 	public List<Question> recent(int pageNo) throws SQLException{
-		String sql="SELECT id, title FROM "+ questionsTable +" ORDER BY id DESC limit " + (pageNo - 1) * 4  + ", 4";
+		String sql="SELECT id, title FROM "+ questionsTable +" ORDER BY id DESC limit " + (pageNo - 1) * 20  + ", 20";
 		List<Question> questions = new ArrayList<Question>();
 		ResultSet rs = stm.executeQuery(sql);
 		while(rs.next()){
@@ -157,7 +157,7 @@ public class QuestionDAO {
 	}
 	/*get all the most viewed questions*/
 	public List<Question> mostViewed(int pageNo) throws SQLException{
-		String sql="SELECT id, title FROM "+ questionsTable +" ORDER BY views_count DESC limit " + (pageNo - 1) * 4  + ", 4";
+		String sql="SELECT id, title FROM "+ questionsTable +" ORDER BY views_count DESC limit " + (pageNo - 1) * 20 + ", 20";
 		List<Question> questions = new ArrayList<Question>();
 		ResultSet rs = stm.executeQuery(sql);
 		while(rs.next()){
@@ -171,7 +171,7 @@ public class QuestionDAO {
 	}
 	/*get the list of most liked questions*/
 	public List<Question> mostRated(int pageNo) throws SQLException{
-		String sql="SELECT id, title FROM "+ questionsTable +" ORDER BY (yes_count + no_count) DESC limit " + (pageNo - 1) * 4  + ", 4";
+		String sql="SELECT id, title FROM "+ questionsTable +" ORDER BY (yes_count + no_count) DESC limit " + (pageNo - 1) * 20  + ", 20";
 		List<Question> questions = new ArrayList<Question>();
 		ResultSet rs = stm.executeQuery(sql);
 		while(rs.next()){
@@ -187,7 +187,7 @@ public class QuestionDAO {
 	public List<Question> tags(int tag_id,int pageNo) throws SQLException{
 		List<Question> questions = new ArrayList<Question>();
 		String sql = "select question_text from questions q, qtags qt where q.id = qt.question_id and qt.tag_id = " + tag_id  
-				+ " limit " + (pageNo-1)*4 + ",4" ;
+				+ " limit " + (pageNo-1)*20 + ",20" ;
 		ResultSet rs = stm.executeQuery(sql);
 		while(rs.next()){
 			Question q = new Question();

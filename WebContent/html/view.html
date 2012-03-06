@@ -5,8 +5,8 @@
 <link href="css/bootstrap.css" rel="stylesheet">
 <link href="css/docs.css" rel="stylesheet">
 <link href="css/bootstrap-responsive.css" rel="stylesheet">
-<script type="text/javascript"
-	src="http://platform.twitter.com/widgets.js"></script>
+<link href="css/ownstyle.css" rel="stylesheet">
+
 <script src="js/jquery.js"></script>
 <script src="js/google-code-prettify/prettify.js"></script>
 <script src="js/bootstrap-transition.js"></script>
@@ -76,29 +76,29 @@
 								class="label label-info" href="#">arrays</a> <a
 								class="label label-info" href="#">servlets</a>
 						</div>
-						<form class="form-horizontal">
-							<fieldset>
-								<div class="control-group">
-									<label for="textarea" class="control-label">Write Answer Here</label>
-									<div class="controls">
-										<textarea rows="3" id="textarea" class="input-xlarge"></textarea>
-									</div>
-								</div>
-								<div class="control-group">
-									<label for="textarea" class="control-label">Write Comments Here</label>
-									<div class="controls">
-										<textarea rows="3" id="textarea" class="input-xlarge"></textarea>
-									</div>
-								</div>
-								<div align="middle">
-									<a class="label label-info" href="#">submit</a>
-									<a class="label label-info" href="#">cancle</a>
-								</div>
-							</fieldset>
-						</form>
+
+
 					</div>
 					<div class="span3">
 						<a href="#">up</a> <a href="#">down</a>
+					</div>
+				</div>
+
+				<br />
+				<div style="margin-bottom: 9px;" class="tabbable">
+					<ul class="nav nav-tabs">
+						<li class=""><a data-toggle="tab" href="#1">answers</a></li>
+						<li class=""><a data-toggle="tab" href="#2">comments</a></li>
+
+					</ul>
+					<div class="tab-content">
+						<div id="1" class="tab-pane">
+							<p>show answers here</p>
+						</div>
+						<div id="2" class="tab-pane">
+							<p>show comments here</p>
+						</div>
+
 					</div>
 				</div>
 

@@ -40,7 +40,7 @@
 					<a data-target=".nav-collapse" data-toggle="collapse"
 						class="btn btn-navbar"> <span class="icon-bar"></span> <span
 						class="icon-bar"></span> <span class="icon-bar"></span>
-					</a> <a href="#" class="brand">Quest fest</a>
+					</a> <a href="#" class="brand">Qfest</a>
 					<div class="nav-collapse">
 						<div class="nav-menu span-26 corners black-bg4 menu-shadow">
 							<ul class="nav">
@@ -85,7 +85,7 @@
 											.getQuestionText());
 								%>
 							</p>
-							
+
 						</div>
 						<div>
 							<a class="label label-info" href="#">java</a> <a
@@ -94,7 +94,7 @@
 						</div>
 
 					</div>
-					
+
 				</div>
 				<br />
 				<div style="margin-bottom: 9px;" class="tabbable">
@@ -107,42 +107,45 @@
 						<div id="answers_tab" class="tab-pane">
 							<p>
 								<%
-								
-								List<Answer> answers = (List<Answer>) request
-										.getAttribute("answers");
-							if(answers.isEmpty()){
-								out.println("No answers to display");
-							}else {
-								for (int i = 0; i < answers.size(); i++) {
-									out.println(answers.get(i).getAnswerText());%>
-									<div>
-									<a id='up-<%=answers.get(i).getId()%>'
-										href="/qfest/ratings?action=like&type=answer&answerId=<%=answers.get(i).getId()%>"><img
-										src="html/images/link_like2.gif"> </a> <a
-										id='down-<%=answers.get(i).getId()%>'
-										href="/qfest/ratings?action=unlike&type=answer&answerId=<%=answers.get(i).getId()%>"><img
-										src="html/images/link_dislike2.gif"> </a>
+									List<Answer> answers = (List<Answer>) request
+											.getAttribute("answers");
+									if (answers.isEmpty()) {
+										out.println("No answers to display");
+									} else {
+										for (int i = 0; i < answers.size(); i++) {
+											out.println(answers.get(i).getAnswerText());
+								%>
 							
-								</div>  
-							<%    
+							<div>
+								<a id='up-<%=answers.get(i).getId()%>'
+									href="/qfest/ratings?action=like&type=answer&answerId=<%=answers.get(i).getId()%>"><img
+									src="html/images/link_like2.gif"> </a> <a
+									id='down-<%=answers.get(i).getId()%>'
+									href="/qfest/ratings?action=unlike&type=answer&answerId=<%=answers.get(i).getId()%>"><img
+									src="html/images/link_dislike2.gif"> </a>
+
+							</div>
+							<%
 								}
-							}%>
-							
+								}
+							%>
+
 							</p>
 						</div>
 						<div id="comments_tab" class="tab-pane">
 							<p>
-							   <%
-								List<Comment> comments = (List<Comment>) request
-										.getAttribute("comments");
-							   if(comments.size()== 0){
-								   out.println("No comments to display for this question");
-							   }else{
-								for (int i = 0; i < comments.size(); i++) {
-									out.println(comments.get(i).getContent());
-								}
-							   }
-							%>
+								<%
+									List<Comment> comments = (List<Comment>) request
+											.getAttribute("comments");
+									if (comments.size() == 0) {
+										out.println("No comments to display for this question");
+									} else {
+										for (int i = 0; i < comments.size(); i++) {
+											out.println(comments.get(i).getContent());%>
+											<br/>
+								<% 		}
+									}
+								%>
 							</p>
 						</div>
 
@@ -152,14 +155,28 @@
 			</div>
 			<div class="span3">
 				<div class="form-actions">
-					<h3>Share or ask the questions you already faced in interviews
-						and get answers and comments from thousands of people around
-						you...</h3>
+				<h3>Share or ask the questions you already faced in interviews
+					and get answers and comments from thousands of people around you...</h3>
 
-					<div align="middle">
-						<a href="#" class="label label-info">Add Question</a>
-					</div>
+				<div align="middle">
+					<%
+						if (session.getAttribute("userId") == null) {
+					%>
+					<a href="/qfest/users?action=login" class="label label-info">Add
+						Question</a>
+
+					<%
+						} else {
+					%>
+					<a
+						href="/qfest/questions?action=add&userId=<%=session.getAttribute("userId")%>"
+						class="label label-info">Add Question</a>
+
+					<%
+						}
+					%>
 				</div>
+			</div>
 				<div class="page-header"></div>
 				<div align="middle">
 					<h1><%=(Integer) request.getAttribute("totalCount")%></h1>
@@ -172,61 +189,86 @@
 					<h3>popular tags</h3>
 				</div>
 
-				<div>
-					<a class="btn js-btn" href="#">arrays</a>
-				</div>
-				<div>
-					<a class="btn js-btn" href="#">c</a>
-				</div>
-				<div>
-					<a class="btn js-btn" href="#">c++</a>
-				</div>
-				<div>
-					<a class="btn js-btn" href="#">java</a>
-				</div>
-				<div>
-					<a class="btn js-btn" href="#">linked list</a>
-				</div>
-				<div>
-					<a class="btn js-btn" href="#">pointers</a>
-				</div>
-				<div>
-					<a class="btn js-btn" href="#">servlets</a>
-				</div>
-				<div>
-					<a class="btn js-btn" href="#">jdbc</a>
-				</div>
-				<div>
-					<a class="btn js-btn" href="#">jsp</a>
-				</div>
-				<div>
-					<a class="btn js-btn" href="#">generics</a>
-				</div>
-				<div>
-					<a class="btn js-btn" href="#">collections</a>
-				</div>
-				<div>
-					<a class="btn js-btn" href="#">inner classes</a>
-				</div>
-				<div>
-					<a class="btn js-btn" href="#">hashmap</a>
-				</div>
-			</div>
-		</div>
-	</div>
-	<div class="container">
-		<div class="navbar">
-			<div class="navbar-inner">
-				<div class="container" style="width: 100%;">
-					<a class="btn btn-navbar" data-toggle="collapse"
-						data-target=".nav-collapse"> <span class="icon-bar"></span> <span
-						class="icon-bar"></span> <span class="icon-bar"></span>
-					</a> <a class="brand" href="#"> w5db.com.All rights reserved </a>
+				
+				<div style="padding-top: 20px;">
+				<code>
+					<a href="#">Arrays</a>
+				</code>x67
 
-				</div>
 			</div>
-			<!-- /navbar-inner -->
+			<div style="padding-top: 20px;" >
+				<code>
+					<a href="#">oops</a>
+				</code>x54
+
+			</div>
+			<div style="padding-top: 20px;" >
+				<code>
+					<a href="#">Servlets</a>
+				</code>x40
+
+			</div>
+			<div style="padding-top: 20px;" >
+				<code>
+					<a href="#">linkedlist</a>
+				</code>x30
+
+			</div>
+			<div style="padding-top: 20px;" >
+				<code>
+					<a href="#">pointers</a>
+				</code>x20
+
+			</div>
+			<div style="padding-top: 20px;" >
+				<code>
+					<a href="#">Structs</a>
+				</code>x10
+
+			</div>
+			<div style="padding-top: 20px;" >
+				<code>
+					<a href="#">coolections</a>
+				</code>x21
+
+			</div>
+			<div style="padding-top: 20px;" >
+				<code>
+					<a href="#">generics</a>
+				</code>x32
+
+			</div>
+			<div style="padding-top: 20px;" >
+				<code>
+					<a href="#">java</a>
+				</code>x63
+
+			</div>
+			</div>
 		</div>
+
+		<footer class="footer">
+		<p class="pull-right">
+			<a href="#">Back to top</a>
+		</p>
+		<p>
+			Designed and built with all the love in the world <a target="_blank"
+				href="http://twitter.com/twitter">@twitter</a> by <a target="_blank"
+				href="http://twitter.com/mdo">@mdo</a> and <a target="_blank"
+				href="http://twitter.com/fat">@fat</a>.
+		</p>
+		<p>
+			Code licensed under the <a target="_blank"
+				href="http://www.apache.org/licenses/LICENSE-2.0">Apache License
+				v2.0</a>. Documentation licensed under <a
+				href="http://creativecommons.org/licenses/by/3.0/">CC BY 3.0</a>.
+		</p>
+		<p>
+			Icons from <a href="http://glyphicons.com">Glyphicons Free</a>,
+			licensed under <a href="http://creativecommons.org/licenses/by/3.0/">CC
+				BY 3.0</a>.
+		</p>
+		</footer>
 	</div>
 </body>
 </html>

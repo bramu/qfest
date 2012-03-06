@@ -58,7 +58,7 @@
 				<a data-target=".nav-collapse" data-toggle="collapse"
 					class="btn btn-navbar"> <span class="icon-bar"></span> <span
 					class="icon-bar"></span> <span class="icon-bar"></span>
-				</a> <a href="#" class="brand">Quest fest</a>
+				</a> <a href="#" class="brand">Qfest</a>
 				<div class="nav-collapse">
 					<div class="nav-menu span-26 corners black-bg4 menu-shadow">
 						<ul class="nav">
@@ -156,6 +156,7 @@
 					</div>
 				</div>
 				<div class="span3">
+
 					<a
 						href="/qfest/questions?action=view&questionId=<%=questions.get(i).getId()%>">ShowAnswer</a>
 
@@ -218,46 +219,32 @@
 			<%
 				if ((String) request.getAttribute("type") != null) {
 			%>
-			<div class="pagination">
+			<div class="pagination" align="right">
 
 				<ul>
 					<%
 						if ((Integer) request.getAttribute("pageNo") > 1) {
 					%>
 					<li><a
-						href="/qfest/questions?action=index&type=<%=(String) request.getAttribute("type")%>&page=1">first</a></li>
+						href="/qfest/questions?action=index&type=<%=(String) request.getAttribute("type")%>
+						&page=<%=(Integer) request.getAttribute("pageNo")-1%>">previous</a></li>
 					<%
 						} else {
 					%>
-					<li class="active"><a href="#">first</a></li>
+					<li class="active"><a href="#">previous</a></li>
 					<%
 						}
-
-							for (int i = 1; i <= Math.abs(((Integer) request
-									.getAttribute("totalCount") / 4)) + 1; i++) {
-								if ((Integer) request.getAttribute("pageNo") == i) {
-					%>
-					<li class="active"><a href="#"><%=i%></a></li>
-					<%
-						} else {
-					%>
-					<li><a
-						href="/qfest/questions?action=index&type=<%=(String) request.getAttribute("type")%>&page=<%=i%>"><%=i%></a></li>
-					<%
-						}
-							}
-					%>
-					<%
 						int totalPages = Math.abs(((Integer) request
-									.getAttribute("totalCount") / 4)) + 1;
+									.getAttribute("totalCount") / 20)) + 1;
 							if (totalPages > (Integer) request.getAttribute("pageNo")) {
 					%>
 					<li><a
-						href="/qfest/questions?action=index&type=<%=(String) request.getAttribute("type")%>&page=<%=totalPages%>">last</a></li>
+						href="/qfest/questions?action=index&type=<%=(String) request.getAttribute("type")%>
+						&page=<%=(Integer) request.getAttribute("pageNo")+1%>">next</a></li>
 					<%
 						} else {
 					%>
-					<li class="active"><a href="#">last</a></li>
+					<li class="active"><a href="#">next</a></li>
 					<%
 						}
 					%>
@@ -268,42 +255,27 @@
 			<%
 				} else {
 			%>
-			<div class="pagination">
+			<div class="pagination" align="right">
 
 				<ul>
 					<%
 						if ((Integer) request.getAttribute("pageNo") > 1) {
 					%>
-					<li><a href="/qfest/questions?action=index&page=1">first</a></li>
+					<li><a href="/qfest/questions?action=index&page=<%=(Integer) request.getAttribute("pageNo")-1 %>">previous</a></li>
 					<%
 						} else {
 					%>
-					<li class="active"><a href="#">first</a></li>
+					<li class="active"><a href="#">previous</a></li>
 					<%
 						}
-					%>
-
-					<%
-						for (int i = 1; i <= Math.abs(((Integer) request
-									.getAttribute("totalCount") / 4)) + 1; i++) {
-								if ((Integer) request.getAttribute("pageNo") == i) {
-					%>
-					<li class="active"><a href="#"><%=i%></a></li>
-					<%
-						} else {
-					%>
-					<li><a href="/qfest/questions?action=index&page=<%=i%>"><%=i%></a></li>
-					<%
-						}
-							}
 					%>
 					<%
 						int totalPages = Math.abs(((Integer) request
-									.getAttribute("totalCount") / 4)) + 1;
+									.getAttribute("totalCount") / 20 )) + 1;
 							if (totalPages > (Integer) request.getAttribute("pageNo")) {
 					%>
 					<li><a
-						href="/qfest/questions?action=index&page=<%=totalPages%>">last</a></li>
+						href="/qfest/questions?action=index&page=<%=(Integer) request.getAttribute("pageNo")+1%>">next</a></li>
 					<%
 						} else {
 					%>
@@ -338,10 +310,11 @@
 					}
 				%>
 			</ul>
-			<div class="welcome">
-				<h2>Share or ask the questions you already faced in interviews
-					and get answers and comments from thousands of people around you..</h2>
-				<div class="addnew">
+			<div class="form-actions">
+				<h3>Share or ask the questions you already faced in interviews
+					and get answers and comments from thousands of people around you...</h3>
+
+				<div align="middle">
 					<%
 						if (session.getAttribute("userId") == null) {
 					%>
@@ -360,6 +333,7 @@
 					%>
 				</div>
 			</div>
+			
 
 			<div class="page-header"></div>
 			<div align="middle">
@@ -377,64 +351,97 @@
 				<h3>popular tags</h3>
 			</div>
 
-			<div>
-				<a class="btn js-btn" href="#">arrays</a>
+			<div style="padding-top: 20px;">
+				<code>
+					<a href="#">Arrays</a>
+				</code>
+				x67
+
 			</div>
-			<div>
-				<a class="btn js-btn" href="#">c</a>
+			<div style="padding-top: 20px;">
+				<code>
+					<a href="#">oops</a>
+				</code>
+				x54
+
 			</div>
-			<div>
-				<a class="btn js-btn" href="#">c++</a>
+			<div style="padding-top: 20px;">
+				<code>
+					<a href="#">Servlets</a>
+				</code>
+				x40
+
 			</div>
-			<div>
-				<a class="btn js-btn" href="#">java</a>
+			<div style="padding-top: 20px;">
+				<code>
+					<a href="#">linkedlist</a>
+				</code>
+				x30
+
 			</div>
-			<div>
-				<a class="btn js-btn" href="#">linked list</a>
+			<div style="padding-top: 20px;">
+				<code>
+					<a href="#">pointers</a>
+				</code>
+				x20
+
 			</div>
-			<div>
-				<a class="btn js-btn" href="#">pointers</a>
+			<div style="padding-top: 20px;">
+				<code>
+					<a href="#">Structs</a>
+				</code>
+				x10
+
 			</div>
-			<div>
-				<a class="btn js-btn" href="#">servlets</a>
+			<div style="padding-top: 20px;">
+				<code>
+					<a href="#">coolections</a>
+				</code>
+				x21
+
 			</div>
-			<div>
-				<a class="btn js-btn" href="#">jdbc</a>
+			<div style="padding-top: 20px;">
+				<code>
+					<a href="#">generics</a>
+				</code>
+				x32
+
 			</div>
-			<div>
-				<a class="btn js-btn" href="#">jsp</a>
+			<div style="padding-top: 20px;">
+				<code>
+					<a href="#">java</a>
+				</code>
+				x63
+
 			</div>
-			<div>
-				<a class="btn js-btn" href="#">generics</a>
-			</div>
-			<div>
-				<a class="btn js-btn" href="#">collections</a>
-			</div>
-			<div>
-				<a class="btn js-btn" href="#">inner classes</a>
-			</div>
-			<div>
-				<a class="btn js-btn" href="#">hashmap</a>
-			</div>
+
 
 		</div>
 
 	</div>
-	<div class="navbar">
-		<div class="navbar-inner">
-			<div class="container" style="width: 100%;">
-				<a class="btn btn-navbar" data-toggle="collapse"
-					data-target=".nav-collapse"> <span class="icon-bar"></span> <span
-					class="icon-bar"></span> <span class="icon-bar"></span>
-				</a> <a class="brand" href="#"> w5db.com.All rights reserved </a>
 
-			</div>
-		</div>
-		<!-- /navbar-inner -->
-	</div>
-
-
-
+	<footer class="footer">
+	<p class="pull-right">
+		<a href="#">Back to top</a>
+	</p>
+	<p>
+		Designed and built with all the love in the world <a target="_blank"
+			href="http://twitter.com/twitter">@twitter</a> by <a target="_blank"
+			href="http://twitter.com/mdo">@mdo</a> and <a target="_blank"
+			href="http://twitter.com/fat">@fat</a>.
+	</p>
+	<p>
+		Code licensed under the <a target="_blank"
+			href="http://www.apache.org/licenses/LICENSE-2.0">Apache License
+			v2.0</a>. Documentation licensed under <a
+			href="http://creativecommons.org/licenses/by/3.0/">CC BY 3.0</a>.
+	</p>
+	<p>
+		Icons from <a href="http://glyphicons.com">Glyphicons Free</a>,
+		licensed under <a href="http://creativecommons.org/licenses/by/3.0/">CC
+			BY 3.0</a>.
+	</p>
+	</footer>
 
 </div>
 
