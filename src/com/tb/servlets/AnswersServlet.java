@@ -42,7 +42,6 @@ public class AnswersServlet extends HttpServlet {
 			e.printStackTrace();
 		}
 	}
-
 	private void performAction(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException, NumberFormatException, SQLException {
 		if (req.getParameter("action").equals("writeAnswer")) {
@@ -50,7 +49,6 @@ public class AnswersServlet extends HttpServlet {
 		} else if (req.getParameter("action").equals("submitAnswer")) {
 			performSubmitAnswerAction(req, resp);
 		}
-		
 	}
 	/*send request to the writeanswer.jsp and passing question id*/
 	private void performWriteAnswerAction(HttpServletRequest req,
@@ -74,10 +72,6 @@ public class AnswersServlet extends HttpServlet {
 			resp.sendRedirect("/qfest/questions");
 			} catch (Exception e) {
 			}
-
 	}
 
-	
-	
-	
 }

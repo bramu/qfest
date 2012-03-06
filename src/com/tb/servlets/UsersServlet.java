@@ -27,7 +27,6 @@ public class UsersServlet extends HttpServlet {
 			e.printStackTrace();
 		}
 	}
-
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
@@ -38,7 +37,6 @@ public class UsersServlet extends HttpServlet {
 			e.printStackTrace();
 		}
 	}
-
 	private void performAction(HttpServletRequest req, HttpServletResponse resp)
 			throws IOException, SQLException {
 		
@@ -53,7 +51,6 @@ public class UsersServlet extends HttpServlet {
 		}else if (req.getParameter("action").equals("logout")) {
 			performLogoutAction(req, resp);
 		}	
-
 	}
 	/*send request to the user.jsp to render the registration form*/
 	private void performRegisterAction(HttpServletRequest req,
@@ -134,7 +131,4 @@ public class UsersServlet extends HttpServlet {
 		req.getSession().removeAttribute("userId");
 		resp.sendRedirect("/qfest/questions?action=index");
 	}
-	
-	
-	
 }

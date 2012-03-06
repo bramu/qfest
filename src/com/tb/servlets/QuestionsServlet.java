@@ -1,7 +1,6 @@
 package com.tb.servlets;
 
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.sql.SQLException;
 import java.util.List;
 

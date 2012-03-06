@@ -25,7 +25,6 @@ public class RatingsServlet extends HttpServlet {
 			e.printStackTrace();
 		}
 	}
-
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
@@ -36,7 +35,6 @@ public class RatingsServlet extends HttpServlet {
 			e.printStackTrace();
 		}
 	}
-
 	private void performAction(HttpServletRequest req, HttpServletResponse resp)
 			throws IOException, SQLException {
 		 if (req.getParameter("action").equals("like")) {
@@ -46,9 +44,7 @@ public class RatingsServlet extends HttpServlet {
 		} else if (req.getParameter("action").equals("inappropriate")) {
 			performInappropriateAction(req, resp);
 		} 
-		
 	}
-	
 	private void performLikeAction(HttpServletRequest req, HttpServletResponse resp)
 			throws IOException, SQLException {
 		
@@ -62,8 +58,6 @@ public class RatingsServlet extends HttpServlet {
 			resp.sendRedirect("/qfest/questions?action=view");
 		}
 		//we need to ajax response
-		
-		
 	}
 	private void performUnlikeAction(HttpServletRequest req, HttpServletResponse resp)
 			throws IOException, SQLException {
@@ -84,6 +78,4 @@ public class RatingsServlet extends HttpServlet {
 		rdao.Inappropriate(Integer.parseInt(req.getParameter("id")));
 		resp.sendRedirect("/qfest/questions");
 	}
-	
-	
 }
