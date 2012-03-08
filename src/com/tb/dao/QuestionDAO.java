@@ -74,7 +74,7 @@ public class QuestionDAO {
 	    	q.setInappCount(rs.getInt(15));
 	        q.setInterviewId(rs.getInt(4));
 	        q.setNoCount(rs.getInt(11));
-	       ;
+	       
 	        q.setSource(rs.getString(3));
 	       
 	        q.setUserId(rs.getInt(5));
@@ -225,6 +225,9 @@ public class QuestionDAO {
 			comments.add(c);
 		}
 		return comments;
+	}
+	public int countPages( int totalCount){
+		 return Math.abs(((Integer) totalCount / 20)) + 1;
 	}
 	 
 }

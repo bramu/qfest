@@ -103,6 +103,7 @@ public class QuestionsServlet extends HttpServlet {
 				List<Question> questions = qdao.fetchAll(pageNo);
 				req.setAttribute("questions", questions);
 				req.setAttribute("totalCount", qdao.getTotalCount());
+				req.setAttribute("totalPages", qdao.countPages(qdao.getTotalCount()));
 				RequestDispatcher rd2 = getServletContext()
 						.getRequestDispatcher("/questions/index.jsp");
 				rd2.forward(req, resp);
@@ -113,6 +114,7 @@ public class QuestionsServlet extends HttpServlet {
 				List<Question> unanswered = qdao.unanswered(pageNo);
 				req.setAttribute("questions", unanswered);
 				req.setAttribute("totalCount", qdao.getTotalUnansweredCount());
+				req.setAttribute("totalPages", qdao.countPages(qdao.getTotalUnansweredCount()));
 				req.setAttribute("pageNo", pageNo);
 				req.setAttribute("type", type);
 				RequestDispatcher rd1 = getServletContext()
@@ -125,6 +127,7 @@ public class QuestionsServlet extends HttpServlet {
 				List<Question> recent = qdao.recent(pageNo);
 				req.setAttribute("questions", recent);
 				req.setAttribute("totalCount", qdao.getTotalCount());
+				req.setAttribute("totalPages", qdao.countPages(qdao.getTotalCount()));
 				req.setAttribute("pageNo", pageNo);
 				req.setAttribute("type", type);
 				RequestDispatcher rd1 = getServletContext()
@@ -140,6 +143,7 @@ public class QuestionsServlet extends HttpServlet {
 				req.setAttribute("questions", viewed);
 				req.setAttribute("pageNo", pageNo);
 				req.setAttribute("totalCount", qdao.getTotalCount());
+				req.setAttribute("totalPages", qdao.countPages(qdao.getTotalCount()));
 				RequestDispatcher rd1 = getServletContext()
 						.getRequestDispatcher("/questions/index.jsp");
 				rd1.forward(req, resp);
@@ -152,6 +156,7 @@ public class QuestionsServlet extends HttpServlet {
 				req.setAttribute("questions", rated);
 				req.setAttribute("pageNo", pageNo);
 				req.setAttribute("totalCount", qdao.getTotalCount());
+				req.setAttribute("totalPages", qdao.countPages(qdao.getTotalCount()));
 				RequestDispatcher rd1 = getServletContext()
 						.getRequestDispatcher("/questions/index.jsp");
 				rd1.forward(req, resp);
@@ -170,6 +175,7 @@ public class QuestionsServlet extends HttpServlet {
 				List<Question> bookmarked = bdao.bookmarked(userId,pageNo);
 				req.setAttribute("questions", bookmarked);
 				req.setAttribute("totalCount", qdao.getTotalCount());
+				req.setAttribute("totalPages", qdao.countPages(qdao.getTotalCount()));
 				req.setAttribute("pageNo", pageNo);
 				req.setAttribute("type", type);
 				RequestDispatcher rd1 = getServletContext()

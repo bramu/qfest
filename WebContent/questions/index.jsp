@@ -1,3 +1,4 @@
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@page import="java.util.List"%>
 <%@page import="com.tb.beans.Question"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
@@ -11,15 +12,18 @@
 <link href="html/css/bootstrap-responsive.css" rel="stylesheet">
 <link href="html/css/ownstyle.css" rel="stylesheet">
 
-<script src="html/js/jquery.js"></script>
+<script type="text/javascript"
+	src="html/fancybox/jquery.easing-1.3.pack.js"></script>
 
+<script type="text/javascript"
+	src="html/fancybox/jquery.fancybox-1.3.4.js"></script>
 <script type="text/javascript"
 	src="html/fancybox/jquery.mousewheel-3.0.4.pack.js"></script>
 <script type="text/javascript"
 	src="html/fancybox/jquery.fancybox-1.3.4.pack.js"></script>
 <link rel="stylesheet" type="text/css"
 	href="html/fancybox/jquery.fancybox-1.3.4.css" media="screen" />
-
+<script src="html/js/jquery.js"></script>
 <script src="html/js/bootstrap-transition.js"></script>
 <script src="html/js/bootstrap-alert.js"></script>
 
@@ -53,24 +57,22 @@
 </head>
 <div class="container">
 	<jsp:include page="/layout/header.jsp"></jsp:include>
-	
+
 	<div class="row">
 		<div class="span9">
 			<div class="row">
 				<div class="span5">
-				
-					
-					<%
-						if ((String) request.getAttribute("type") != null) {
-					%>
-					<h2> ${type }</h2>
-					<%
-						} else {
-					%>
-					<h2>Recent Questions</h2>
-					<%
-						}
-					%>
+					<c:choose>
+						<c:when test="${type != null}">
+							<h2>${type }</h2>
+						</c:when>
+						<c:otherwise>
+							<h2>Recent Questions</h2>
+						</c:otherwise>
+					</c:choose>
+
+
+
 				</div>
 				<div class="span4">
 					<ul class="nav nav-pills" align="right">
@@ -80,17 +82,14 @@
 						<li><a
 							href="/qfest/questions?action=index&type=unanswered
 								">unanswered</a></li>
-						<%
-							if (session.getAttribute("userId") == null) {
-						%>
-						<li><a href="#">bookmark</a></li>
-						<%
-							} else {
-						%>
-						<li><a href="/qfest/questions?action=index&type=bookmarked">bookmark</a></li>
-						<%
-							}
-						%>
+						<c:choose>
+							<c:when test="${userId == null }">
+								<li><a href="#">bookmark</a></li>
+							</c:when>
+							<c:otherwise>
+								<li><a href="/qfest/questions?action=index&type=bookmarked">bookmark</a></li>
+							</c:otherwise>
+						</c:choose>
 
 
 					</ul>
@@ -99,216 +98,171 @@
 			</div>
 			<div class="page-header"></div>
 
-			<%
-				List<Question> questions = (List<Question>) (request
-						.getAttribute("questions"));
+			<c:forEach var="question" items="${questions}">
+				<div class="row">
+					<div class="span6">
+						<div>
+							<h3>${question.title}</h3>
 
-				for (int i = 0; i < questions.size(); i++) {
-			%>
+						</div>
 
-			<div class="row">
-				<div class="span6">
-					<div>
-						<h3>
-						
-							<%
-								out.println(questions.get(i).getTitle());
-							%>
-						</h3>
+						<div>
 
+							<a class="label label-info" href="#">java</a> <a
+								class="label label-info" href="#">arrays</a> <a
+								class="label label-info" href="#">servlets</a>
+						</div>
 					</div>
+					<div class="span3">
 
-					<div>
+						<a href="/qfest/questions?action=view&questionId=${question.id }">ShowAnswer</a>
 
-						<a class="label label-info" href="#">java</a> <a
-							class="label label-info" href="#">arrays</a> <a
-							class="label label-info" href="#">servlets</a>
-					</div>
-				</div>
-				<div class="span3">
+						<div>
+							<a id='up-${question.id }'
+								href="/qfest/ratings?action=like&type=question&questionId=${question.id }"><img
+								src="html/images/link_like2.gif"> </a> <a
+								id='down-${question.id }'
+								href="/qfest/ratings?action=unlike&type=question&questionId=${question.id }"><img
+								src="html/images/link_dislike2.gif"> </a>
+						</div>
 
-					<a
-						href="/qfest/questions?action=view&questionId=<%=questions.get(i).getId()%>">ShowAnswer</a>
-
-					<div>
-						<a id='up-<%=questions.get(i).getId()%>'
-							href="/qfest/ratings?action=like&type=question&questionId=<%=questions.get(i).getId()%>"><img
-							src="html/images/link_like2.gif"> </a> <a
-							id='down-<%=questions.get(i).getId()%>'
-							href="/qfest/ratings?action=unlike&type=question&questionId=<%=questions.get(i).getId()%>"><img
-							src="html/images/link_dislike2.gif"> </a>
-					</div>
-
-					<div>
-						<a
-							href="/qfest/ratings?action=inappropriate&id=<%=questions.get(i).getId()%>">flag
-							as inappropriate</a>
+						<div>
+							<a href="/qfest/ratings?action=inappropriate&id=${question.id }">flag
+								as inappropriate</a>
+						</div>
 					</div>
 				</div>
-			</div>
 
-			<div>
-				<%
-					if (session.getAttribute("userId") == null) {
-				%>
-				<ul class="nav nav-pills" align="right">
-					<li><a href="/qfest/users?action=login" id="alogin">WriteAnswer</a></li>
-					<li><a href="/qfest/users?action=login" id="blogin">WriteComment</a></li>
-					<li><a href="/qfest/users?action=login" id="clogin">Bookmark</a></li>
-				</ul>
+				<div>
+					<c:choose>
+						<c:when test="${userId == null }">
+							<ul class="nav nav-pills" align="right">
+								<li><a href="/qfest/users?action=login" id="alogin">WriteAnswer</a></li>
+								<li><a href="/qfest/users?action=login" id="blogin">WriteComment</a></li>
+								<li><a href="/qfest/users?action=login" id="clogin">Bookmark</a></li>
+							</ul>
 
+						</c:when>
+						<c:otherwise>
+							<ul class="nav nav-pills" align="right">
+								<li><a
+									href="/qfest/answers?action=writeAnswer&questionId=${question.id }"
+									id='write-answer-${question.id }'>WriteAnswer</a></li>
+								<li><a
+									href="/qfest/questions?action=writeComment&questionId=${question.id }"
+									id='write-comment-${question.id }'>WriteComment</a></li>
+								<li><a
+									href="/qfest/questions?action=index&type=bookmarkable&id=${question.id }">Bookmark</a></li>
+							</ul>
+						</c:otherwise>
 
-
-				<%
-					} else {
-				%>
-				<ul class="nav nav-pills" align="right">
-					<li><a
-						href="/qfest/answers?action=writeAnswer&questionId=<%=questions.get(i).getId()%>"
-						id='write-answer-<%=questions.get(i).getId()%>'>WriteAnswer</a></li>
-					<li><a
-						href="/qfest/questions?action=writeComment&questionId=<%=questions.get(i).getId()%>"
-						id='write-comment-<%=questions.get(i).getId()%>'>WriteComment</a></li>
-					<li><a
-						href="/qfest/questions?action=index&type=bookmarkable&id=<%=questions.get(i).getId()%>">Bookmark</a></li>
-				</ul>
-				<%
-					}
-				%>
-
-			</div>
+					</c:choose>
 
 
-			<div class="page-header"></div>
-
-			<%
-				}
-			%>
+				</div>
 
 
-			<%
-				if ((String) request.getAttribute("type") != null) {
-			%>
-			<div class="pagination" align="right">
+				<div class="page-header"></div>
 
-				<ul>
-					<%
-						if ((Integer) request.getAttribute("pageNo") > 1) {
-					%>
-					<li><a
-						href="/qfest/questions?action=index&type= ${type }
-						&page= ${pageNo-1}">previous</a></li>
-					<%
-						} else {
-					%>
-					<li class="active"><a href="#">previous</a></li>
-					<%
-						}
-						int totalPages = Math.abs(((Integer) request
-									.getAttribute("totalCount") / 20)) + 1;
-							if (totalPages > (Integer) request.getAttribute("pageNo")) {
-					%>
-					<li><a
-						href="/qfest/questions?action=index&type= ${type }
-						&page=${pageNo+1}">next</a></li>
-					<%
-						} else {
-					%>
-					<li class="active"><a href="#">next</a></li>
-					<%
-						}
-					%>
+			</c:forEach>
+			<c:choose>
+				<c:when test="${type != null }">
+					<div class="pagination" align="right">
 
-				</ul>
-			</div>
+						<ul>
+							<c:choose>
+								<c:when test="${pageNo > 1 }">
+									<li><a
+										href="/qfest/questions?action=index&type= ${type }&page= ${pageNo-1}">previous</a></li>
+								</c:when>
+								<c:otherwise>
+									<li class="active"><a href="#">previous</a></li>
+								</c:otherwise>
+							</c:choose>
+							<c:choose>
+								<c:when test=" ${totalPages > pageNo }">
+									<li><a
+										href="/qfest/questions?action=index&type= ${type }&page=${pageNo+1}">next</a></li>
+								</c:when>
+								<c:otherwise>
+									<li class="active"><a href="#">next</a></li>
+								</c:otherwise>
+							</c:choose>
+						</ul>
+					</div>
+				</c:when>
+				<c:otherwise>
+					<div class="pagination" align="right">
 
-			<%
-				} else {
-			%>
-			<div class="pagination" align="right">
+						<ul>
+							<c:choose>
+								<c:when test="${pageNo > 1 }">
+									<li><a
+										href="/qfest/questions?action=index&page= ${pageNo-1}">previous</a></li>
+								</c:when>
+								<c:otherwise>
+									<li class="active"><a href="#">previous</a></li>
+								</c:otherwise>
+							</c:choose>
+							<c:choose>
+								<c:when test=" ${pageNo < totalPages} ">
+									<li><a
+										href="/qfest/questions?action=index&page=${pageNo+1}">next</a></li>
+								</c:when>
+								<c:otherwise>
+									<li class="active"><a href="#">next</a></li>
+								</c:otherwise>
+							</c:choose>
 
-				<ul>
-					<%
-						if ((Integer) request.getAttribute("pageNo") > 1) {
-					%>
-					<li><a href="/qfest/questions?action=index&page=${pageNo-1}">previous</a></li>
-					<%
-						} else {
-					%>
-					<li class="active"><a href="#">previous</a></li>
-					<%
-						}
-					%>
-					<%
-						int totalPages = Math.abs(((Integer) request
-									.getAttribute("totalCount") / 20 )) + 1;
-							if (totalPages > (Integer) request.getAttribute("pageNo")) {
-					%>
-					<li><a
-						href="/qfest/questions?action=index&page=${pageNo+1}">next</a></li>
-					<%
-						} else {
-					%>
-					<li class="active"><a href="#">last</a></li>
-					<%
-						}
-					%>
+						</ul>
+					</div>
+				</c:otherwise>
+			</c:choose>
 
-				</ul>
-			</div>
-			<%
-				}
-			%>
+
 		</div>
 
 		<div class="span3">
 			<ul class="nav nav-pills">
-				<%
-					if (session.getAttribute("name") != null) {
-				%>
-				<li><a href="#">Hi,${name}</a></li>
-				<li><a href="/qfest/users?action=logout">logout</a></li>
-				<%
-					} else {
-				%>
-				<li><a href="#">Hi,guest</a></li>
-				<li><a id='register' href="/qfest/users?action=register">Register
-				</a></li>
-				<li><a id='dologin' href="/qfest/users?action=login">Login
-				</a></li>
-				<%
-					}
-				%>
+				<c:choose>
+					<c:when test="${name != null }">
+						<li><a href="#">Hi,${name}</a></li>
+						<li><a href="/qfest/users?action=logout">logout</a></li>
+					</c:when>
+					<c:otherwise>
+						<li><a href="#">Hi,guest</a></li>
+						<li><a id='register' href="/qfest/users?action=register">Register
+						</a></li>
+						<li><a id='dologin' href="/qfest/users?action=login">Login
+						</a></li>
+					</c:otherwise>
+				</c:choose>
+				
 			</ul>
 			<div class="form-actions">
 				<h3>Share or ask the questions you already faced in interviews
 					and get answers and comments from thousands of people around you...</h3>
 
 				<div align="middle">
-					<%
-						if (session.getAttribute("userId") == null) {
-					%>
-					<a href="/qfest/users?action=login" class="label label-info">Add Question</a>
-
-					<%
-						} else {
-					%>
-					<a
-						href="/qfest/questions?action=add&userId= ${userId}"
+				 <c:choose>
+				 	<c:when test="${userId == null }">
+				 		<a href="/qfest/users?action=login" class="label label-info">Add
+						Question</a>
+				 		
+				 	</c:when>
+				 	<c:otherwise>
+				 		<a href="/qfest/questions?action=add&userId= ${userId}"
 						class="label label-info">Add Question</a>
-
-					<%
-						}
-					%>
+				 	</c:otherwise>
+				 </c:choose>
+					
 				</div>
 			</div>
-			
+
 
 			<div class="page-header"></div>
 			<div align="middle">
-				<h1>
-					${totalCount}
-				</h1>
+				<h1>${totalCount}</h1>
 			</div>
 			<div align="middle">
 				<h1>Questions</h1>
@@ -387,7 +341,7 @@
 
 	</div>
 
-	<jsp:include page="/layout/footer.jsp"></jsp:include>	
+	<jsp:include page="/layout/footer.jsp"></jsp:include>
 
 </div>
 
