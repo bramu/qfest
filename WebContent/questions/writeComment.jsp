@@ -17,7 +17,7 @@
 
 		<form method="post" class="form-horizontal" action="/qfest/questions">
 		<input type="hidden" name="action" value="submitComment">
-		<input type="hidden" name="questionId" value="<%= request.getAttribute("questionId") %>"> -->
+		<input type="hidden" name="questionId" value="${questionId}"> 
 			<legend>Write Comment</legend>
 			<div class="control-group">
 				<label for="comment" class="control-label">Textarea</label>

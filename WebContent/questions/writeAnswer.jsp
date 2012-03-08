@@ -18,7 +18,7 @@
 			action="/qfest/answers">
 			<input type="hidden" name="action" value="submitAnswer"> <input
 				type="hidden" name="questionId"
-				value="<%=request.getAttribute("questionId")%>"> -->
+				value="${questionId}"> 
 			<legend>Write Answer</legend>
 			<div class="control-group">
 				<label for="answer" class="control-label">Textarea</label>

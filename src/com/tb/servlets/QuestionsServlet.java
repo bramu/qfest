@@ -188,7 +188,7 @@ public class QuestionsServlet extends HttpServlet {
 			HttpServletResponse resp) throws IOException {
 		try {
 			
-			req.getSession().setAttribute("userId", req.getParameter("userId") );
+			
 			RequestDispatcher rd = getServletContext().getRequestDispatcher("/questions/add.jsp");
 			rd.forward(req, resp);
 			
@@ -201,12 +201,12 @@ public class QuestionsServlet extends HttpServlet {
 	private void performCreateAction(HttpServletRequest req,
 			HttpServletResponse resp) {
 		try {
-			int uId = Integer.parseInt(req.getParameter("userId"));
+			 
 			 String tle = req.getParameter("title");
 			String qText = req.getParameter("questionText");
 			String aText = req.getParameter("answerText");
-			qdao.create(uId, tle, qText, aText);
-			resp.sendRedirect("/qfest/questions");
+			qdao.create((Integer)req.getSession().getAttribute("userId"), tle, qText, aText);
+			resp.sendRedirect("/qfest/questions?action=index");
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

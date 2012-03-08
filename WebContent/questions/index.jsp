@@ -52,49 +52,18 @@
 <title>Qfest index page</title>
 </head>
 <div class="container">
-	<div class="navbar">
-		<div class="navbar-inner">
-			<div style="width: auto;" class="container">
-				<a data-target=".nav-collapse" data-toggle="collapse"
-					class="btn btn-navbar"> <span class="icon-bar"></span> <span
-					class="icon-bar"></span> <span class="icon-bar"></span>
-				</a> <a href="#" class="brand">Qfest</a>
-				<div class="nav-collapse">
-					<div class="nav-menu span-26 corners black-bg4 menu-shadow">
-						<ul class="nav">
-							<li><a href="#"></a></li>
-							<li><a href="/qfest/questions">Questions</a></li>
-							<li><a href="#">Interviews</a></li>
-							<li><a href="#">Companies</a></li>
-							<li><a href="#">Skills</a></li>
-							<li><a href="#">Tags</a></li>
-							<li><a href="#">Users</a></li>
-
-						</ul>
-					</div>
-
-
-					<form action="" class="navbar-search pull-right">
-						<input type="text" class="span3">
-						<button type="submit" class="searchbutton" style="margin: 0;">Search</button>
-
-					</form>
-
-				</div>
-				<!-- /.nav-collapse -->
-			</div>
-		</div>
-		<!-- /navbar-inner -->
-	</div>
+	<jsp:include page="/layout/header.jsp"></jsp:include>
+	
 	<div class="row">
 		<div class="span9">
 			<div class="row">
 				<div class="span5">
-
+				
+					
 					<%
 						if ((String) request.getAttribute("type") != null) {
 					%>
-					<h2><%=(String) request.getAttribute("type")%></h2>
+					<h2> ${type }</h2>
 					<%
 						} else {
 					%>
@@ -141,6 +110,7 @@
 				<div class="span6">
 					<div>
 						<h3>
+						
 							<%
 								out.println(questions.get(i).getTitle());
 							%>
@@ -226,8 +196,8 @@
 						if ((Integer) request.getAttribute("pageNo") > 1) {
 					%>
 					<li><a
-						href="/qfest/questions?action=index&type=<%=(String) request.getAttribute("type")%>
-						&page=<%=(Integer) request.getAttribute("pageNo")-1%>">previous</a></li>
+						href="/qfest/questions?action=index&type= ${type }
+						&page= ${pageNo-1}">previous</a></li>
 					<%
 						} else {
 					%>
@@ -239,8 +209,8 @@
 							if (totalPages > (Integer) request.getAttribute("pageNo")) {
 					%>
 					<li><a
-						href="/qfest/questions?action=index&type=<%=(String) request.getAttribute("type")%>
-						&page=<%=(Integer) request.getAttribute("pageNo")+1%>">next</a></li>
+						href="/qfest/questions?action=index&type= ${type }
+						&page=${pageNo+1}">next</a></li>
 					<%
 						} else {
 					%>
@@ -261,7 +231,7 @@
 					<%
 						if ((Integer) request.getAttribute("pageNo") > 1) {
 					%>
-					<li><a href="/qfest/questions?action=index&page=<%=(Integer) request.getAttribute("pageNo")-1 %>">previous</a></li>
+					<li><a href="/qfest/questions?action=index&page=${pageNo-1}">previous</a></li>
 					<%
 						} else {
 					%>
@@ -275,7 +245,7 @@
 							if (totalPages > (Integer) request.getAttribute("pageNo")) {
 					%>
 					<li><a
-						href="/qfest/questions?action=index&page=<%=(Integer) request.getAttribute("pageNo")+1%>">next</a></li>
+						href="/qfest/questions?action=index&page=${pageNo+1}">next</a></li>
 					<%
 						} else {
 					%>
@@ -296,7 +266,7 @@
 				<%
 					if (session.getAttribute("name") != null) {
 				%>
-				<li><a href="#">Hi,<%=session.getAttribute("name")%></a></li>
+				<li><a href="#">Hi,${name}</a></li>
 				<li><a href="/qfest/users?action=logout">logout</a></li>
 				<%
 					} else {
@@ -318,14 +288,13 @@
 					<%
 						if (session.getAttribute("userId") == null) {
 					%>
-					<a href="/qfest/users?action=login" class="label label-info">Add
-						Question</a>
+					<a href="/qfest/users?action=login" class="label label-info">Add Question</a>
 
 					<%
 						} else {
 					%>
 					<a
-						href="/qfest/questions?action=add&userId=<%=session.getAttribute("userId")%>"
+						href="/qfest/questions?action=add&userId= ${userId}"
 						class="label label-info">Add Question</a>
 
 					<%
@@ -338,9 +307,7 @@
 			<div class="page-header"></div>
 			<div align="middle">
 				<h1>
-					<%
-						out.print(request.getAttribute("totalCount"));
-					%>
+					${totalCount}
 				</h1>
 			</div>
 			<div align="middle">
@@ -420,28 +387,7 @@
 
 	</div>
 
-	<footer class="footer">
-	<p class="pull-right">
-		<a href="#">Back to top</a>
-	</p>
-	<p>
-		Designed and built with all the love in the world <a target="_blank"
-			href="http://twitter.com/twitter">@twitter</a> by <a target="_blank"
-			href="http://twitter.com/mdo">@mdo</a> and <a target="_blank"
-			href="http://twitter.com/fat">@fat</a>.
-	</p>
-	<p>
-		Code licensed under the <a target="_blank"
-			href="http://www.apache.org/licenses/LICENSE-2.0">Apache License
-			v2.0</a>. Documentation licensed under <a
-			href="http://creativecommons.org/licenses/by/3.0/">CC BY 3.0</a>.
-	</p>
-	<p>
-		Icons from <a href="http://glyphicons.com">Glyphicons Free</a>,
-		licensed under <a href="http://creativecommons.org/licenses/by/3.0/">CC
-			BY 3.0</a>.
-	</p>
-	</footer>
+	<jsp:include page="/layout/footer.jsp"></jsp:include>	
 
 </div>
 

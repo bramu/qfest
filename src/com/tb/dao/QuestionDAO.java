@@ -98,7 +98,7 @@ public class QuestionDAO {
 		q.setId(qId);
 		q.setTitle(title);
 		q.setQuestionText(questionText);
-		q.setUserId(userId);
+		//q.setUserId(userId);
 		stm.executeUpdate("insert into answers(question_id,answer_text,user_id,created_at, updated_at) " +
 				"values('"+ qId +"','"+ answerText +"','"+ userId +"',NOW(),NOW())");
 		return qId;

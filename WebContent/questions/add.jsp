@@ -30,44 +30,13 @@
 </head>
 <body>
 	<div class="container">
-		<div class="navbar">
-			<div class="navbar-inner">
-				<div style="width: auto;" class="container">
-					<a data-target=".nav-collapse" data-toggle="collapse"
-						class="btn btn-navbar"> <span class="icon-bar"></span> <span
-						class="icon-bar"></span> <span class="icon-bar"></span>
-					</a> <a href="#" class="brand">Quest fest</a>
-					<div class="nav-collapse">
-						<div class="nav-menu span-26 corners black-bg4 menu-shadow">
-							<ul class="nav">
-								<li><a href="#"></a></li>
-								<li><a href="/qfest/questions">Questions</a></li>
-								<li><a href="#">Interviews</a></li>
-								<li><a href="#">Companies</a></li>
-								<li><a href="#">Skills</a></li>
-								<li><a href="#">Tags</a></li>
-								<li><a href="#">Users</a></li>
-
-							</ul>
-						</div>
-						<form action="" class="navbar-search pull-right">
-							<input type="text"  class="span3">
-							<button type="submit" class="searchbutton" style="margin: 0;">Search</button>
-
-						</form>
-
-					</div>
-					<!-- /.nav-collapse -->
-				</div>
-			</div>
-			<!-- /navbar-inner -->
-		</div>
+		<jsp:include page="/layout/header.jsp"></jsp:include>
 		<div class="row">
 			<div class="span8">
 				<form  method = "post" class="form-horizontal" 
-				action="/qfest/questions %>">
+				action="/qfest/questions ">
 			<input type="hidden" name="action" value="create">
-				<input type ="hidden" name="userId" value="<%=session.getAttribute("userId") %>"> 
+				<input type ="hidden" name="userId" value="${userId}"> 
 					<fieldset>
 						<legend>Add Question</legend>
 						<div class="control-group">
@@ -84,7 +53,7 @@
 							</div>
 						</div>
 						
-						<div class="control-group" style=" width: 500px ">
+				<!--  	<div class="control-group" style=" width: 500px ">
 							<label for="select01" class="control-label">Tags</label>
 							<div class="controls">
 								<select id="select01">
@@ -95,7 +64,7 @@
 									<option>linkedlist</option>
 								</select>
 							</div>
-						</div>
+						</div>       -->	
 						
 						
 						<div class="control-group">
@@ -114,19 +83,6 @@
 			</div>
 		</div>
 	</div>
-	<div class="container">
-			<div class="navbar">
-				<div class="navbar-inner">
-					<div class="container" style="width: 100%;">
-						<a class="btn btn-navbar" data-toggle="collapse"
-							data-target=".nav-collapse"> <span class="icon-bar"></span> <span
-							class="icon-bar"></span> <span class="icon-bar"></span>
-						</a> <a class="brand" href="#"> w5db.com.All rights reserved </a>
-
-					</div>
-				</div>
-				<!-- /navbar-inner -->
-			</div>
-		</div>
+	<jsp:include page="/layout/footer.jsp"></jsp:include>
  </body>
 </html>
