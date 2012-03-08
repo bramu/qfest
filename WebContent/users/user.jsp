@@ -7,6 +7,18 @@
 <link href="html/css/bootstrap.css" rel="stylesheet">
 <link href="html/css/docs.css" rel="stylesheet">
 <link href="html/css/bootstrap-responsive.css" rel="stylesheet">
+<script type="text/javascript"
+	src="html/fancybox/jquery.easing-1.3.pack.js"></script>
+
+<script type="text/javascript"
+	src="html/fancybox/jquery.fancybox-1.3.4.js"></script>
+<script type="text/javascript"
+	src="html/fancybox/jquery.mousewheel-3.0.4.pack.js"></script>
+<script type="text/javascript"
+	src="html/fancybox/jquery.fancybox-1.3.4.pack.js"></script>
+<link rel="stylesheet" type="text/css"
+	href="html/fancybox/jquery.fancybox-1.3.4.css" media="screen" />
+
 <script type="text/javascript"src="http://platform.twitter.com/widgets.js"></script>
 <script src="html/js/jquery.js"></script>
 <script src="html/js/google-code-prettify/prettify.js"></script>

@@ -1,3 +1,4 @@
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@page import="com.tb.beans.Comment"%>
 <%@page import="java.util.List"%>
 <%@page import="com.tb.beans.Question"%>
@@ -11,8 +12,7 @@
 <link href="html/css/bootstrap.css" rel="stylesheet">
 <link href="html/css/docs.css" rel="stylesheet">
 <link href="html/css/bootstrap-responsive.css" rel="stylesheet">
-<script type="text/javascript"
-	src="http://platform.twitter.com/widgets.js"></script>
+
 <script src="html/js/jquery.js"></script>
 <script src="html/js/google-code-prettify/prettify.js"></script>
 <script src="html/js/bootstrap-transition.js"></script>
@@ -34,7 +34,7 @@
 </head>
 <body>
 	<div class="container">
-			<jsp:include page="/layout/header.jsp"></jsp:include>
+		<jsp:include page="/layout/header.jsp"></jsp:include>
 		<div class="row">
 			<div class="span9">
 				<div>
@@ -65,78 +65,68 @@
 					<div class="tab-content">
 						<div id="answers_tab" class="tab-pane">
 							<p>
-								<%
-									List<Answer> answers = (List<Answer>) request.getAttribute("answers");
-									if (answers.isEmpty()) {
-										out.println("No answers to display");
-									} else {
-										for (int i = 0; i < answers.size(); i++) {
-											out.println(answers.get(i).getAnswerText());
-								%>
-							
-							<div>
-								<a id='up-<%=answers.get(i).getId()%>'
-									href="/qfest/ratings?action=like&type=answer&answerId=<%=answers.get(i).getId()%>"><img
-									src="html/images/link_like2.gif"> </a> <a
-									id='down-<%=answers.get(i).getId()%>'
-									href="/qfest/ratings?action=unlike&type=answer&answerId=<%=answers.get(i).getId()%>"><img
-									src="html/images/link_dislike2.gif"> </a>
-
-							</div>
-							<%
-								}
-								}
-							%>
-
+									<c:choose>
+										<c:when test="${answers == null }">
+											<p>No answers to display</p>
+										</c:when>
+										<c:otherwise>
+										<c:forEach var="answer" items="${answers}">
+											${answer.answerText}
+											<div>
+												<a id='up-${answer.id}'
+													href="/qfest/ratings?action=like&type=answer&answerId=${answer.id}"><img
+													src="html/images/link_like2.gif"> </a> <a
+													id='down-${answer.id}'
+													href="/qfest/ratings?action=unlike&type=answer&answerId=${answer.id}"><img
+													src="html/images/link_dislike2.gif"> </a>
+											</div>
+										</c:forEach>
+										</c:otherwise>
+									</c:choose>
 							</p>
 						</div>
 						<div id="comments_tab" class="tab-pane">
 							<p>
-								<%
-									List<Comment> comments = (List<Comment>) request.getAttribute("comments");
-									if (comments.size() == 0) {
-										out.println("No comments to display for this question");
-									} else {
-										for (int i = 0; i < comments.size(); i++) {
-											out.println(comments.get(i).getContent());%>
-											<br/>
-								<% 		}
-									}
-								%>
+									<c:choose>
+										<c:when test="${comments == null }">
+							   				<p>No comments to display for this question</p>
+							   			</c:when>
+										<c:otherwise>
+										 <c:forEach var="comment" items="${comments}">
+							   				${comment.content}
+							   				<br />
+							   				</c:forEach>
+										</c:otherwise>
+									</c:choose>
 							</p>
 						</div>
-
 					</div>
 				</div>
-
 			</div>
 			<div class="span3">
 				<div class="form-actions">
-				<h3>Share or ask the questions you already faced in interviews
-					and get answers and comments from thousands of people around you...</h3>
+					<h3>Share or ask the questions you already faced in interviews
+						and get answers and comments from thousands of people around
+						you...</h3>
 
-				<div align="middle">
-					<%
-						if (session.getAttribute("userId") == null) {
-					%>
-					<a href="/qfest/users?action=login" class="label label-info">Add
-						Question</a>
+					<div align="middle">
+						<c:choose>
+							<c:when test="${userId == null }">
+								<a href="/qfest/users?action=login" class="label label-info">Add
+									Question</a>
 
-					<%
-						} else {
-					%>
-					<a
-						href="/qfest/questions?action=add&userId= ${userId}"
-						class="label label-info">Add Question</a>
-
-					<%
-						}
-					%>
+							</c:when>
+							<c:otherwise>
+								<a href="/qfest/questions?action=add&userId= ${userId}"
+									class="label label-info">Add Question</a>
+							</c:otherwise>
+						</c:choose>
+						
+					</div>
 				</div>
-			</div>
 				<div class="page-header"></div>
 				<div align="middle">
-					<h1> ${totalCount} </h1>
+					<h1>${totalCount}</h1>
 				</div>
 				<div align="middle">
 					<h1>Questions</h1>
@@ -146,61 +136,70 @@
 					<h3>popular tags</h3>
 				</div>
 
-				
+
 				<div style="padding-top: 20px;">
-				<code>
-					<a href="#">Arrays</a>
-				</code>x67
+					<code>
+						<a href="#">Arrays</a>
+					</code>
+					x67
 
-			</div>
-			<div style="padding-top: 20px;" >
-				<code>
-					<a href="#">oops</a>
-				</code>x54
+				</div>
+				<div style="padding-top: 20px;">
+					<code>
+						<a href="#">oops</a>
+					</code>
+					x54
 
-			</div>
-			<div style="padding-top: 20px;" >
-				<code>
-					<a href="#">Servlets</a>
-				</code>x40
+				</div>
+				<div style="padding-top: 20px;">
+					<code>
+						<a href="#">Servlets</a>
+					</code>
+					x40
 
-			</div>
-			<div style="padding-top: 20px;" >
-				<code>
-					<a href="#">linkedlist</a>
-				</code>x30
+				</div>
+				<div style="padding-top: 20px;">
+					<code>
+						<a href="#">linkedlist</a>
+					</code>
+					x30
 
-			</div>
-			<div style="padding-top: 20px;" >
-				<code>
-					<a href="#">pointers</a>
-				</code>x20
+				</div>
+				<div style="padding-top: 20px;">
+					<code>
+						<a href="#">pointers</a>
+					</code>
+					x20
 
-			</div>
-			<div style="padding-top: 20px;" >
-				<code>
-					<a href="#">Structs</a>
-				</code>x10
+				</div>
+				<div style="padding-top: 20px;">
+					<code>
+						<a href="#">Structs</a>
+					</code>
+					x10
 
-			</div>
-			<div style="padding-top: 20px;" >
-				<code>
-					<a href="#">coolections</a>
-				</code>x21
+				</div>
+				<div style="padding-top: 20px;">
+					<code>
+						<a href="#">collections</a>
+					</code>
+					x21
 
-			</div>
-			<div style="padding-top: 20px;" >
-				<code>
-					<a href="#">generics</a>
-				</code>x32
+				</div>
+				<div style="padding-top: 20px;">
+					<code>
+						<a href="#">generics</a>
+					</code>
+					x32
 
-			</div>
-			<div style="padding-top: 20px;" >
-				<code>
-					<a href="#">java</a>
-				</code>x63
+				</div>
+				<div style="padding-top: 20px;">
+					<code>
+						<a href="#">java</a>
+					</code>
+					x63
 
-			</div>
+				</div>
 			</div>
 		</div>
 

@@ -7,34 +7,6 @@
 <link href="css/bootstrap.css" rel="stylesheet">
 <link href="css/docs.css" rel="stylesheet">
 <link href="css/bootstrap-responsive.css" rel="stylesheet">
-<script type="text/javascript"
-	src="html/fancybox/jquery.easing-1.3.pack.js"></script>
-
-<script type="text/javascript"
-	src="html/fancybox/jquery.fancybox-1.3.4.js"></script>
-<script type="text/javascript"
-	src="html/fancybox/jquery.mousewheel-3.0.4.pack.js"></script>
-<script type="text/javascript"
-	src="html/fancybox/jquery.fancybox-1.3.4.pack.js"></script>
-<link rel="stylesheet" type="text/css"
-	href="html/fancybox/jquery.fancybox-1.3.4.css" media="screen" />
-
-<script src="html/js/jquery.js"></script>
-<script src="html/js/bootstrap-transition.js"></script>
-<script src="html/js/bootstrap-alert.js"></script>
-
-<script src="html/js/bootstrap-modal.js"></script>
-<script src="html/js/bootstrap-dropdown.js"></script>
-<script src="html/js/bootstrap-scrollspy.js"></script>
-<script src="html/js/bootstrap-tab.js"></script>
-<script src="html/js/bootstrap-tooltip.js"></script>
-<script src="html/js/bootstrap-popover.js"></script>
-
-<script src="html/js/bootstrap-button.js"></script>
-<script src="html/js/bootstrap-collapse.js"></script>
-<script src="html/js/bootstrap-carousel.js"></script>
-<script src="html/js/bootstrap-typeahead.js"></script>
-<script src="html/js/application.js"></script>
 
 <title>Insert title here</title>
 </head>
