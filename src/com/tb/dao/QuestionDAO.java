@@ -226,8 +226,5 @@ public class QuestionDAO {
 		}
 		return comments;
 	}
-	public int countPages( int totalCount){
-		 return Math.abs(((Integer) totalCount / 20)) + 1;
-	}
-	 
+	
 }
